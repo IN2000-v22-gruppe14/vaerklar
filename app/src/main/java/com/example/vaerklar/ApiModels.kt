@@ -29,7 +29,7 @@ data class Meta(
 
 @Serializable
 data class ForecastTimeStep(
-    val data: Data,
+    val data: ForecastData,
     val time: String
 )
 
@@ -58,7 +58,7 @@ data class Units(
 )
 
 @Serializable
-data class Data(
+data class ForecastData(
     val instant: Instant,
     val next_12_hours: NextHours?,
     val next_1_hours: NextHours?,
@@ -107,4 +107,35 @@ data class ForecastTimePeriod(
 @Serializable
 data class ForecastSummary(
     val symbol_code: String
+)
+
+@Serializable
+data class LocationData(
+    val context: String,
+    val type: String,
+    val apiVersion: String,
+    val createdAt: String,
+    val currentItemCount: Int,
+    val currentLink: String,
+    val data: List<LocationMetaData>,
+    val itemsPerPage: Int,
+    val license: String,
+    val nextLink: String,
+    val offset: Int,
+    val previousLink: String,
+    val queryTime: String,
+    val totalItemCount: Int
+)
+
+@Serializable
+data class LocationMetaData(
+    val feature: String,
+    val geometry: Geometry,
+    val name: String
+)
+
+@Serializable
+data class Geometry(
+    val type: String,
+    val coordinates: String
 )

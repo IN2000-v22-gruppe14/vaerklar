@@ -22,7 +22,7 @@ data class Meta(
 )
 
 data class Timeseries(
-    val `data`: Data,
+    val data: Data,
     val time: String
 )
 

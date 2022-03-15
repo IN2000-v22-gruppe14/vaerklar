@@ -67,17 +67,17 @@ data class Data(
 
 @Serializable
 data class Instant(
-    val details: ForeCastTimeInstant?
+    val details: ForecastTimeInstant?
 )
 
 @Serializable
 data class NextHours(
-    val details: ForeCastTimePeriod?,
-    val summary: ForeCastSummary
+    val details: ForecastTimePeriod?,
+    val summary: ForecastSummary
 )
 
 @Serializable
-data class ForeCastTimeInstant(
+data class ForecastTimeInstant(
     val air_pressure_at_sea_level: Double?,
     val air_temperature: Double?,
     val cloud_area_fraction: Double?,
@@ -93,7 +93,7 @@ data class ForeCastTimeInstant(
 )
 
 @Serializable
-data class ForeCastTimePeriod(
+data class ForecastTimePeriod(
     val air_temperature_max: Double?,
     val air_temperature_min: Double?,
     val precipitation_amount: Double?,
@@ -105,6 +105,6 @@ data class ForeCastTimePeriod(
 )
 
 @Serializable
-data class ForeCastSummary(
+data class ForecastSummary(
     val symbol_code: String
 )

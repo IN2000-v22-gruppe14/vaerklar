@@ -2,19 +2,25 @@ package com.example.vaerklar
 
 import android.util.Log
 import com.github.kittinunf.fuel.Fuel
+import com.github.kittinunf.fuel.core.extensions.authentication
 import com.github.kittinunf.fuel.coroutines.awaitString
 import kotlinx.serialization.json.*
 import kotlinx.serialization.decodeFromString
 import java.lang.Exception
 
 class DataSource {
+
+    // Dette er en uting, men jeg gir så faen. yeet yeet
+    private val apiClient = "2b35fe20-c789-4ce5-ab4c-34de69f50d22"
+    private val apiSecret = "708495ee-4757-4894-9316-b7b730576b6b"
+
     private val apiBase = "https://in2000-apiproxy.ifi.uio.no"
     private val frostApiBase = "https://frost.met.no"
 
     private val weatherCompleteUrl = "$apiBase/weatherapi/locationforecast/2.0/complete"
     private val locationUrl = "$frostApiBase/locations/v0.jsonld"
 
-    suspend fun getWeatherData(latitude: Double, longitude: Double): WeatherData? {
+    suspend fun getWeatherData(longitude: Double, latitude: Double): WeatherData? {
         try {
             val response = Fuel.get("$weatherCompleteUrl?lat=$latitude&lon=$longitude").awaitString()
             return Json.decodeFromString<WeatherData>(response)
@@ -25,9 +31,13 @@ class DataSource {
         return null
     }
 
-    suspend fun getLocationMetaData(latitude: Double, longitude: Double): LocationData? {
+    suspend fun getLocationMetaData(longitude: Double, latitude: Double): LocationData? {
         try {
-            val response = Fuel.get("$locationUrl?geometry=nearest(POINT($latitude $longitude))").awaitString()
+            val response = Fuel.get("$locationUrl?geometry=nearest(POINT($latitude $longitude))")
+                .authentication()
+                .basic(apiClient, apiSecret)
+                .awaitString()
+            println(response)
             return Json.decodeFromString<LocationData>(response)
         } catch(exception: Exception) {
             Log.e("DataSource", "Weather data request and deserialization failed!")

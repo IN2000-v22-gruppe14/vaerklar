@@ -1,5 +1,6 @@
 package com.example.vaerklar
 
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -35,107 +36,147 @@ data class ForecastTimeStep(
 
 @Serializable
 data class Units(
-    val air_pressure_at_sea_level: String?,
-    val air_temperature: String?,
-    val air_temperature_max: String?,
-    val air_temperature_min: String?,
-    val cloud_area_fraction: String?,
-    val cloud_area_fraction_high: String?,
-    val cloud_area_fraction_low: String?,
-    val cloud_area_fraction_medium: String?,
-    val dew_point_temperature: String?,
-    val fog_area_fraction: String?,
-    val precipitation_amount: String?,
-    val precipitation_amount_max: String?,
-    val precipitation_amount_min: String?,
-    val probability_of_precipitation: String?,
-    val probability_of_thunder: String?,
-    val relative_humidity: String?,
-    val ultraviolet_index_clear_sky_max: String?,
-    val wind_from_direction: String?,
-    val wind_speed: String?,
-    val wind_speed_of_gust: String?
+    val air_pressure_at_sea_level: String? = null,
+    val air_temperature: String? = null,
+    val air_temperature_max: String? = null,
+    val air_temperature_min: String? = null,
+    val air_temperature_percentile_10: String? = null,
+    val air_temperature_percentile_90: String? = null,
+    val cloud_area_fraction: String? = null,
+    val cloud_area_fraction_high: String? = null,
+    val cloud_area_fraction_low: String? = null,
+    val cloud_area_fraction_medium: String? = null,
+    val dew_point_temperature: String? = null,
+    val fog_area_fraction: String? = null,
+    val precipitation_amount: String? = null,
+    val precipitation_amount_max: String? = null,
+    val precipitation_amount_min: String? = null,
+    val probability_of_precipitation: String? = null,
+    val probability_of_thunder: String? = null,
+    val relative_humidity: String? = null,
+    val ultraviolet_index_clear_sky: String? = null,
+    val wind_from_direction: String? = null,
+    val wind_speed: String? = null,
+    val wind_speed_of_gust: String? = null,
+    val wind_speed_percentile_10: String? = null,
+    val wind_speed_percentile_90: String? = null
 )
 
 @Serializable
 data class ForecastData(
     val instant: Instant,
-    val next_12_hours: NextHours?,
-    val next_1_hours: NextHours?,
-    val next_6_hours: NextHours?
+    val next_12_hours: Next12Hours? = null,
+    val next_1_hours: Next1Hour? = null,
+    val next_6_hours: Next6Hours? = null
 )
 
 @Serializable
 data class Instant(
-    val details: ForecastTimeInstant?
+    val details: ForecastTimeInstant? = null
 )
 
 @Serializable
-data class NextHours(
-    val details: ForecastTimePeriod?,
+data class Next1Hour(
+    val details: ForecastTimePeriod1Hour? = null,
     val summary: ForecastSummary
 )
 
 @Serializable
-data class ForecastTimeInstant(
-    val air_pressure_at_sea_level: Double?,
-    val air_temperature: Double?,
-    val cloud_area_fraction: Double?,
-    val cloud_area_fraction_high: Double?,
-    val cloud_area_fraction_low: Double?,
-    val cloud_area_fraction_medium: Double?,
-    val dew_point_temperature: Double?,
-    val fog_area_fraction: Double?,
-    val relative_humidity: Double?,
-    val wind_from_direction: Double?,
-    val wind_speed: Double?,
-    val wind_speed_of_gust: Double?
+data class Next6Hours(
+    val details: ForecastTimePeriod6Hours? = null,
+    val summary: ForecastSummary
 )
 
 @Serializable
-data class ForecastTimePeriod(
-    val air_temperature_max: Double?,
-    val air_temperature_min: Double?,
-    val precipitation_amount: Double?,
-    val precipitation_amount_max: Double?,
-    val precipitation_amount_min: Double?,
-    val probability_of_precipitation: Double?,
-    val probability_of_thunder: Double?,
-    val ultraviolet_index_clear_sky_max: Double?
+data class Next12Hours(
+    val details: ForecastTimePeriod12Hours? = null,
+    val summary: ForecastSummary12Hours
+)
+
+@Serializable
+data class ForecastTimeInstant(
+    val air_pressure_at_sea_level: Double? = null,
+    val air_temperature: Double? = null,
+    val air_temperature_percentile_10: Double? = null,
+    val air_temperature_percentile_90: Double? = null,
+    val cloud_area_fraction: Double? = null,
+    val cloud_area_fraction_high: Double? = null,
+    val cloud_area_fraction_low: Double? = null,
+    val cloud_area_fraction_medium: Double? = null,
+    val dew_point_temperature: Double? = null,
+    val fog_area_fraction: Double? = null,
+    val relative_humidity: Double? = null,
+    val ultraviolet_index_clear_sky: Double? = null,
+    val wind_from_direction: Double? = null,
+    val wind_speed: Double? = null,
+    val wind_speed_of_gust: Double? = null,
+    val wind_speed_percentile_10: Double? = null,
+    val wind_speed_percentile_90: Double? = null
+)
+
+@Serializable
+data class ForecastTimePeriod1Hour(
+    val precipitation_amount: Double? = null,
+    val precipitation_amount_max: Double? = null,
+    val precipitation_amount_min: Double? = null,
+    val probability_of_precipitation: Double? = null,
+    val probability_of_thunder: Double? = null
+)
+
+@Serializable
+data class ForecastTimePeriod6Hours(
+    val air_temperature_max: Double? = null,
+    val air_temperature_min: Double? = null,
+    val precipitation_amount: Double? = null,
+    val precipitation_amount_max: Double? = null,
+    val precipitation_amount_min: Double? = null,
+    val probability_of_precipitation: Double? = null,
+)
+
+@Serializable
+data class ForecastTimePeriod12Hours(
+    val probability_of_precipitation: Double? = null
 )
 
 @Serializable
 data class ForecastSummary(
-    val symbol_code: String
+    val symbol_code: String,
+)
+
+@Serializable
+data class ForecastSummary12Hours(
+    val symbol_code: String,
+    val symbol_confidence: String? = null
 )
 
 @Serializable
 data class LocationData(
-    val context: String,
-    val type: String,
-    val apiVersion: String,
-    val createdAt: String,
-    val currentItemCount: Int,
-    val currentLink: String,
-    val data: List<LocationMetaData>,
-    val itemsPerPage: Int,
-    val license: String,
-    val nextLink: String,
-    val offset: Int,
-    val previousLink: String,
-    val queryTime: String,
-    val totalItemCount: Int
+    @SerialName("@context") val context: String? = null,
+    @SerialName("@type") val type: String? = null,
+    val apiVersion: String? = null,
+    val license: String? = null,
+    val createdAt: String? = null,
+    val queryTime: Double? = null,
+    val currentItemCount: Int? = null,
+    val itemsPerPage: Int? = null,
+    val offset: Int? = null,
+    val totalItemCount: Int? = null,
+    val nextLink: String? = null,
+    val previousLink: String? = null,
+    val currentLink: String? = null,
+    val data: List<LocationMetaData?>? = null,
 )
 
 @Serializable
 data class LocationMetaData(
-    val feature: String,
-    val geometry: Geometry,
-    val name: String
+    val name: String? = null,
+    val feature: String? = null,
+    val geometry: Geometry? = null
 )
 
 @Serializable
 data class Geometry(
-    val type: String,
-    val coordinates: String
+    @SerialName("@type") val type: String? = null,
+    val coordinates: List<Double>? = null,
+    val nearest: Boolean? = null,
 )

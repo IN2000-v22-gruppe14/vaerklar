@@ -3,6 +3,9 @@ package com.example.vaerklar
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.vaerklar.data.DataSource
+import com.example.vaerklar.data.LocationData
+import com.example.vaerklar.data.WeatherData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 

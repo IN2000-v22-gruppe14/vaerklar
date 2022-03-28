@@ -20,7 +20,7 @@ class DataSource {
     private val weatherCompleteUrl = "$apiBase/weatherapi/locationforecast/2.0/complete"
     private val locationUrl = "$frostApiBase/locations/v0.jsonld"
 
-    suspend fun getWeatherData(longitude: Double, latitude: Double): WeatherData? {
+    suspend fun getWeatherData(latitude: Double, longitude: Double): WeatherData? {
         try {
             val response = Fuel.get("$weatherCompleteUrl?lat=$latitude&lon=$longitude").awaitString()
             return Json.decodeFromString<WeatherData>(response)
@@ -31,9 +31,10 @@ class DataSource {
         return null
     }
 
-    suspend fun getLocationMetaData(longitude: Double, latitude: Double): LocationData? {
+    suspend fun getLocationMetaData(latitude: Double, longitude: Double): LocationData? {
         try {
-            val response = Fuel.get("$locationUrl?geometry=nearest(POINT($latitude $longitude))")
+            //apikallet her er på formatet long, lat. for ryddighetens skyld har jeg reversert det i kallet men funksjonen tar imot på "riktig" format
+            val response = Fuel.get("$locationUrl?geometry=nearest(POINT($longitude $latitude))")
                 .authentication()
                 .basic(apiClient, apiSecret)
                 .awaitString()

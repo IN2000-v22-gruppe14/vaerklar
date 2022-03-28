@@ -3,6 +3,7 @@ package com.example.vaerklar
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -15,13 +16,37 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.vaerklar.data.ClothesAlgorithm
+import com.example.vaerklar.databinding.ActivityMainBinding
 import com.example.vaerklar.ui.screens.MainScreen
 import com.example.vaerklar.ui.theme.VærklarTheme
 import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
+    private lateinit var binding: ActivityMainBinding
+    private val viewModel: MainActivityViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        //
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        viewModel.fetchWeatherData()
+        viewModel.fetchLocationData()
+
+        val clothesAlgorithm = ClothesAlgorithm()
+
+        viewModel.getWeatherData().observe(this) {
+            val weatherScore = clothesAlgorithm.getWeatherScore(it)
+            println(it)
+        }
+
+        viewModel.getLocationData().observe(this) {
+            println(it)
+        }
+        //
+
         setContent {
             VærklarTheme {
                 // The scaffold is responsible for revealing the drawer.

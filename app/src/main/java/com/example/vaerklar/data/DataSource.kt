@@ -1,4 +1,4 @@
-package com.example.vaerklar
+package com.example.vaerklar.data
 
 import android.util.Log
 import com.github.kittinunf.fuel.Fuel

@@ -1,4 +1,4 @@
-package com.example.vaerklar
+package com.example.vaerklar.data
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

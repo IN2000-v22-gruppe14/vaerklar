@@ -7,58 +7,58 @@ import kotlin.math.sqrt
 
 class ClothesAlgorithm {
 
-    var head = hashMapOf<Int, String>(
-        -10 to "pannebånd",
-        10 to "pannebånd",
-        30 to "solhatt"
+    var head = hashMapOf<List<Int>, String>(
+        listOf(-100,0) to "lue",
+        listOf(1,10) to "pannebånd",
+        listOf(25,50) to "solhatt"
     )
 
-    var body = hashMapOf<Int, String>(
-        -10 to "ullgenser",
-        10 to "genser",
-        30 to "tskjorte"
+    var body = hashMapOf<List<Int>, String>(
+        listOf(-100,0) to "ullgenser",
+        listOf(1,15) to "genser",
+        listOf(20,50) to "topp",
+        listOf(15,50) to "tskjorte"
     )
 
-    var jacket = hashMapOf<Int, String>(
-        -10 to "boblejakke",
-        10 to "jakke",
-        30 to "tskjorte"
+    var jacket = hashMapOf<List<Int>, String>(
+        listOf(-100,4) to "vinterjakke",
+        listOf(5,10) to "jakke"
     )
 
-    var underdel = hashMapOf<Int, String>(
-        -10 to "utebukse",
-        10 to "bukse",
-        30 to "skjorts"
+    var underdel = hashMapOf<List<Int>, String>(
+        listOf(-100,-10) to "utebukse",
+        listOf(-9,19) to "bukse",
+        listOf(-20,50) to "skjorts"
     )
 
-    var shoe = hashMapOf<Int, String>(
-        -10 to "vintersko",
-        10 to "joggesko",
-        30 to "sandaler"
+    var shoe = hashMapOf<List<Int>, String>(
+        listOf(-100,5) to "vintersko",
+        listOf(6,25) to "joggesko",
+        listOf(26,50) to "sandaler"
     )
 
-    var special = hashMapOf<Int, String>(
-        0 to "solbriller",
-        1 to "skjerf",
-        3 to "votter"
+    var special = hashMapOf<List<Int>, String>(
+        listOf(0) to "solbriller",
+        listOf(1) to "skjerf",
+        listOf(3) to "votter"
     )
 
-    var rain = hashMapOf<Int, String>(
-        0 to "regnhatt",
-        1 to "_DETTE SKAL IKKE SKJE_",
-        2 to "regnjakke",
-        3 to "regnbukse",
-        4 to "gummistøvler"
+    var rainClothing = hashMapOf<List<Int>, String>(
+        listOf(0) to "regnhatt",
+        listOf(1) to "_DETTE SKAL IKKE SKJE_",
+        listOf(2) to "regnjakke",
+        listOf(3) to "regnbukse",
+        listOf(4) to "gummistøvler"
     )
 
-    var clothingReg = listOf<HashMap<Int, String>>(
+    var clothingReg = listOf<HashMap<List<Int>, String>>(
         head,
         body,
         jacket,
         underdel,
         shoe,
         special,
-        rain
+        rainClothing
     )
 
     fun getWeatherScore(weatherData: WeatherData?){
@@ -100,36 +100,92 @@ class ClothesAlgorithm {
         //println("Lufttemperatur: $airTemp")
     }
 
-    fun getOutfit(weatherData: WeatherData?, realTemp : Float): String{
-        // tenker at klær skal ha score fra 0-4 der 4 er spesial (eks solbriller
-        var outfit = ""
-        var r = 0
+    fun getOutfit(weatherData: WeatherData?, realTemp : Float): MutableList<String>{
+        // tenker at klær skal ha score fra 0-4 der 4 er spesial (eks solbriller)
+        //var outfit = ""
+        var outfitList = mutableListOf<String>()
+        var plaggNummer = 0
         val rain = rainCheck(weatherData)
 
-        while (r < 5) {
-            outfit += getPiece(r,rain, realTemp)
-            r++
+        while (plaggNummer < 5) {
+            outfitList.add(getPiece(plaggNummer,rain, realTemp))
+            //outfit += getPiece(plaggNummer,rain, realTemp)
+            plaggNummer++
         }
-        outfit += get_special(realTemp, weatherData)
+        outfitList.add(get_special(realTemp, weatherData))
+        //outfit += get_special(realTemp, weatherData)
 
-        return outfit
+        return outfitList
     }
 
-    fun getPiece(number : Int, rain: Int, realTemp : Float ) {
+    fun getPiece(number : Int, rain: Int, realTemp : Float ) : String {
+        /*
+        0 to "regnhatt",
+        1 to "_DETTE SKAL IKKE SKJE_", = genser, tskjorte etc
+        2 to "regnjakke",
+        3 to "regnbukse",
+        4 to "gummistøvler"*/
+
+        //sjekker om nummer = jakke og om regn er riktig, isåfall regnjakke
         if (number == 2 && 10 > rain && 5 < rain){
-            //regnjakke
-        }
-        if (number != 1 && rain > 10){
+            //val piece = rainClothing.getValue(listOf(2))
+            val drit = rainClothing.keys.elementAt(2)
+            val piece = rainClothing.getValue(drit)
+            return piece
+        }else if (number != 1 && rain > 4){
             // genser hentes uforandrett så den skal ikke innom her
             //hent regn[r]
             // eks regnjakke, lue gummistøvler
-        }
-        else {
-            //hent plagg[r] for realtemp
+            val drit = rainClothing.keys.elementAt(number)
+            val piece = rainClothing.getValue(drit)
+            return piece
+        }else{
+            //når man ikke trenger et spesielt plagg pga regn
+            return getNormalClothing(number, realTemp)
         }
     }
 
-    fun get_special(realTemp : Float, weatherData: WeatherData?) {
+    fun getNormalClothing(number : Int, realTemp: Float) : String{
+        if(number == 0){
+            for(tempRange:List<Int> in head.keys){
+                if(realTemp > tempRange.get(0) && realTemp < tempRange.get(1)){
+                    val list = listOf(tempRange.get(0), tempRange.get(1))
+                    return head.getValue(list)
+                }
+            }
+        }else if (number == 1){
+            for(tempRange:List<Int> in body.keys){
+                if(realTemp > tempRange.get(0) && realTemp < tempRange.get(1)){
+                    val list = listOf(tempRange.get(0), tempRange.get(1))
+                    return body.getValue(list)
+                }
+            }
+        }else if (number == 2){
+            for(tempRange:List<Int> in jacket.keys){
+                if(realTemp > tempRange.get(0) && realTemp < tempRange.get(1)){
+                    val list = listOf(tempRange.get(0), tempRange.get(1))
+                    return jacket.getValue(list)
+                }
+            }
+        }else if (number == 3){
+            for(tempRange:List<Int> in underdel.keys){
+                if(realTemp > tempRange.get(0) && realTemp < tempRange.get(1)){
+                    val list = listOf(tempRange.get(0), tempRange.get(1))
+                    return underdel.getValue(list)
+                }
+            }
+        }else if (number == 4){
+            for(tempRange:List<Int> in shoe.keys){
+                if(realTemp > tempRange.get(0) && realTemp < tempRange.get(1)){
+                    val list = listOf(tempRange.get(0), tempRange.get(1))
+                    return shoe.getValue(list)
+                }
+            }
+        }
+        return "Noe galt har skjedd"
+    }
+
+    fun get_special(realTemp : Float, weatherData: WeatherData?) : String{
         val rain = weatherData?.properties?.timeseries?.get(0)?.data?.next_6_hours?.details?.precipitation_amount
         if (10 > rain!! && 3 < rain){
             // hent paraply
@@ -143,6 +199,7 @@ class ClothesAlgorithm {
         }*/
         // her kan også legges inn dato greier eks 17 mai
         // eller kanskje til og med steder eks hemsedal (Snowboard briller)
+        return ""
     }
 
     fun rainCheck (weatherData: WeatherData?) : Int{

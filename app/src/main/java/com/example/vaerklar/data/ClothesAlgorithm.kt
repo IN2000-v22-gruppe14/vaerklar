@@ -100,24 +100,24 @@ class ClothesAlgorithm {
         //println("Lufttemperatur: $airTemp")
     }
 
-    fun getOutfit(weatherData: WeatherData?,realTemp : Float){
+    fun getOutfit(weatherData: WeatherData?, realTemp : Float): String{
         // tenker at klær skal ha score fra 0-4 der 4 er spesial (eks solbriller
         var outfit = ""
-        val r = 0
-        val rain = rainCheck(WeatherData?)
+        var r = 0
+        val rain = rainCheck(weatherData)
 
         while (r < 5) {
             outfit += getPiece(r,rain, realTemp)
             r++
         }
-        outfit += get_special(weatherData,realTemp)
+        outfit += get_special(realTemp, weatherData)
 
         return outfit
     }
 
-    fun getPiece(number : Int,rain: Int ,realTemp : Float ) {
-        if (number == 2 && 10>rain > 5 ){
-            regnjakke
+    fun getPiece(number : Int, rain: Int, realTemp : Float ) {
+        if (number == 2 && 10 > rain && 5 < rain){
+            //regnjakke
         }
         if (number != 1 && rain > 10){
             // genser hentes uforandrett så den skal ikke innom her
@@ -129,40 +129,42 @@ class ClothesAlgorithm {
         }
     }
 
-    fun get_special(rain : Int,realTemp : Float ) {
-        if (10>rain > 3){
+    fun get_special(realTemp : Float, weatherData: WeatherData?) {
+        val rain = weatherData?.properties?.timeseries?.get(0)?.data?.next_6_hours?.details?.precipitation_amount
+        if (10 > rain!! && 3 < rain){
             // hent paraply
         }
-        if (sunCheck(WeatherData?)){
+        if (sunCheck(weatherData)){
             //hent solbriller
         }
+        /*
         if (kaldt){
 
-        }
+        }*/
         // her kan også legges inn dato greier eks 17 mai
         // eller kanskje til og med steder eks hemsedal (Snowboard briller)
     }
 
-    fun rainCheck (weatherData: WeatherData?){
+    fun rainCheck (weatherData: WeatherData?) : Int{
         val symbol = weatherData?.properties?.timeseries?.get(0)?.data?.next_6_hours?.summary?.symbol_code
-        if (symbol == light_rain) {
+        if (symbol == "light_rain") {
             return 4
         }
-        if (symbol == rain){
+        if (symbol == "rain"){
             return 5
         }
-        if (symbol == heavy_rain){
+        if (symbol == "heavy_rain"){
             return 10
         }
-        if (symbol == storm){
+        if (symbol == "storm"){
             return 15
         }
         return 0
     }
 
-    fun sunCheck (weatherData: WeatherData?){
+    fun sunCheck (weatherData: WeatherData?) : Boolean{
         val symbol = weatherData?.properties?.timeseries?.get(0)?.data?.next_6_hours?.summary?.symbol_code
-        if (symbol == sol) {
+        if (symbol == "sol") {
             return true
         }
         return false

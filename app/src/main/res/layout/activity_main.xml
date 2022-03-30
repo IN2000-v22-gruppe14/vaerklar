@@ -98,6 +98,7 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/todays"
                 android:layout_width="match_parent"

@@ -18,11 +18,23 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.vaerklar.MainActivity
+import com.example.vaerklar.MainActivityViewModel
 
 @Preview
 @Composable
 // The primary tile, responsible for displaying weather information beneath the avatar.
-fun MainTile() {
+fun MainTile(viewmodel:MainActivityViewModel) {
+    val data = viewmodel.getWeatherData()
+    val min_temp = data.value?.properties?.timeseries?.get(0)?.data?.next_6_hours?.details?.air_temperature_min
+    val max_temp = data.value?.properties?.timeseries?.get(0)?.data?.next_6_hours?.details?.air_temperature_max
+    val avg_temp = (min_temp?.plus(max_temp!!))?.div(2)
+    val prob_parcipation = data.value?.properties?.timeseries?.get(0)?.data?.next_6_hours?.details?.probability_of_precipitation
+    var downfall = "sol"
+    if (prob_parcipation != null) {
+        if(prob_parcipation >= 50){downfall="nedbør"}
+    }
+    val weather = data.value?.properties?.timeseries?.get(0)?.data?.next_6_hours?.summary?.symbol_code
 
     // The base of the card with colors.
     Card(
@@ -55,16 +67,18 @@ fun MainTile() {
             Column() {
 
                 // Weather description.
-                Text (
-                    text = "Weather",
-                    color = Color.White,
-                    fontFamily = Rubik,
-                    fontWeight = FontWeight.Normal
-                )
+                if (weather != null) {
+                    Text (
+                        text = weather,
+                        color = Color.White,
+                        fontFamily = Rubik,
+                        fontWeight = FontWeight.Normal
+                    )
+                }
 
                 // Temperature in Celsius.
                 Text (
-                    text = "Temperature",
+                    text = avg_temp.toString(),
                     color = Color.White,
                     fontFamily = Rubik,
                     fontSize = 25.sp,
@@ -81,7 +95,7 @@ fun MainTile() {
 
                 // Precipitation measured in millimeters (mm).
                 Text (
-                    text = "Precip.",
+                    text = downfall,
                     textAlign = TextAlign.Right,
                     color = Color.White,
                     fontFamily = Rubik,

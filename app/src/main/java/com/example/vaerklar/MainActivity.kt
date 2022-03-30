@@ -22,6 +22,10 @@ import kotlinx.coroutines.launch
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val mainActivityViewModel = MainActivityViewModel()
+        mainActivityViewModel.fetchWeatherData()
+
         setContent {
             VærklarTheme {
                 // The scaffold is responsible for revealing the drawer.
@@ -31,7 +35,7 @@ class MainActivity : ComponentActivity() {
                     // Column responsible for the vertical stacking of all elements on the page.
                     Column() {
                         Box() {
-                            MainScreen()
+                            MainScreen(mainActivityViewModel)
                             NavigationBar(state)
                         }
                     }

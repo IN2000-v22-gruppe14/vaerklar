@@ -20,9 +20,10 @@ class DataSource {
     private val weatherCompleteUrl = "$apiBase/weatherapi/locationforecast/2.0/complete"
     private val locationUrl = "$frostApiBase/locations/v0.jsonld"
 
-    suspend fun getWeatherData(longitude: Double, latitude: Double): WeatherData? {
+    suspend fun getWeatherData(latitude: Double, longitude: Double): WeatherData? {
         try {
             val response = Fuel.get("$weatherCompleteUrl?lat=$latitude&lon=$longitude").awaitString()
+            println(response)
             return Json.decodeFromString<WeatherData>(response)
         } catch(exception: Exception) {
             Log.e("DataSource", "Weather data request and deserialization failed!")
@@ -31,9 +32,9 @@ class DataSource {
         return null
     }
 
-    suspend fun getLocationMetaData(longitude: Double, latitude: Double): LocationData? {
+    suspend fun getLocationMetaData(latitude: Double, longitude: Double): LocationData? {
         try {
-            val response = Fuel.get("$locationUrl?geometry=nearest(POINT($latitude $longitude))")
+            val response = Fuel.get("$locationUrl?geometry=nearest(POINT($longitude $latitude ))")
                 .authentication()
                 .basic(apiClient, apiSecret)
                 .awaitString()

@@ -1,5 +1,6 @@
 package com.example.vaerklar.ui.components
 
+import androidx.compose.foundation.Image
 import com.example.vaerklar.R
 import com.example.vaerklar.ui.theme.DayTile1
 import com.example.vaerklar.ui.theme.Rubik
@@ -20,21 +21,20 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.vaerklar.MainActivity
 import com.example.vaerklar.MainActivityViewModel
+import com.example.vaerklar.data.WeatherData
 
-@Preview
 @Composable
 // The primary tile, responsible for displaying weather information beneath the avatar.
-fun MainTile(viewmodel:MainActivityViewModel) {
-    val data = viewmodel.getWeatherData()
-    val min_temp = data.value?.properties?.timeseries?.get(0)?.data?.next_6_hours?.details?.air_temperature_min
-    val max_temp = data.value?.properties?.timeseries?.get(0)?.data?.next_6_hours?.details?.air_temperature_max
-    val avg_temp = (min_temp?.plus(max_temp!!))?.div(2)
-    val prob_parcipation = data.value?.properties?.timeseries?.get(0)?.data?.next_6_hours?.details?.probability_of_precipitation
+fun MainTile(data: WeatherData?) {
+    val min_temp = data?.properties?.timeseries?.get(0)?.data?.next_6_hours?.details?.air_temperature_min
+    val max_temp = data?.properties?.timeseries?.get(0)?.data?.next_6_hours?.details?.air_temperature_max
+    val avg_temp = (min_temp?.plus(max_temp!!))?.div(2)?.toInt()
+    val prob_parcipation = data?.properties?.timeseries?.get(0)?.data?.next_6_hours?.details?.probability_of_precipitation
     var downfall = "sol"
     if (prob_parcipation != null) {
         if(prob_parcipation >= 50){downfall="nedbør"}
     }
-    val weather = data.value?.properties?.timeseries?.get(0)?.data?.next_6_hours?.summary?.symbol_code
+    val weather = data?.properties?.timeseries?.get(0)?.data?.next_6_hours?.summary?.symbol_code
 
     // The base of the card with colors.
     Card(
@@ -56,8 +56,8 @@ fun MainTile(viewmodel:MainActivityViewModel) {
         ) {
 
             // Weather icon.
-            Icon(
-                painter = painterResource(R.drawable.ic_sunny),
+            Image(
+                painter = painterResource(R.drawable.clear_day),
                 "Icon",
                 modifier = Modifier
                     .padding(20.dp)

@@ -25,7 +25,7 @@ class MainActivityViewModel : ViewModel() {
 
     fun fetchWeatherData() {
         viewModelScope.launch(Dispatchers.IO) {
-            ds.getWeatherData(59.94242778396792, 10.719462658211564).also {
+            ds.getWeatherData(60.0, 10.0).also {
                 weatherData.postValue(it)
             }
         }

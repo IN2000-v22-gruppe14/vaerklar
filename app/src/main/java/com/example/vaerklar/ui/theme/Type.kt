@@ -10,7 +10,9 @@ import com.example.vaerklar.R
 
 // Set of Material typography styles to start with
 val Rubik = FontFamily(
-    Font(R.font.rubik_light),
+    Font(R.font.rubik_light, FontWeight.Light),
+    Font(R.font.rubik, FontWeight.Normal),
+    Font(R.font.rubik_medium, FontWeight.Medium),
     Font(R.font.rubik_bold, FontWeight.Bold)
 )
 

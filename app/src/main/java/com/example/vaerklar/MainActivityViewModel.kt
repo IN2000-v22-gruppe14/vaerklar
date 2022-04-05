@@ -12,6 +12,7 @@ import kotlinx.coroutines.launch
 class MainActivityViewModel : ViewModel() {
     //tromsø koordinater: 69.666667, 18.933333
     //blindern koordinater: 59.94242778396792, 10.750326300423026
+    //longyearbyen koordinater: 78.225333, 15.4178506
 
     private val ds = DataSource()
 
@@ -28,7 +29,7 @@ class MainActivityViewModel : ViewModel() {
 
     fun fetchWeatherData() {
         viewModelScope.launch(Dispatchers.IO) {
-            ds.getWeatherData(69.666667, 18.933333).also {
+            ds.getWeatherData(59.94242778396792, 10.750326300423026).also {
                 weatherData.postValue(it)
             }
         }
@@ -36,7 +37,7 @@ class MainActivityViewModel : ViewModel() {
 
     fun fetchLocationData() {
         viewModelScope.launch(Dispatchers.IO) {
-            ds.getLocationMetaData(69.666667, 18.933333).also {
+            ds.getLocationMetaData(59.94242778396792, 10.750326300423026).also {
                 locationData.postValue(it)
             }
         }

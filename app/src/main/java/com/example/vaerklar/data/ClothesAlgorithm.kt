@@ -1,54 +1,57 @@
 package com.example.vaerklar.data
 
+import java.time.LocalDateTime
+import java.time.ZoneOffset
 import kotlin.math.abs
 import kotlin.math.pow
 import kotlin.math.sqrt
 
 
 class ClothesAlgorithm {
+    var timeSeriesIndex = 0
 
     var head = hashMapOf<List<Int>, String>(
         listOf(-100,0) to "lue",
-        listOf(1,10) to "pannebånd",
+        listOf(0,10) to "pannebånd",
         listOf(25,50) to "solhatt"
     )
 
     var body = hashMapOf<List<Int>, String>(
         listOf(-100,0) to "ullgenser",
-        listOf(1,15) to "genser",
+        listOf(0,15) to "genser",
         listOf(20,50) to "topp",
         listOf(15,50) to "tskjorte"
     )
 
     var jacket = hashMapOf<List<Int>, String>(
-        listOf(-100,4) to "vinterjakke",
+        listOf(-100,5) to "vinterjakke",
         listOf(5,10) to "jakke"
     )
 
     var underdel = hashMapOf<List<Int>, String>(
         listOf(-100,-10) to "utebukse",
-        listOf(-9,19) to "bukse",
+        listOf(-10,20) to "bukse",
         listOf(-20,50) to "skjorts"
     )
 
     var shoe = hashMapOf<List<Int>, String>(
         listOf(-100,5) to "vintersko",
-        listOf(6,25) to "joggesko",
-        listOf(26,50) to "sandaler"
+        listOf(5,25) to "sneakers",
+        listOf(25,50) to "sandaler"
     )
 
-    var special = hashMapOf<List<Int>, String>(
-        listOf(0) to "solbriller",
-        listOf(1) to "skjerf",
-        listOf(3) to "votter"
+    var special = hashMapOf<Int, String>(
+        0 to "solbriller",
+        1 to "votter & skjerf",
+        2 to "paraply"
     )
 
-    var rainClothing = hashMapOf<List<Int>, String>(
-        listOf(0) to "regnhatt",
-        listOf(1) to "_DETTE SKAL IKKE SKJE_",
-        listOf(2) to "regnjakke",
-        listOf(3) to "regnbukse",
-        listOf(4) to "gummistøvler"
+    var rainClothing = hashMapOf<Int, String>(
+        0 to "regnhatt",
+        1 to "_DETTE SKAL IKKE SKJE_",
+        2 to "regnjakke",
+        3 to "regnbukse",
+        4 to "gummistøvler"
     )
 
     var clothingReg = listOf<HashMap<List<Int>, String>>(
@@ -56,15 +59,36 @@ class ClothesAlgorithm {
         body,
         jacket,
         underdel,
-        shoe,
-        special,
-        rainClothing
+        shoe
     )
 
+    fun getTimeSeriesIndex(weatherData: WeatherData?){
+        val updatedAt = weatherData?.properties?.meta?.updated_at
+        val updateHour = updatedAt?.substring(11,13)
+        //val updateMinute = updatedAt?.substring(14,16)
+        val uhourInt = updateHour?.toInt()
+        var firstHour = 0
+        if(uhourInt != 23){
+            firstHour = uhourInt?.plus(1)!!
+        }
+
+        val nowTime = LocalDateTime.now()
+        val nowString = nowTime.toString()
+        val nowHour = nowString.substring(11,13)
+        val nowHourInt = nowHour.toInt()
+        timeSeriesIndex = (nowHourInt - firstHour) + 1
+        //println("NowHourInt: $nowHourInt")
+        //println("firstHour: $firstHour")
+
+        //val time = weatherData?.properties?.timeseries?.get(timeSeriesIndex)?.time
+        //println("Denne inneværende time: $time")
+    }
+
     fun getWeatherScore(weatherData: WeatherData?){
-        var airTemp = weatherData?.properties?.timeseries?.get(0)?.data?.instant?.details?.air_temperature
-        var windSpeed = weatherData?.properties?.timeseries?.get(0)?.data?.instant?.details?.wind_speed
-        var humidity = weatherData?.properties?.timeseries?.get(0)?.data?.instant?.details?.relative_humidity
+        getTimeSeriesIndex(weatherData)
+        var airTemp = weatherData?.properties?.timeseries?.get(timeSeriesIndex)?.data?.instant?.details?.air_temperature
+        var windSpeed = weatherData?.properties?.timeseries?.get(timeSeriesIndex)?.data?.instant?.details?.wind_speed
+        var humidity = weatherData?.properties?.timeseries?.get(timeSeriesIndex)?.data?.instant?.details?.relative_humidity
 
 
         var fhTemp = ((airTemp?.times(9))?.div(5))?.plus(32)
@@ -97,131 +121,123 @@ class ClothesAlgorithm {
 
 
         println("Real temperature: $realTemp")
-        //println("Lufttemperatur: $airTemp")
+        val clothString = getOutfit(weatherData, realTemp?.toFloat())
+        println("Klær: $clothString")
     }
 
-    fun getOutfit(weatherData: WeatherData?, realTemp : Float): MutableList<String>{
-        // tenker at klær skal ha score fra 0-4 der 4 er spesial (eks solbriller)
-        //var outfit = ""
+    fun getOutfit(weatherData: WeatherData?, realTemp : Float?): MutableList<String>{
         var outfitList = mutableListOf<String>()
         var plaggNummer = 0
         val rain = rainCheck(weatherData)
 
         while (plaggNummer < 5) {
             outfitList.add(getPiece(plaggNummer,rain, realTemp))
-            //outfit += getPiece(plaggNummer,rain, realTemp)
             plaggNummer++
         }
         outfitList.add(get_special(realTemp, weatherData))
-        //outfit += get_special(realTemp, weatherData)
 
         return outfitList
     }
 
-    fun getPiece(number : Int, rain: Int, realTemp : Float ) : String {
+    fun getPiece(number : Int, rain: Int, realTemp : Float?) : String {
         /*
-        0 to "regnhatt",
-        1 to "_DETTE SKAL IKKE SKJE_", = genser, tskjorte etc
-        2 to "regnjakke",
-        3 to "regnbukse",
-        4 to "gummistøvler"*/
+        0 to hodeplagg
+        1 to genser, tskjorte etc
+        2 to jakke
+        3 to bukse
+        4 to sko*/
 
         //sjekker om nummer = jakke og om regn er riktig, isåfall regnjakke
-        if (number == 2 && 10 > rain && 5 < rain){
-            //val piece = rainClothing.getValue(listOf(2))
-            val drit = rainClothing.keys.elementAt(2)
-            val piece = rainClothing.getValue(drit)
-            return piece
-        }else if (number != 1 && rain > 4){
-            // genser hentes uforandrett så den skal ikke innom her
-            //hent regn[r]
-            // eks regnjakke, lue gummistøvler
-            val drit = rainClothing.keys.elementAt(number)
-            val piece = rainClothing.getValue(drit)
-            return piece
+        if (number != 1 && rain == 10) {
+            //regner masse, fullt utstyr på
+            return rainClothing.getValue(number)
+        }else if (number != 1 && number != 0 && number != 3 && rain == 5){
+            //regner endel, hent alt unntatt regnbukse og hatt
+            return rainClothing.getValue(number)
+        }else if (number == 2 && rain == 3){
+            //lett regn, bare regnjakke
+            return rainClothing.getValue(number)
         }else{
             //når man ikke trenger et spesielt plagg pga regn
             return getNormalClothing(number, realTemp)
         }
     }
 
-    fun getNormalClothing(number : Int, realTemp: Float) : String{
-        if(number == 0){
-            for(tempRange:List<Int> in head.keys){
+    fun getNormalClothing(number : Int, realTemp: Float?) : String{
+        val pieceMap = clothingReg[number]
+        for(tempRange:List<Int> in pieceMap.keys){
+            if (realTemp != null) {
                 if(realTemp > tempRange.get(0) && realTemp < tempRange.get(1)){
                     val list = listOf(tempRange.get(0), tempRange.get(1))
-                    return head.getValue(list)
-                }
-            }
-        }else if (number == 1){
-            for(tempRange:List<Int> in body.keys){
-                if(realTemp > tempRange.get(0) && realTemp < tempRange.get(1)){
-                    val list = listOf(tempRange.get(0), tempRange.get(1))
-                    return body.getValue(list)
-                }
-            }
-        }else if (number == 2){
-            for(tempRange:List<Int> in jacket.keys){
-                if(realTemp > tempRange.get(0) && realTemp < tempRange.get(1)){
-                    val list = listOf(tempRange.get(0), tempRange.get(1))
-                    return jacket.getValue(list)
-                }
-            }
-        }else if (number == 3){
-            for(tempRange:List<Int> in underdel.keys){
-                if(realTemp > tempRange.get(0) && realTemp < tempRange.get(1)){
-                    val list = listOf(tempRange.get(0), tempRange.get(1))
-                    return underdel.getValue(list)
-                }
-            }
-        }else if (number == 4){
-            for(tempRange:List<Int> in shoe.keys){
-                if(realTemp > tempRange.get(0) && realTemp < tempRange.get(1)){
-                    val list = listOf(tempRange.get(0), tempRange.get(1))
-                    return shoe.getValue(list)
+                    return pieceMap.getValue(list)
                 }
             }
         }
         return "Noe galt har skjedd"
     }
 
-    fun get_special(realTemp : Float, weatherData: WeatherData?) : String{
-        val rain = weatherData?.properties?.timeseries?.get(0)?.data?.next_6_hours?.details?.precipitation_amount
-        if (10 > rain!! && 3 < rain){
-            // hent paraply
+    fun get_special(realTemp : Float?, weatherData: WeatherData?) : String{
+        val rain = rainCheck(weatherData)
+        val windSpeed1time = weatherData?.properties?.timeseries?.get(timeSeriesIndex)?.data?.instant?.details?.wind_speed
+        val windSpeed3time = weatherData?.properties?.timeseries?.get(timeSeriesIndex+2)?.data?.instant?.details?.wind_speed
+        val windSpeed5time = weatherData?.properties?.timeseries?.get(timeSeriesIndex+4)?.data?.instant?.details?.wind_speed
+        var avgWind = 0.0
+
+        if (windSpeed1time != null && windSpeed3time != null && windSpeed5time != null){
+            val totWind = windSpeed1time + windSpeed3time + windSpeed5time
+            avgWind = totWind/3
+        }
+
+        //henter specials
+        if (rain > 3 && avgWind < 13){
+            // hent paraply hvis det regner mer en light men ikke hvis det blåser jævlig
+            return special.getValue(2)
         }
         if (sunCheck(weatherData)){
             //hent solbriller
+            return special.getValue(0)
         }
-        /*
-        if (kaldt){
 
-        }*/
-        // her kan også legges inn dato greier eks 17 mai
+        if (realTemp != null) {
+            if (realTemp < -5){
+                //hent votter og skjerf (de må sammen pga tegning)
+                return special.getValue(1)
+            }
+        }
+        val time = weatherData?.properties?.timeseries?.get(timeSeriesIndex)?.time
+        val day = time?.substring(8,10)
+        val month = time?.substring(5,7)
+        if(day == "17" && month == "05"){
+            //hent 17. mai flagg
+        }
         // eller kanskje til og med steder eks hemsedal (Snowboard briller)
         return ""
     }
 
     fun rainCheck (weatherData: WeatherData?) : Int{
-        val symbol = weatherData?.properties?.timeseries?.get(0)?.data?.next_6_hours?.summary?.symbol_code
-        if (symbol == "light_rain") {
-            return 4
-        }
-        if (symbol == "rain"){
-            return 5
-        }
-        if (symbol == "heavy_rain"){
-            return 10
-        }
-        if (symbol == "storm"){
-            return 15
+        //endrer denne fra å bruke symbol (det er alt for mange ulike, eks: lightsleetshowers_day) til å bruke precipitation og temp
+        val minTemp = weatherData?.properties?.timeseries?.get(timeSeriesIndex)?.data?.next_6_hours?.details?.air_temperature_min
+        val avgPrecip = weatherData?.properties?.timeseries?.get(timeSeriesIndex)?.data?.next_6_hours?.details?.precipitation_amount
+
+        if (avgPrecip != null && minTemp != null) {
+            if(avgPrecip > 0.5 && avgPrecip < 1 && minTemp > 0){
+                //lightrain
+                return 3
+            }else if(avgPrecip >= 1 && avgPrecip < 5 && minTemp > 0){
+                //rain
+                return 5
+            }else if(avgPrecip >= 5 && minTemp > 0){
+                //heavy rain
+                return 10
+            }
         }
         return 0
     }
 
+
     fun sunCheck (weatherData: WeatherData?) : Boolean{
-        val symbol = weatherData?.properties?.timeseries?.get(0)?.data?.next_6_hours?.summary?.symbol_code
-        if (symbol == "sol") {
+        val symbol = weatherData?.properties?.timeseries?.get(timeSeriesIndex)?.data?.next_6_hours?.summary?.symbol_code
+        if (symbol == "fair_day" || symbol == "clearsky_day") {
             return true
         }
         return false

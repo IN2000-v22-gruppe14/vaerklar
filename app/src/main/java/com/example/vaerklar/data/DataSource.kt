@@ -34,7 +34,8 @@ class DataSource {
 
     suspend fun getLocationMetaData(latitude: Double, longitude: Double): LocationData? {
         try {
-            val response = Fuel.get("$locationUrl?geometry=nearest(POINT($longitude $latitude ))")
+            //apikallet her er på formatet long, lat. for ryddighetens skyld har jeg reversert det i kallet men funksjonen tar imot på "riktig" format
+            val response = Fuel.get("$locationUrl?geometry=nearest(POINT($longitude $latitude))")
                 .authentication()
                 .basic(apiClient, apiSecret)
                 .awaitString()

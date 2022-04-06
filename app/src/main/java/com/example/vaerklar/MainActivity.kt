@@ -17,6 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.vaerklar.data.ClothesAlgorithm
 import com.example.vaerklar.data.LocationData
 import com.example.vaerklar.data.WeatherData
 import com.example.vaerklar.databinding.ActivityMainBinding
@@ -31,19 +32,16 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val mainActivityViewModel = MainActivityViewModel()
-        mainActivityViewModel.fetchWeatherData()
-
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         viewModel.fetchWeatherData()
         viewModel.fetchLocationData()
-        var weatherData: WeatherData? = null
-        var locationData: LocationData? = null
+
+        val clothesAlgorithm = ClothesAlgorithm()
 
         viewModel.getWeatherData().observe(this) {
-            weatherData = it
+            val weatherScore = clothesAlgorithm.getWeatherScore(it)
 
             setContent {
                 VærklarTheme {
@@ -54,19 +52,15 @@ class MainActivity : ComponentActivity() {
                         // Column responsible for the vertical stacking of all elements on the page.
                         Column() {
                             Box() {
-                                MainScreen(weatherData)
+                                MainScreen(it)
                                 NavigationBar(state)
                             }
-                        }
-
-                        // TODO: Allow the scaffold to update values based on state.
-                    }
-                }
-            }
+            println(it)
         }
 
         viewModel.getLocationData().observe(this) {
             val locationData = it
+            println(locationData)
         }
 
     }

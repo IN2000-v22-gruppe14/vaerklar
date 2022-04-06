@@ -18,8 +18,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.vaerklar.data.ClothesAlgorithm
-import com.example.vaerklar.data.LocationData
-import com.example.vaerklar.data.WeatherData
 import com.example.vaerklar.databinding.ActivityMainBinding
 import com.example.vaerklar.ui.screens.MainScreen
 import com.example.vaerklar.ui.theme.VærklarTheme
@@ -42,6 +40,7 @@ class MainActivity : ComponentActivity() {
 
         viewModel.getWeatherData().observe(this) {
             val weatherScore = clothesAlgorithm.getWeatherScore(it)
+            val weatherData = it
 
             setContent {
                 VærklarTheme {
@@ -52,17 +51,19 @@ class MainActivity : ComponentActivity() {
                         // Column responsible for the vertical stacking of all elements on the page.
                         Column() {
                             Box() {
-                                MainScreen(it)
+                                MainScreen(weatherData)
                                 NavigationBar(state)
                             }
-            println(it)
+                        }
+                    }
+                }
+            }
         }
 
         viewModel.getLocationData().observe(this) {
             val locationData = it
             println(locationData)
         }
-
     }
 
     @Composable
@@ -78,7 +79,8 @@ class MainActivity : ComponentActivity() {
                     color = Color.White,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
-                ) },
+                )
+            },
             navigationIcon = {
                 IconButton(
                     onClick = {
@@ -112,7 +114,7 @@ class MainActivity : ComponentActivity() {
             elevation = 0.dp,
             modifier = Modifier
                 .fillMaxWidth()
-                .absolutePadding(0.dp,10.dp,0.dp,0.dp)
+                .absolutePadding(0.dp, 10.dp, 0.dp, 0.dp)
         )
 
         // TODO: Add functional onClick modifiers.

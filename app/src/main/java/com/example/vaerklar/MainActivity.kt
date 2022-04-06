@@ -1,8 +1,10 @@
 package com.example.vaerklar
 
+import android.location.Location
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -15,35 +17,58 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.vaerklar.data.LocationData
+import com.example.vaerklar.data.WeatherData
+import com.example.vaerklar.databinding.ActivityMainBinding
 import com.example.vaerklar.ui.screens.MainScreen
 import com.example.vaerklar.ui.theme.VærklarTheme
 import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
+    private lateinit var binding: ActivityMainBinding
+    private val viewModel: MainActivityViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         val mainActivityViewModel = MainActivityViewModel()
         mainActivityViewModel.fetchWeatherData()
 
-        setContent {
-            VærklarTheme {
-                // The scaffold is responsible for revealing the drawer.
-                Scaffold() {
-                    val state = rememberScaffoldState()
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-                    // Column responsible for the vertical stacking of all elements on the page.
-                    Column() {
-                        Box() {
-                            MainScreen(mainActivityViewModel)
-                            NavigationBar(state)
+        viewModel.fetchWeatherData()
+        viewModel.fetchLocationData()
+        var weatherData: WeatherData? = null
+        var locationData: LocationData? = null
+
+        viewModel.getWeatherData().observe(this) {
+            weatherData = it
+
+            setContent {
+                VærklarTheme {
+                    // The scaffold is responsible for revealing the drawer.
+                    Scaffold() {
+                        val state = rememberScaffoldState()
+
+                        // Column responsible for the vertical stacking of all elements on the page.
+                        Column() {
+                            Box() {
+                                MainScreen(weatherData)
+                                NavigationBar(state)
+                            }
                         }
-                    }
 
-                    // TODO: Allow the scaffold to update values based on state.
+                        // TODO: Allow the scaffold to update values based on state.
+                    }
                 }
             }
         }
+
+        viewModel.getLocationData().observe(this) {
+            val locationData = it
+        }
+
     }
 
     @Composable

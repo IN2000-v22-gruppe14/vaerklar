@@ -23,6 +23,7 @@ class DataSource {
     suspend fun getWeatherData(latitude: Double, longitude: Double): WeatherData? {
         try {
             val response = Fuel.get("$weatherCompleteUrl?lat=$latitude&lon=$longitude").awaitString()
+            println(response)
             return Json.decodeFromString<WeatherData>(response)
         } catch(exception: Exception) {
             Log.e("DataSource", "Weather data request and deserialization failed!")

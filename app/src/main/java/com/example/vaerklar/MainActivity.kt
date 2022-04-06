@@ -1,5 +1,6 @@
 package com.example.vaerklar
 
+import android.location.Location
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -17,6 +18,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.vaerklar.data.ClothesAlgorithm
+import com.example.vaerklar.data.LocationData
+import com.example.vaerklar.data.WeatherData
 import com.example.vaerklar.databinding.ActivityMainBinding
 import com.example.vaerklar.ui.screens.MainScreen
 import com.example.vaerklar.ui.theme.VærklarTheme
@@ -28,7 +31,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -39,32 +42,27 @@ class MainActivity : ComponentActivity() {
 
         viewModel.getWeatherData().observe(this) {
             val weatherScore = clothesAlgorithm.getWeatherScore(it)
+
+            setContent {
+                VærklarTheme {
+                    // The scaffold is responsible for revealing the drawer.
+                    Scaffold() {
+                        val state = rememberScaffoldState()
+
+                        // Column responsible for the vertical stacking of all elements on the page.
+                        Column() {
+                            Box() {
+                                MainScreen(it)
+                                NavigationBar(state)
+                            }
             println(it)
         }
 
         viewModel.getLocationData().observe(this) {
-            println(it)
+            val locationData = it
+            println(locationData)
         }
-        //
 
-        setContent {
-            VærklarTheme {
-                // The scaffold is responsible for revealing the drawer.
-                Scaffold() {
-                    val state = rememberScaffoldState()
-
-                    // Column responsible for the vertical stacking of all elements on the page.
-                    Column() {
-                        Box() {
-                            MainScreen()
-                            NavigationBar(state)
-                        }
-                    }
-
-                    // TODO: Allow the scaffold to update values based on state.
-                }
-            }
-        }
     }
 
     @Composable

@@ -1,9 +1,11 @@
 package com.example.vaerklar.data
 
+import java.lang.Math.round
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 import kotlin.math.abs
 import kotlin.math.pow
+import kotlin.math.roundToInt
 import kotlin.math.sqrt
 
 
@@ -12,32 +14,34 @@ class ClothesAlgorithm {
 
     var head = hashMapOf<List<Int>, String>(
         listOf(-100,0) to "lue",
-        listOf(0,10) to "pannebånd",
+        listOf(1,10) to "pannebånd",
+        listOf(11,24) to "",
         listOf(25,50) to "solhatt"
     )
 
     var body = hashMapOf<List<Int>, String>(
-        listOf(-100,0) to "ullgenser",
+        listOf(-100,-1) to "ullgenser",
         listOf(0,15) to "genser",
-        listOf(20,50) to "topp",
-        listOf(15,50) to "tskjorte"
+      //  listOf(20,50) to "topp",
+        listOf(16,50) to "tskjorte"
     )
 
     var jacket = hashMapOf<List<Int>, String>(
-        listOf(-100,5) to "vinterjakke",
-        listOf(5,10) to "jakke"
+        listOf(-100,4) to "vinterjakke",
+        listOf(5,10) to "jakke",
+        listOf(11,100) to ""
     )
 
     var underdel = hashMapOf<List<Int>, String>(
-        listOf(-100,-10) to "utebukse",
-        listOf(-10,20) to "bukse",
-        listOf(-20,50) to "skjorts"
+        listOf(-100,-11) to "utebukse",
+        listOf(-10,22) to "bukse",
+        listOf(23,50) to "skjorts"
     )
 
     var shoe = hashMapOf<List<Int>, String>(
-        listOf(-100,5) to "vintersko",
+        listOf(-100,4) to "vintersko",
         listOf(5,25) to "sneakers",
-        listOf(25,50) to "sandaler"
+        listOf(26,50) to "sandaler"
     )
 
     var special = hashMapOf<Int, String>(
@@ -61,6 +65,8 @@ class ClothesAlgorithm {
         underdel,
         shoe
     )
+
+    var realtemperature = 0.0
 
     fun getTimeSeriesIndex(weatherData: WeatherData?){
         val updatedAt = weatherData?.properties?.meta?.updated_at
@@ -90,10 +96,8 @@ class ClothesAlgorithm {
         var windSpeed = weatherData?.properties?.timeseries?.get(timeSeriesIndex)?.data?.instant?.details?.wind_speed
         var humidity = weatherData?.properties?.timeseries?.get(timeSeriesIndex)?.data?.instant?.details?.relative_humidity
 
-
         var fhTemp = ((airTemp?.times(9))?.div(5))?.plus(32)
         var realTemp = fhTemp
-
 
 
         if (airTemp != null && windSpeed != null && humidity != null && fhTemp != null) {
@@ -116,25 +120,30 @@ class ClothesAlgorithm {
             }
             if (realTemp != null) {
                 realTemp = (realTemp-32)*0.5556
+                realtemperature = realTemp
             }
         }
 
 
         println("Real temperature: $realTemp")
-        val clothString = getOutfit(weatherData, realTemp?.toFloat())
+        var clothString = getOutfit(weatherData, realTemp?.toFloat())
         println("Klær: $clothString")
+    }
+    fun getRealTemp() : Double {
+        return realtemperature
     }
 
     fun getOutfit(weatherData: WeatherData?, realTemp : Float?): MutableList<String>{
+        var realTempRound = (realTemp?.let { round(it) })?.toFloat()
         var outfitList = mutableListOf<String>()
         var plaggNummer = 0
         val rain = rainCheck(weatherData)
 
         while (plaggNummer < 5) {
-            outfitList.add(getPiece(plaggNummer,rain, realTemp))
+            outfitList.add(getPiece(plaggNummer,rain, realTempRound))
             plaggNummer++
         }
-        outfitList.add(get_special(realTemp, weatherData))
+        outfitList.add(get_special(realTempRound, weatherData))
 
         return outfitList
     }

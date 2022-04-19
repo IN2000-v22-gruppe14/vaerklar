@@ -36,7 +36,7 @@ fun MainScreen(weatherData: WeatherData?) {
                 )
         ) {
             Column() {
-                Avatar()
+                Avatar(weatherData)
                 MainTile(weatherData)
                 TodayTile(weatherData)
                 WeekTile(weatherData)

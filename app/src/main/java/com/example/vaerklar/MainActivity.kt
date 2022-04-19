@@ -31,7 +31,9 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+
+
+       // setContentView(binding.root)
 
         viewModel.fetchWeatherData()
         viewModel.fetchLocationData()
@@ -59,11 +61,12 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
-
         viewModel.getLocationData().observe(this) {
             val locationData = it
             println(locationData)
         }
+        // HAMBURGER GREIER VVVV
+        //setContentView(R.layout.nav_activity_main)
     }
 
     @Composable

@@ -2,6 +2,8 @@ package com.example.vaerklar
 
 import android.location.Location
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -18,6 +20,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.vaerklar.data.ClothesAlgorithm
+import com.example.vaerklar.data.WeatherData
 import com.example.vaerklar.databinding.ActivityMainBinding
 import com.example.vaerklar.ui.screens.MainScreen
 import com.example.vaerklar.ui.screens.SplashScreen
@@ -38,11 +41,31 @@ class MainActivity : ComponentActivity() {
         viewModel.fetchLocationData()
 
         val clothesAlgorithm = ClothesAlgorithm()
+        var weatherData: WeatherData? = null
 
         viewModel.getWeatherData().observe(this) {
             val weatherScore = clothesAlgorithm.getWeatherScore(it)
-            val weatherData = it
+            weatherData = it
+        }
 
+        setContent {
+            VærklarTheme {
+                // The scaffold is responsible for revealing the drawer.
+
+                Scaffold {
+                    val state = rememberScaffoldState()
+
+                    // Column responsible for the vertical stacking of all elements on the page.
+                    Column() {
+                        Box {
+                            SplashScreen()
+                        }
+                    }
+                }
+            }
+        }
+
+        Handler(Looper.getMainLooper()).postDelayed({
             setContent {
                 VærklarTheme {
                     // The scaffold is responsible for revealing the drawer.
@@ -60,7 +83,8 @@ class MainActivity : ComponentActivity() {
                     }
                 }
             }
-        }
+        }, 5000)
+
 
         viewModel.getLocationData().observe(this) {
             val locationData = it

@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.sp
 import com.example.vaerklar.data.ClothesAlgorithm
 import com.example.vaerklar.databinding.ActivityMainBinding
 import com.example.vaerklar.ui.screens.MainScreen
+import com.example.vaerklar.ui.screens.SplashScreen
 import com.example.vaerklar.ui.theme.VærklarTheme
 import kotlinx.coroutines.launch
 
@@ -45,7 +46,8 @@ class MainActivity : ComponentActivity() {
             setContent {
                 VærklarTheme {
                     // The scaffold is responsible for revealing the drawer.
-                    Scaffold() {
+
+                    Scaffold {
                         val state = rememberScaffoldState()
 
                         // Column responsible for the vertical stacking of all elements on the page.

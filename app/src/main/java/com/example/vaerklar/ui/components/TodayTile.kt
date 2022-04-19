@@ -167,6 +167,9 @@ var iconTranslation = hashMapOf<String?, Int>(
     "partlycloudy_day" to R.drawable.partly_cloudy_day,
     "partlycloudy_night" to R.drawable.partly_cloudy_night,
 
+    // FOG
+    "fog" to R.drawable.foggy,
+
     // RAIN
     "lightrain" to R.drawable.light_rain,
     "lightrainshowers_day" to R.drawable.light_rain_day,

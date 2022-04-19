@@ -1,4 +1,4 @@
 package com.example.vaerklar.ui.screens
 
-class PlannerPage {
+class PlacesScreen {
 }

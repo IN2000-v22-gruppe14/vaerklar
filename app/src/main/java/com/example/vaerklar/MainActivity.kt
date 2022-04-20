@@ -1,5 +1,8 @@
 package com.example.vaerklar
 
+import android.Manifest
+import android.annotation.SuppressLint
+import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
 import android.os.Handler
@@ -19,16 +22,22 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.example.vaerklar.data.ClothesAlgorithm
+import com.example.vaerklar.data.LocationData
 import com.example.vaerklar.data.WeatherData
 import com.example.vaerklar.databinding.ActivityMainBinding
 import com.example.vaerklar.ui.screens.MainScreen
 import com.example.vaerklar.ui.screens.SplashScreen
 import com.example.vaerklar.ui.theme.VærklarTheme
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import kotlinx.coroutines.launch
 
-class MainActivity : ComponentActivity() {
+class MainActivity : ComponentActivity(), ActivityCompat.OnRequestPermissionsResultCallback {
     private lateinit var binding: ActivityMainBinding
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
     private val viewModel: MainActivityViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,17 +45,6 @@ class MainActivity : ComponentActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        viewModel.fetchWeatherData()
-        viewModel.fetchLocationData()
-
-        val clothesAlgorithm = ClothesAlgorithm()
-        var weatherData: WeatherData? = null
-
-        viewModel.getWeatherData().observe(this) {
-            val weatherScore = clothesAlgorithm.getWeatherScore(it)
-            weatherData = it
-        }
 
         setContent {
             VærklarTheme {
@@ -65,6 +63,21 @@ class MainActivity : ComponentActivity() {
             }
         }
 
+        var locationName = "..."
+        viewModel.getLocationData().observe(this) {
+            if (it != null) {
+                locationName = it.data?.get(0)?.name.toString()  // Nydelig. elsker kotlin
+            }
+        }
+
+        val clothesAlgorithm = ClothesAlgorithm()
+        var weatherData: WeatherData? = null
+        viewModel.getWeatherData().observe(this) {
+            val weatherScore = clothesAlgorithm.getWeatherScore(it)
+            weatherData = it
+        }
+
+        println("starter rendering")
         Handler(Looper.getMainLooper()).postDelayed({
             setContent {
                 VærklarTheme {
@@ -76,7 +89,7 @@ class MainActivity : ComponentActivity() {
                         // Column responsible for the vertical stacking of all elements on the page.
                         Column() {
                             Box() {
-                                MainScreen(weatherData)
+                                MainScreen(weatherData, locationName)
                                 NavigationBar(state)
                             }
                         }
@@ -85,10 +98,44 @@ class MainActivity : ComponentActivity() {
             }
         }, 5000)
 
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION), 0);
+        } else {
+            fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+            fusedLocationClient.lastLocation
+                .addOnSuccessListener { location: Location? ->
+                    println("device location funnet")
+                    if (location != null) {
+                        println("device location er ikke null")
+                        println(location.latitude)
+                        println(location.longitude)
+                        viewModel.fetchLocationData(location.latitude, location.longitude)
+                        viewModel.fetchWeatherData(location.latitude, location.longitude)
+                    }
+                }
+        }
+    }
 
-        viewModel.getLocationData().observe(this) {
-            val locationData = it
-            println(locationData)
+    @SuppressLint("MissingPermission")
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (grantResults.contains(PackageManager.PERMISSION_GRANTED)) {
+            fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+            fusedLocationClient.lastLocation
+                .addOnSuccessListener { location: Location? ->
+                    println("device location funnet")
+                    if (location != null) {
+                        println("device location er ikke null")
+                        println(location.latitude)
+                        println(location.longitude)
+                        viewModel.fetchLocationData(location.latitude, location.longitude)
+                        viewModel.fetchWeatherData(location.latitude, location.longitude)
+                    }
+                }
         }
     }
 

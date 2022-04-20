@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import com.example.vaerklar.MainActivityViewModel
+import com.example.vaerklar.data.LocationData
 import com.example.vaerklar.data.WeatherData
 import com.example.vaerklar.ui.components.Avatar
 import com.example.vaerklar.ui.components.MainTile
@@ -21,7 +22,7 @@ import com.example.vaerklar.ui.theme.GradientClearDay
 
 @Composable
 // The main screen, shown when the application boots up. Loaded through MainActivity, and includes the avatar.
-fun MainScreen(weatherData: WeatherData?) {
+fun MainScreen(weatherData: WeatherData?, locationName: String) {
     Scaffold() {
         // Box that occupies the entire screen. The background is determined by the time of day and cloud condition. It is currently static.
         Box(
@@ -36,7 +37,7 @@ fun MainScreen(weatherData: WeatherData?) {
                 )
         ) {
             Column() {
-                Avatar()
+                Avatar(locationName)
                 MainTile(weatherData)
                 TodayTile(weatherData)
                 WeekTile(weatherData)

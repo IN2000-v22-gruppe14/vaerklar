@@ -10,12 +10,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.vaerklar.data.LocationData
 import com.example.vaerklar.ui.theme.Rubik
 
 @Preview
 @Composable
 // The avatar, alongside location.
-fun Avatar() {
+fun Avatar(locationName: String) {
 
     // Row for arranging text and avatar.
     Column(
@@ -27,7 +28,7 @@ fun Avatar() {
 
         // City.
         Text(
-            text = "City",
+            text = locationName,
             color = Color.White,
             fontFamily = Rubik,
             fontWeight = FontWeight.Bold,

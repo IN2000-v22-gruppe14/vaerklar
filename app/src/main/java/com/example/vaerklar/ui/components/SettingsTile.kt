@@ -13,10 +13,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.vaerklar.ui.theme.DayTile1
 import kotlin.math.roundToInt
 
+@Preview
 @Composable
 //has all the tiles in the settingsscreen
 fun SettingsTile() {
@@ -29,7 +31,7 @@ fun SettingsTile() {
     ) {
         //put all settings in a column to sort them downwards
         Column(
-            horizontalAlignment = Alignment.End,
+            //horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(5.dp)
         ) {
             //Row for button to toggle theme
@@ -114,7 +116,7 @@ fun SettingsTile() {
                 Slider(
                     value = sliderPosition,
                     onValueChange = {
-                        sliderPosition = it,
+                        sliderPosition = it;
                         adjustWarmth(it)
                     }
                 )
@@ -127,7 +129,7 @@ fun SettingsTile() {
             //Row to clear data
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
+                horizontalArrangement = Arrangement.SpaceBetween,
             ) {
                 Button(
                     onClick = { clearData() },

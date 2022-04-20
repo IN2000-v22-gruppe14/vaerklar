@@ -27,17 +27,17 @@ class MainActivityViewModel : ViewModel() {
         return locationData
     }
 
-    fun fetchWeatherData() {
+    fun fetchWeatherData(latitude: Double, longitude: Double) {
         viewModelScope.launch(Dispatchers.IO) {
-            ds.getWeatherData(60.0, 10.0).also {
+            ds.getWeatherData(latitude, longitude).also {
                 weatherData.postValue(it)
             }
         }
     }
 
-    fun fetchLocationData() {
+    fun fetchLocationData(latitude: Double, longitude: Double) {
         viewModelScope.launch(Dispatchers.IO) {
-            ds.getLocationMetaData(59.94242778396792, 10.750326300423026).also {
+            ds.getLocationMetaData(latitude, longitude).also {
                 locationData.postValue(it)
             }
         }

@@ -70,9 +70,9 @@ fun MainTile(viewmodel:MainActivityViewModel) {
             Column() {
 
                 // Weather description.
-                if (weather != null) {
+                if (translatedWeather != null) {
                     Text (
-                        text = weather,
+                        text = translatedWeather,
                         color = Color.White,
                         fontFamily = Rubik,
                         fontWeight = FontWeight.Normal

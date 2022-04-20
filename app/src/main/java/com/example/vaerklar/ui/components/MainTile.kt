@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.vaerklar.MainActivity
 import com.example.vaerklar.MainActivityViewModel
+import com.example.vaerklar.data.WeatherTranslation
 
 @Preview
 @Composable
@@ -35,6 +36,8 @@ fun MainTile(viewmodel:MainActivityViewModel) {
         if(prob_parcipation >= 50){downfall="nedbør"}
     }
     val weather = data.value?.properties?.timeseries?.get(0)?.data?.next_6_hours?.summary?.symbol_code
+    var translatedWeather = weather?.let { WeatherTranslation.getTranslation(it) }
+    if (translatedWeather == null) translatedWeather = "Fant ikke vær"
 
     // The base of the card with colors.
     Card(

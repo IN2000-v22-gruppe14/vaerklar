@@ -50,7 +50,7 @@ class WeatherTranslation {
             "snowshowersandthunder" to "tidvis snø og lyn"
         )
         fun getTranslation(weather:String) : String? {
-            return WeatherMap.get(weather)
+            return WeatherMap[weather]
         }
     }
 }

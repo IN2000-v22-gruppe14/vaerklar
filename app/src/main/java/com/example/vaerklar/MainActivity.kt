@@ -79,7 +79,7 @@ class MainActivity : ComponentActivity(), ActivityCompat.OnRequestPermissionsRes
             weatherData = it
         }
 
-        println("starter rendering")
+        println("ONCREATE (MainActivity): Appen starter rendering.")
         Handler(Looper.getMainLooper()).postDelayed({
             setContent {
                 VærklarTheme {
@@ -106,11 +106,12 @@ class MainActivity : ComponentActivity(), ActivityCompat.OnRequestPermissionsRes
             fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
             fusedLocationClient.getCurrentLocation(PRIORITY_HIGH_ACCURACY, CancellationTokenSource().token)
                 .addOnSuccessListener { location: Location? ->
-                    println("device location funnet")
+                    println("ONREQUESTPERMISSIONSRESULT (MainActivity): Enhetens lokasjon er funnet.")
+
                     if (location != null) {
-                        println("device location er ikke null")
-                        println(location.latitude)
-                        println(location.longitude)
+                        println("ONREQUESTPERMISSIONSRESULT (MainActivity): Enhetens lokasjon er ikke null.")
+                        println("Enhetens gitte breddegrad/latitude er " + location.latitude)
+                        println("Enhetens gitte lengdegrad/longitude er " + location.longitude)
                         viewModel.fetchLocationData(location.latitude, location.longitude)
                         viewModel.fetchWeatherData(location.latitude, location.longitude)
                     }
@@ -129,11 +130,12 @@ class MainActivity : ComponentActivity(), ActivityCompat.OnRequestPermissionsRes
             fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
             fusedLocationClient.getCurrentLocation(PRIORITY_HIGH_ACCURACY, CancellationTokenSource().token)
                 .addOnSuccessListener { location: Location? ->
-                    println("device location funnet")
+                    println("ONREQUESTPERMISSIONSRESULT (MainActivity): Enhetens lokasjon er funnet.")
+
                     if (location != null) {
-                        println("device location er ikke null")
-                        println(location.latitude)
-                        println(location.longitude)
+                        println("ONREQUESTPERMISSIONSRESULT (MainActivity): Enhetens lokasjon er ikke null.")
+                        println("Enhetens gitte breddegrad/latitude er " + location.latitude)
+                        println("Enhetens gitte lengdegrad/longitude er " + location.longitude)
                         viewModel.fetchLocationData(location.latitude, location.longitude)
                         viewModel.fetchWeatherData(location.latitude, location.longitude)
                     }

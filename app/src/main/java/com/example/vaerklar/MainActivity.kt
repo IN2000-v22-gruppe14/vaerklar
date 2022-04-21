@@ -32,7 +32,9 @@ import com.example.vaerklar.ui.screens.MainScreen
 import com.example.vaerklar.ui.screens.SplashScreen
 import com.example.vaerklar.ui.theme.VærklarTheme
 import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationRequest.PRIORITY_HIGH_ACCURACY
 import com.google.android.gms.location.LocationServices
+import com.google.android.gms.tasks.CancellationTokenSource
 import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity(), ActivityCompat.OnRequestPermissionsResultCallback {
@@ -102,7 +104,7 @@ class MainActivity : ComponentActivity(), ActivityCompat.OnRequestPermissionsRes
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION), 0);
         } else {
             fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-            fusedLocationClient.lastLocation
+            fusedLocationClient.getCurrentLocation(PRIORITY_HIGH_ACCURACY, CancellationTokenSource().token)
                 .addOnSuccessListener { location: Location? ->
                     println("device location funnet")
                     if (location != null) {
@@ -125,7 +127,7 @@ class MainActivity : ComponentActivity(), ActivityCompat.OnRequestPermissionsRes
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (grantResults.contains(PackageManager.PERMISSION_GRANTED)) {
             fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-            fusedLocationClient.lastLocation
+            fusedLocationClient.getCurrentLocation(PRIORITY_HIGH_ACCURACY, CancellationTokenSource().token)
                 .addOnSuccessListener { location: Location? ->
                     println("device location funnet")
                     if (location != null) {

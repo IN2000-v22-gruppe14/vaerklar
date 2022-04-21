@@ -84,7 +84,6 @@ fun WeekTile(weatherData: WeatherData?) {
     while (dayDiff != 6) {
         var dayDate = "" // provided date
         val hour = weatherData?.properties?.timeseries?.get(counter)?.time?.substring(11,13) // provided hour of given date
-        println(hour)
 
         // If the found hour is 12:00:00 (which is applicable for all future dates), create a day object.
         if (hour == "12") {

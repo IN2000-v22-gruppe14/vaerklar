@@ -32,7 +32,9 @@ import com.example.vaerklar.ui.screens.MainScreen
 import com.example.vaerklar.ui.screens.SplashScreen
 import com.example.vaerklar.ui.theme.VærklarTheme
 import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationRequest.PRIORITY_HIGH_ACCURACY
 import com.google.android.gms.location.LocationServices
+import com.google.android.gms.tasks.CancellationTokenSource
 import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity(), ActivityCompat.OnRequestPermissionsResultCallback {
@@ -77,7 +79,7 @@ class MainActivity : ComponentActivity(), ActivityCompat.OnRequestPermissionsRes
             weatherData = it
         }
 
-        println("starter rendering")
+        println("ONCREATE (MainActivity): Appen starter rendering.")
         Handler(Looper.getMainLooper()).postDelayed({
             setContent {
                 VærklarTheme {
@@ -102,13 +104,14 @@ class MainActivity : ComponentActivity(), ActivityCompat.OnRequestPermissionsRes
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION), 0);
         } else {
             fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-            fusedLocationClient.lastLocation
+            fusedLocationClient.getCurrentLocation(PRIORITY_HIGH_ACCURACY, CancellationTokenSource().token)
                 .addOnSuccessListener { location: Location? ->
-                    println("device location funnet")
+                    println("ONREQUESTPERMISSIONSRESULT (MainActivity): Enhetens lokasjon er funnet.")
+
                     if (location != null) {
-                        println("device location er ikke null")
-                        println(location.latitude)
-                        println(location.longitude)
+                        println("ONREQUESTPERMISSIONSRESULT (MainActivity): Enhetens lokasjon er ikke null.")
+                        println("Enhetens gitte breddegrad/latitude er " + location.latitude)
+                        println("Enhetens gitte lengdegrad/longitude er " + location.longitude)
                         viewModel.fetchLocationData(location.latitude, location.longitude)
                         viewModel.fetchWeatherData(location.latitude, location.longitude)
                     }
@@ -125,13 +128,14 @@ class MainActivity : ComponentActivity(), ActivityCompat.OnRequestPermissionsRes
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (grantResults.contains(PackageManager.PERMISSION_GRANTED)) {
             fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-            fusedLocationClient.lastLocation
+            fusedLocationClient.getCurrentLocation(PRIORITY_HIGH_ACCURACY, CancellationTokenSource().token)
                 .addOnSuccessListener { location: Location? ->
-                    println("device location funnet")
+                    println("ONREQUESTPERMISSIONSRESULT (MainActivity): Enhetens lokasjon er funnet.")
+
                     if (location != null) {
-                        println("device location er ikke null")
-                        println(location.latitude)
-                        println(location.longitude)
+                        println("ONREQUESTPERMISSIONSRESULT (MainActivity): Enhetens lokasjon er ikke null.")
+                        println("Enhetens gitte breddegrad/latitude er " + location.latitude)
+                        println("Enhetens gitte lengdegrad/longitude er " + location.longitude)
                         viewModel.fetchLocationData(location.latitude, location.longitude)
                         viewModel.fetchWeatherData(location.latitude, location.longitude)
                     }

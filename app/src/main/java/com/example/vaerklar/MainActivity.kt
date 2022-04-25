@@ -46,7 +46,9 @@ class MainActivity : ComponentActivity(), ActivityCompat.OnRequestPermissionsRes
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+
+
+       // setContentView(binding.root)
 
         setContent {
             VærklarTheme {
@@ -141,6 +143,8 @@ class MainActivity : ComponentActivity(), ActivityCompat.OnRequestPermissionsRes
                     }
                 }
         }
+        // HAMBURGER GREIER VVVV
+        //setContentView(R.layout.nav_activity_main)
     }
 
     @Composable

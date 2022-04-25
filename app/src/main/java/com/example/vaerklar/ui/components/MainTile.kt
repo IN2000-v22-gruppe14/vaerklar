@@ -21,7 +21,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.vaerklar.MainActivity
 import com.example.vaerklar.MainActivityViewModel
+import com.example.vaerklar.data.ForecastTimeInstant
 import com.example.vaerklar.data.WeatherData
+import com.example.vaerklar.data.WeatherTranslation
 
 @Composable
 // The primary tile, responsible for displaying weather information beneath the avatar.
@@ -29,12 +31,15 @@ fun MainTile(data: WeatherData?) {
     val min_temp = data?.properties?.timeseries?.get(0)?.data?.next_6_hours?.details?.air_temperature_min
     val max_temp = data?.properties?.timeseries?.get(0)?.data?.next_6_hours?.details?.air_temperature_max
     val avg_temp = (min_temp?.plus(max_temp!!))?.div(2)?.toInt()
-    val prob_parcipation = data?.properties?.timeseries?.get(0)?.data?.next_6_hours?.details?.probability_of_precipitation
-    var downfall = "sol"
-    if (prob_parcipation != null) {
-        if(prob_parcipation >= 50){downfall="nedbør"}
-    }
+    val downfall = data?.properties?.timeseries?.get(0)?.data?.next_6_hours?.details?.precipitation_amount
     val weather = data?.properties?.timeseries?.get(0)?.data?.next_6_hours?.summary?.symbol_code
+    var translatedWeather = weather?.let { WeatherTranslation.getTranslation(it) }
+    if (translatedWeather == null) translatedWeather = "Fant ikke vær"
+
+    //Har begge her fordi jeg er litt usikker på hvilken som skal brukes
+    val wind90 = data?.properties?.timeseries?.get(0)?.data?.instant?.details?.wind_speed_percentile_90
+    val wind10 = data?.properties?.timeseries?.get(0)?.data?.instant?.details?.wind_speed_percentile_10
+    val windText = wind90.toString() + "m/s"
 
     // The base of the card with colors.
     Card(
@@ -57,7 +62,7 @@ fun MainTile(data: WeatherData?) {
 
             // Weather icon.
             Image(
-                painter = painterResource(R.drawable.clear_day),
+                painter = painterResource(iconTranslation.getValue(weather)),
                 "Icon",
                 modifier = Modifier
                     .padding(20.dp)
@@ -67,14 +72,12 @@ fun MainTile(data: WeatherData?) {
             Column() {
 
                 // Weather description.
-                if (weather != null) {
-                    Text (
-                        text = weather,
-                        color = Color.White,
-                        fontFamily = Rubik,
-                        fontWeight = FontWeight.Normal
-                    )
-                }
+                Text (
+                    text = translatedWeather,
+                    color = Color.White,
+                    fontFamily = Rubik,
+                    fontWeight = FontWeight.Normal
+                )
 
                 // Temperature in Celsius.
                 Text (
@@ -95,7 +98,7 @@ fun MainTile(data: WeatherData?) {
 
                 // Precipitation measured in millimeters (mm).
                 Text (
-                    text = downfall,
+                    text = downfall.toString() + "mm",
                     textAlign = TextAlign.Right,
                     color = Color.White,
                     fontFamily = Rubik,
@@ -104,7 +107,7 @@ fun MainTile(data: WeatherData?) {
 
                 // Wind measured in meters per second (m/s).
                 Text (
-                    text = "Wind",
+                    text = windText,
                     textAlign = TextAlign.Right,
                     color = Color.White,
                     fontFamily = Rubik,

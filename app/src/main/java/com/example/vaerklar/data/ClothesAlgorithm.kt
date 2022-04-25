@@ -176,7 +176,7 @@ class ClothesAlgorithm {
         val pieceMap = clothingReg[number]
         for(tempRange:List<Int> in pieceMap.keys){
             if (realTemp != null) {
-                if(realTemp > tempRange.get(0) && realTemp < tempRange.get(1)){
+                if(realTemp >= tempRange.get(0) && realTemp <= tempRange.get(1)){
                     val list = listOf(tempRange.get(0), tempRange.get(1))
                     return pieceMap.getValue(list)
                 }

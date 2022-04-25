@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.vaerklar.MainActivity
 import com.example.vaerklar.MainActivityViewModel
+import com.example.vaerklar.data.ForecastTimeInstant
 import com.example.vaerklar.data.WeatherTranslation
 
 @Preview
@@ -38,6 +39,11 @@ fun MainTile(viewmodel:MainActivityViewModel) {
     val weather = data.value?.properties?.timeseries?.get(0)?.data?.next_6_hours?.summary?.symbol_code
     var translatedWeather = weather?.let { WeatherTranslation.getTranslation(it) }
     if (translatedWeather == null) translatedWeather = "Fant ikke vær"
+
+    //Har begge her fordi jeg er litt usikker på hvilken som skal brukes
+    val wind90 = data.value?.properties?.timeseries?.get(0)?.data?.instant?.details?.wind_speed_percentile_90
+    val wind10 = data.value?.properties?.timeseries?.get(0)?.data?.instant?.details?.wind_speed_percentile_10
+    val windText = wind90.toString() + "m/s"
 
     // The base of the card with colors.
     Card(
@@ -70,14 +76,12 @@ fun MainTile(viewmodel:MainActivityViewModel) {
             Column() {
 
                 // Weather description.
-                if (translatedWeather != null) {
-                    Text (
-                        text = translatedWeather,
-                        color = Color.White,
-                        fontFamily = Rubik,
-                        fontWeight = FontWeight.Normal
-                    )
-                }
+                Text (
+                    text = translatedWeather,
+                    color = Color.White,
+                    fontFamily = Rubik,
+                    fontWeight = FontWeight.Normal
+                )
 
                 // Temperature in Celsius.
                 Text (
@@ -107,7 +111,7 @@ fun MainTile(viewmodel:MainActivityViewModel) {
 
                 // Wind measured in meters per second (m/s).
                 Text (
-                    text = "Wind",
+                    text = windText,
                     textAlign = TextAlign.Right,
                     color = Color.White,
                     fontFamily = Rubik,

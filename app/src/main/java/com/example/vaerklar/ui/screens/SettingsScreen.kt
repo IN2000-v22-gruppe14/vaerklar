@@ -54,7 +54,7 @@ fun clearData() {
     TODO("Clears all saved data the app has on you")
 }
 
-fun termsAndService() {
+fun termsOfService() {
     TODO("Shows a page with terms of Service")
 }
 

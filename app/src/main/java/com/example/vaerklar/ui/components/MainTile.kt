@@ -31,15 +31,15 @@ fun MainTile(data: WeatherData?) {
     val min_temp = data?.properties?.timeseries?.get(0)?.data?.next_6_hours?.details?.air_temperature_min
     val max_temp = data?.properties?.timeseries?.get(0)?.data?.next_6_hours?.details?.air_temperature_max
     val avg_temp = (min_temp?.plus(max_temp!!))?.div(2)?.toInt()
-    val downfall = data?.properties?.timeseries?.get(0)?.data?.next_6_hours?.details?.precipitation_amount
-    val weather = data?.properties?.timeseries?.get(0)?.data?.next_6_hours?.summary?.symbol_code
-    var translatedWeather = weather?.let { WeatherTranslation.getTranslation(it) }
-    if (translatedWeather == null) translatedWeather = "Fant ikke vær"
 
-    //Har begge her fordi jeg er litt usikker på hvilken som skal brukes
+    val precipitation = data?.properties?.timeseries?.get(0)?.data?.next_6_hours?.details?.precipitation_amount
+    val weather = data?.properties?.timeseries?.get(0)?.data?.next_6_hours?.summary?.symbol_code
+
+    var translatedWeather = weather?.let { WeatherTranslation.getTranslation(it) }
+    if (translatedWeather == null) translatedWeather = "(...)"
+
     val wind90 = data?.properties?.timeseries?.get(0)?.data?.instant?.details?.wind_speed_percentile_90
     val wind10 = data?.properties?.timeseries?.get(0)?.data?.instant?.details?.wind_speed_percentile_10
-    val windText = wind90.toString() + "m/s"
 
     // The base of the card with colors.
     Card(
@@ -69,7 +69,9 @@ fun MainTile(data: WeatherData?) {
             )
 
             // Column element for placing text on top of each other.
-            Column() {
+            Column(
+                modifier = Modifier.width(100.dp)
+            ) {
 
                 // Weather description.
                 Text (
@@ -81,7 +83,7 @@ fun MainTile(data: WeatherData?) {
 
                 // Temperature in Celsius.
                 Text (
-                    text = avg_temp.toString(),
+                    text = avg_temp.toString() + "°",
                     color = Color.White,
                     fontFamily = Rubik,
                     fontSize = 25.sp,
@@ -96,25 +98,46 @@ fun MainTile(data: WeatherData?) {
                 modifier = Modifier.padding(20.dp)
             ) {
 
-                // Precipitation measured in millimeters (mm).
-                Text (
-                    text = downfall.toString() + "mm",
-                    textAlign = TextAlign.Right,
-                    color = Color.White,
-                    fontFamily = Rubik,
-                    fontSize = 15.sp,
-                )
+                Row() {
+                    // Precipitation measured in millimeters (mm).
+                    Text(
+                        text = precipitation.toString(),
+                        textAlign = TextAlign.Right,
+                        color = Color.White,
+                        fontFamily = Rubik,
+                        fontSize = 15.sp,
+                        fontWeight = FontWeight.Bold
+                    )
 
-                // Wind measured in meters per second (m/s).
-                Text (
-                    text = windText,
-                    textAlign = TextAlign.Right,
-                    color = Color.White,
-                    fontFamily = Rubik,
-                    fontSize = 15.sp,
-                )
+                    Text(
+                        text = "mm",
+                        textAlign = TextAlign.Right,
+                        color = Color.White,
+                        fontFamily = Rubik,
+                        fontSize = 15.sp,
+                    )
+                }
+
+                Row() {
+                    // Wind measured in meters per second (m/s).
+                    Text(
+                        text = wind90.toString(),
+                        textAlign = TextAlign.Right,
+                        color = Color.White,
+                        fontFamily = Rubik,
+                        fontSize = 15.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+
+                    Text(
+                        text = "m/s",
+                        textAlign = TextAlign.Right,
+                        color = Color.White,
+                        fontFamily = Rubik,
+                        fontSize = 15.sp,
+                    )
+                }
             }
         }
     }
-
 }

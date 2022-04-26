@@ -1,9 +1,6 @@
 package com.example.vaerklar.ui.components
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.*
@@ -15,7 +12,10 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.vaerklar.ui.theme.DayTile1
+import com.example.vaerklar.ui.theme.DayTile2
+import com.example.vaerklar.ui.theme.Rubik
 import kotlin.math.roundToInt
 
 @Preview
@@ -27,37 +27,52 @@ fun SettingsTile() {
         modifier = Modifier
             .fillMaxSize(),
         backgroundColor = DayTile1,
-        shape = RoundedCornerShape(15.dp)
     ) {
+
         //put all settings in a column to sort them downwards
         Column(
             //horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(5.dp)
+            verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-            //Row for button to toggle theme
-            Row(
-              verticalAlignment = Alignment.CenterVertically,
-              horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                val themeState = remember {
-                    mutableStateOf(false)
-                }
 
-                Switch (checked = themeState.value,
-                    onCheckedChange = {
-                        themeState.value = it
-                        toggleTheme(it)
-                                      },
-                    colors = SwitchDefaults.colors(Color.Green)
-                )
-                Text (
-                    text = "Darkmode",
-                    textAlign = TextAlign.Start,
-                    color = Color.Black
-                )
+            // Card containing information.
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(5.dp),
+                backgroundColor = DayTile2,
+                elevation = 0.dp
+            ) {
+
+                //Row for button to toggle theme
+                Row(
+                    modifier = Modifier
+                        .absolutePadding(20.dp, 10.dp, 20.dp, 0.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                ) {
+
+                    val themeState = remember { mutableStateOf(false) }
+
+                    Text(
+                        text = "Mørkemodus",
+                        color = Color.White,
+                        fontSize = 15.sp,
+                        fontFamily = Rubik,
+                    )
+
+                    Switch(
+                        checked = themeState.value,
+                        onCheckedChange = { themeState.value = it; toggleTheme(it) },
+                        colors = SwitchDefaults.colors(Color.Green)
+                    )
+                }
             }
+
             //Row for button to toggle notifications
             Row(
+                modifier = Modifier
+                    .absolutePadding(20.dp, 0.dp, 20.dp, 0.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
@@ -65,21 +80,25 @@ fun SettingsTile() {
                     mutableStateOf(false)
                 }
 
-                Switch (checked = notifyState.value,
-                    onCheckedChange = {
-                        notifyState.value = it
-                        notifications(it)
-                                      },
+                Text (
+                    text = "Varsler",
+                    textAlign = TextAlign.Start,
+                    color = Color.White,
+                    fontSize = 25.sp,
+                    fontFamily = Rubik,
+                )
+
+                Switch (
+                    checked = notifyState.value,
+                    onCheckedChange = {notifyState.value = it; notifications(it)},
                     colors = SwitchDefaults.colors(Color.Green)
                 )
-                Text (
-                    text = "Notifications",
-                    textAlign = TextAlign.Start,
-                    color = Color.Black
-                )
             }
+
             //Row for button to toggle performance mode
             Row(
+                modifier = Modifier
+                    .absolutePadding(20.dp, 0.dp, 20.dp, 0.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
@@ -87,24 +106,27 @@ fun SettingsTile() {
                     mutableStateOf(false)
                 }
 
-                Switch (checked = performanceState.value,
-                    onCheckedChange = {
-                        performanceState.value = it
-                        performanceMode(it)
-                    },
+                Text (
+                    text = "Ytelsesmodus",
+                    textAlign = TextAlign.Start,
+                    color = Color.White,
+                    fontSize = 25.sp,
+                    fontFamily = Rubik,
+                )
+
+                Switch (
+                    checked = performanceState.value,
+                    onCheckedChange = {performanceState.value = it; performanceMode(it)},
                     colors = SwitchDefaults.colors(Color.Green)
                 )
-                Text (
-                    text = "Performance mode",
-                    textAlign = TextAlign.Start,
-                    color = Color.Black
-                )
             }
-            //Collumn to make adjustments to the warmth of person
+
+            //Column to make adjustments to the warmth of person
             Column(
                 horizontalAlignment = Alignment.End,
                 verticalArrangement = Arrangement.spacedBy(5.dp)
             ) {
+
                 var sliderPosition by remember { mutableStateOf(0.5F)}
                 //Shows value in int
                 Text(
@@ -112,6 +134,7 @@ fun SettingsTile() {
                     textAlign = TextAlign.Center,
                     color = Color.Black
                 )
+
                 //Slider to adjust hotness
                 Slider(
                     value = sliderPosition,
@@ -120,32 +143,38 @@ fun SettingsTile() {
                         adjustWarmth(it)
                     }
                 )
+
                 Text (
                     text = "Adjust hotness",
                     textAlign = TextAlign.Center,
                     color = Color.Black
                 )
             }
+
             //Row to clear data
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween,
             ) {
+
                 Button(
                     onClick = { clearData() },
                     shape = RoundedCornerShape(10.dp)
-                )
-                { Text (
-                    text = "clear",
-                    textAlign = TextAlign.Center,
-                    color = Color.Black)
+                ) {
+
+                    Text (
+                        text = "clear",
+                        textAlign = TextAlign.Center,
+                        color = Color.Black)
                 }
+
                 Text(
                     text = "Clear Data from device",
                     textAlign = TextAlign.Center,
                     color = Color.Black
                 )
             }
+
             //Button to watch the terms and Service
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -154,24 +183,28 @@ fun SettingsTile() {
                 Button(
                     onClick = { termsAndService() },
                     shape = RoundedCornerShape(10.dp)
-                ){}
+                ) {}
+
                 Text(
                     text = "Terms and Service",
                     textAlign = TextAlign.Center,
                     color = Color.Black
                 )
             }
+
             //Button to invite people to download the app
             Button(
                 onClick = { invite() },
                 shape = RoundedCornerShape(10.dp)
-            ){
+            ) {
+
                 Text(
                     text = "INVITE FRIENDS",
                     color = Color.Red,
                     textAlign = TextAlign.Center,
-                    )
+                )
             }
+
             //Button for help and support
             ClickableText(
                 text = AnnotatedString("Help and Support"),

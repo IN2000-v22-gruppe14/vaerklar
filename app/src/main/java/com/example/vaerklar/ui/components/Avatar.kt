@@ -58,7 +58,7 @@ fun Avatar(data: WeatherData?, locationName: String) {
        "gummistøvler" to R.drawable.stovel,
        "ullgenser2" to R.drawable.ull2,
        "vindjakke" to R.drawable.vind,
-       "vott" to R.drawable.vott,
+       "votter & skjerf" to R.drawable.skjerf_og_vott,
        "happy" to R.drawable.glad,
        "paraply" to R.drawable.paraply,
        "shorts" to R.drawable.shorts,
@@ -243,7 +243,7 @@ fun Avatar(data: WeatherData?, locationName: String) {
                     .width(sizeDP)
                     .align(Alignment.Center)
             )
-            val scarf : List<String> = listOf("skjerf","gummist_ler")
+            val scarf : List<String> = listOf("votter & skjerf","gummistøvler")
             for (ord in scarf){
                 if (ord in clothingString){
                     converterClothing.get(ord)?.let { painterResource(it) }?.let {

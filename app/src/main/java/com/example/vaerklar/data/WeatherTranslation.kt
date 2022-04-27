@@ -1,0 +1,98 @@
+package com.example.vaerklar.data
+
+/***
+ *Oversettelse av de forskjellige vær man kan hente ut av APIet vi har brukt for å hente ut vær.
+ * Oversikt over de forskjellige typene vær kan man finne her:
+ * https://in2000-apiproxy.ifi.uio.no/weatherapi/weathericon/2.0/documentation
+ ***/
+
+class WeatherTranslation {
+    companion object Translation {
+        var WeatherMap: HashMap<String, String> = hashMapOf(
+            "clearsky_day" to "Skyfritt",
+            "clearsky_night" to "Skyfritt",
+            "clearsky_dusk" to "Skyfritt",
+            "cloudy" to "Overskyet",
+            "fair" to "Lett skyet",
+            "fair_day" to "Lett skyet",
+            "fair_night" to "Lett skyet",
+            "fair_dusk" to "Lett skyet",
+            "fog" to "Tåkete",
+            "heavyrain" to "Regn",
+            "heavyrainandthunder" to "Storm med lyn",
+            "heavyrainshowers_day" to "Tidvis regn",
+            "heavyrainshowers_night" to "Tidvis regn",
+            "heavyrainshowers_dusk" to "Tidvis regn",
+            "heavyrainshowersandthunder_day" to "Tidvis strøm og lyn",
+            "heavyrainshowersandthunder_night" to "Tidvis strøm og lyn",
+            "heavyrainshowersandthunder_dusk" to "Tidvis strøm og lyn",
+            "heavysleet" to "sludd",
+            "heavysleetandthunder" to "Sludd og lyn",
+            "heavysleetshowers_day" to "Tidvis sludd",
+            "heavysleetshowers_night" to "Tidvis sludd",
+            "heavysleetshowers_dusk" to "Tidvis sludd",
+            "heavysleetshowersandthunder_day" to "Tidvis sludd og lyn",
+            "heavysleetshowersandthunder_night" to "Tidvis sludd og lyn",
+            "heavysleetshowersandthunder_dusk" to "Tidvis sludd og lyn",
+            "heavysnow" to "Snø",
+            "heavysnowandthunder" to "Snø og lyn",
+            "heavysnowshowers_day" to "Tidvis mye snø",
+            "heavysnowshowers_night" to "Tidvis mye snø",
+            "heavysnowshowers_dusk" to "Tidvis mye snø",
+            "lightrain" to "Lett nedbør",
+            "lightrainandthunder" to "Lett regn og lyn",
+            "lightrainshowers_day" to "Tidvis lett regn",
+            "lightrainshowers_night" to "Tidvis lett regn",
+            "lightrainshowers_dusk" to "Tidvis lett regn",
+            "lightrainshowersandthunder_day" to "Tidvis lett regn og lyn",
+            "lightrainshowersandthunder_night" to "Tidvis lett regn og lyn",
+            "lightrainshowersandthunder_dusk" to "Tidvis lett regn og lyn",
+            "lightsleet" to "Lett sludd",
+            "lightsleetandthunder" to "Lett sludd og lyn",
+            "lightsleetshowers_day" to "Tidvis lett sludd",
+            "lightsleetshowers_night" to "Tidvis lett sludd",
+            "lightsleetshowers_dusk" to "Tidvis lett sludd",
+            "lightsnow" to "Lett snø",
+            "lightsnowandthunder" to "Lett snø og lyn",
+            "lightsnowshowers_day" to "Tidvis lett snø",
+            "lightsnowshowers_night" to "Tidvis lett snø",
+            "lightsnowshowers_dusk" to "Tidvis lett snø",
+            "lightssleetshowersandthunder_day" to "Tidvis lett sludd og lyn",
+            "lightssleetshowersandthunder_night" to "Tidvis lett sludd og lyn",
+            "lightssleetshowersandthunder_dusk" to "Tidvis lett sludd og lyn",
+            "lightssnowshowersandthunder_day" to "Tidvis lett snø og lyn",
+            "lightssnowshowersandthunder_night" to "Tidvis lett snø og lyn",
+            "lightssnowshowersandthunder_dusk" to "Tidvis lett snø og lyn",
+            "partlycloudy_day" to "Lettere overskyet",
+            "partlycloudy_night" to "Lettere overskyet",
+            "partlycloudy_dusk" to "Lettere overskyet",
+            "rain" to "Regn",
+            "rainandthunder" to "Regn og lyn",
+            "rainshowers_day" to "Tidvis regn",
+            "rainshowers_night" to "Tidvis regn",
+            "rainshowers_dusk" to "Tidvis regn",
+            "rainshowersandthunder_day" to "Tidvis regn og lyn",
+            "rainshowersandthunder_night" to "Tidvis regn og lyn",
+            "rainshowersandthunder_dusk" to "Tidvis regn og lyn",
+            "sleet" to "Sludd",
+            "sleetandthunder" to "Sludd og lyn",
+            "sleetshowers_day" to "Tidvis sludd",
+            "sleetshowers_night" to "Tidvis sludd",
+            "sleetshowers_dusk" to "Tidvis sludd",
+            "sleetshowersandthunder_day" to "Tidvis sludd og lyn",
+            "sleetshowersandthunder_night" to "Tidvis sludd og lyn",
+            "sleetshowersandthunder_dusk" to "Tidvis sludd og lyn",
+            "snow" to "Snø",
+            "snowandthunder" to "Snø og lyn",
+            "snowshowers_day" to "Tidvis snø",
+            "snowshowers_night" to "Tidvis snø",
+            "snowshowers_dusk" to "Tidvis snø",
+            "snowshowersandthunder_day" to "Tidvis snø og lyn",
+            "snowshowersandthunder_night" to "Tidvis snø og lyn",
+            "snowshowersandthunder_dusk" to "Tidvis snø og lyn"
+        )
+        fun getTranslation(weather:String) : String? {
+            return WeatherMap[weather]
+        }
+    }
+}

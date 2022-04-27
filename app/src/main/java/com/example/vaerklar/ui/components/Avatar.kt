@@ -209,9 +209,11 @@ fun Avatar(data: WeatherData?, locationName: String) {
                     50.dp
                 ).background(Color.Transparent)
             )
-            val top : List<String> = listOf("bobblejakke", "vinterjakke", "frakk", "tskjorte", "langermet", "ullgenser","kjole","genser"  )
+            val top : List<String> = listOf("bobblejakke","regnjakke", "vinterjakke", "frakk", "tskjorte", "langermet", "ullgenser","kjole","genser"  )
+            var plagg = 0
             for (ord in top){
-                if (ord in clothingString){
+                if (ord in clothingString && plagg == 0){
+                    plagg = plagg + 1
                     converterClothing.get(ord)?.let { painterResource(it) }?.let {
                         Image(
                             painter = it,
@@ -243,8 +245,8 @@ fun Avatar(data: WeatherData?, locationName: String) {
                     .width(sizeDP)
                     .align(Alignment.Center)
             )
-            val scarf : List<String> = listOf("votter & skjerf","gummistøvler")
-            for (ord in scarf){
+            val gummi : List<String> = listOf("gummistøvler")
+            for (ord in gummi){
                 if (ord in clothingString){
                     converterClothing.get(ord)?.let { painterResource(it) }?.let {
                         Image(
@@ -283,7 +285,7 @@ fun Avatar(data: WeatherData?, locationName: String) {
                         50.dp
                     ).background(Color.Transparent)
                     )
-            val handThing : List<String> = listOf("flagg","gummist_ler","ol")
+            val handThing : List<String> = listOf("flagg","gummist_ler","ol","paraply")
             for (ord in handThing){
                 if (ord in clothingString){
                     converterClothing.get(ord)?.let { painterResource(it) }?.let {
@@ -312,9 +314,10 @@ fun Avatar(data: WeatherData?, locationName: String) {
                     50.dp
                 ).background(Color.Transparent)
             )
-
+            var plagg2 = 0
             for (ord in top){
-                if (ord in clothingString){
+                if (ord in clothingString && plagg2 == 0){
+                    plagg2 = plagg2 + 1
                     converterClothing.get(ord+"2")?.let { painterResource(it) }?.let {
                         Image(
                             painter = it,
@@ -333,7 +336,7 @@ fun Avatar(data: WeatherData?, locationName: String) {
                 ).background(Color.Transparent)
             )
 
-            val mitten : List<String> = listOf("vott")
+            val mitten : List<String> = listOf("votter & skjerf")
 
             for (ord in mitten){
                 if (ord in clothingString){

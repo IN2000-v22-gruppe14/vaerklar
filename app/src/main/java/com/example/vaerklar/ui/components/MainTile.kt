@@ -31,19 +31,14 @@ import com.example.vaerklar.data.WeatherTranslation
 fun MainTile(data: WeatherData?) {
     //kaller på funksjonen for å sette timeseriesindex så vi kan bruke den her også
     setTimeSeriesIndex(data)
-    val min_temp = data?.properties?.timeseries?.get(timeSeriesIndex)?.data?.next_6_hours?.details?.air_temperature_min
-    val max_temp = data?.properties?.timeseries?.get(timeSeriesIndex)?.data?.next_6_hours?.details?.air_temperature_max
-    val avg_temp = (min_temp?.plus(max_temp!!))?.div(2)?.toInt()
-    val downfall = data?.properties?.timeseries?.get(timeSeriesIndex)?.data?.next_6_hours?.details?.precipitation_amount
-    val weather = data?.properties?.timeseries?.get(timeSeriesIndex)?.data?.next_6_hours?.summary?.symbol_code
+    var airTemp = data?.properties?.timeseries?.get(timeSeriesIndex)?.data?.instant?.details?.air_temperature?.toInt()
+    val downfall = data?.properties?.timeseries?.get(timeSeriesIndex)?.data?.next_1_hours?.details?.precipitation_amount
+    val weather = data?.properties?.timeseries?.get(timeSeriesIndex)?.data?.next_1_hours?.summary?.symbol_code
     var translatedWeather = weather?.let { WeatherTranslation.getTranslation(it) }
     if (translatedWeather == null) translatedWeather = "Fant ikke vær"
 
 
-    //Har begge her fordi jeg er litt usikker på hvilken som skal brukes
-    val wind90 = data?.properties?.timeseries?.get(timeSeriesIndex)?.data?.instant?.details?.wind_speed_percentile_90
-    val wind10 = data?.properties?.timeseries?.get(timeSeriesIndex)?.data?.instant?.details?.wind_speed_percentile_10
-    //endre til dette?
+    //vinddata
     val windAvgRn = data?.properties?.timeseries?.get(timeSeriesIndex)?.data?.instant?.details?.wind_speed
     val windText = windAvgRn.toString() + "m/s"
 
@@ -87,7 +82,7 @@ fun MainTile(data: WeatherData?) {
 
                 // Temperature in Celsius.
                 Text (
-                    text = avg_temp.toString(),
+                    text = airTemp.toString(),
                     color = Color.White,
                     fontFamily = Rubik,
                     fontSize = 25.sp,

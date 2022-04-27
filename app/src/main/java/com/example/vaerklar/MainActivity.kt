@@ -12,13 +12,18 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
+import androidx.compose.material.SnackbarDefaults.backgroundColor
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -30,11 +35,13 @@ import com.example.vaerklar.data.WeatherData
 import com.example.vaerklar.databinding.ActivityMainBinding
 import com.example.vaerklar.ui.screens.MainScreen
 import com.example.vaerklar.ui.screens.SplashScreen
+import com.example.vaerklar.ui.theme.Rubik
 import com.example.vaerklar.ui.theme.VærklarTheme
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationRequest.PRIORITY_HIGH_ACCURACY
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.tasks.CancellationTokenSource
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity(), ActivityCompat.OnRequestPermissionsResultCallback {
@@ -55,8 +62,6 @@ class MainActivity : ComponentActivity(), ActivityCompat.OnRequestPermissionsRes
                 // The scaffold is responsible for revealing the drawer.
 
                 Scaffold {
-                    val state = rememberScaffoldState()
-
                     // Column responsible for the vertical stacking of all elements on the page.
                     Column() {
                         Box {
@@ -86,15 +91,59 @@ class MainActivity : ComponentActivity(), ActivityCompat.OnRequestPermissionsRes
             setContent {
                 VærklarTheme {
                     // The scaffold is responsible for revealing the drawer.
+                    val scaffoldState = rememberScaffoldState()
+                    val scope = rememberCoroutineScope()
+                    Scaffold (
+                        scaffoldState = scaffoldState,
+                        drawerBackgroundColor = Color(222, 254, 255),
+                        drawerContent = {
+                            IconButton(
+                                onClick = {
+                                }
+                            ){
+                                Text("     Hjem",
+                                    modifier = Modifier.padding(20.dp),
+                                    color = Color(29, 58, 59),
+                                    fontFamily = Rubik
+                                )
+                                Icon(
+                                    imageVector = Icons.Default.Home,
+                                    contentDescription = "Hjem",
+                                    modifier = Modifier.padding(end = 48.dp),
+                                    tint = Color(29, 58, 59)
+                                )
+                            }
 
-                    Scaffold {
+                            Divider()
+                            IconButton(
+                                onClick = {
+                                }
+                            ){
+                                Text("     Innstillinger",
+                                    modifier = Modifier.padding(20.dp),
+                                    color = Color(29, 58, 59),
+                                    fontFamily = Rubik
+                                )
+                                Icon(
+                                    imageVector = Icons.Default.Settings,
+                                    contentDescription = "Innstillinger",
+                                    modifier = Modifier.padding(end = 94.dp),
+                                    tint = Color(29, 58, 59)
+                                )
+                            }
+
+                            Divider()
+                            // Drawer items
+                        }
+                        )
+                        {
                         val state = rememberScaffoldState()
 
                         // Column responsible for the vertical stacking of all elements on the page.
                         Column() {
                             Box() {
                                 MainScreen(weatherData, locationName)
-                                NavigationBar(state)
+                                NavigationBar(scaffoldState,scope )
                             }
                         }
                     }
@@ -120,6 +169,8 @@ class MainActivity : ComponentActivity(), ActivityCompat.OnRequestPermissionsRes
                 }
         }
     }
+
+
 
     @SuppressLint("MissingPermission")
     override fun onRequestPermissionsResult(
@@ -149,8 +200,8 @@ class MainActivity : ComponentActivity(), ActivityCompat.OnRequestPermissionsRes
 
     @Composable
     // Navigation bar. Since it must be available on all screens, it is present in the MainActivity.
-    fun NavigationBar(state: ScaffoldState) {
-        val scope = rememberCoroutineScope()
+    fun NavigationBar(state: ScaffoldState, scope : CoroutineScope) {
+        //scope = rememberCoroutineScope()
 
         TopAppBar(
             title = {
@@ -166,9 +217,12 @@ class MainActivity : ComponentActivity(), ActivityCompat.OnRequestPermissionsRes
                 IconButton(
                     onClick = {
                         scope.launch {
-                            state.drawerState.open()
+                            state.drawerState.apply {
+                                if (isClosed) open() else close()
+                            }
                         }
-                    }) {
+                    }
+                    ) {
 
                     Icon(
                         Icons.Default.Menu,
@@ -201,10 +255,5 @@ class MainActivity : ComponentActivity(), ActivityCompat.OnRequestPermissionsRes
         // TODO: Add functional onClick modifiers.
     }
 
-    // The drawer, including application settings and further navigation to other pages.
-    @Composable
-    fun Drawer(state: ScaffoldState) {
-        val scope = rememberCoroutineScope()
-        // TODO: Create a drawer.
-    }
+
 }

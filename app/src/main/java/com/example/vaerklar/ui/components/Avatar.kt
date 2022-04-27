@@ -13,7 +13,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.vaerklar.data.LocationData
 import com.example.vaerklar.ui.theme.Rubik
 import com.example.vaerklar.R
 import com.example.vaerklar.data.ClothesAlgorithm
@@ -38,35 +37,37 @@ fun Avatar(data: WeatherData?, locationName: String) {
         "sandaler2" to R.drawable.sko2,
         "regnbukse" to R.drawable.regnbukse,
         "" to R.drawable.chinos,
-       "flagg" to R.drawable.flagg,
-       "vinterjakke" to R.drawable.frakk,
-       "vinterjakke2" to R.drawable.frakk2,
-       "gummistøvler" to R.drawable.gummist_ler,
-       "joggebukse" to R.drawable.jogge,
-       "kjole" to R.drawable.kjole,
-       "langermet2" to R.drawable.langermet2,
-       "langermet" to R.drawable.langermet,
-       "øl" to R.drawable.ol,
-       "pannebånd" to R.drawable.panne,
-       "regnjakke" to R.drawable.regn,
-       "regnjakke2" to R.drawable.regn2,
-       "skjort" to R.drawable.skjort,
-       "sløyfe" to R.drawable.sl_yfe,
-       "solbriller" to R.drawable.solbriller,
-       "solhatt" to R.drawable.solhatt,
-       "tskjorte" to R.drawable.tskjorte,
-       "gummistøvler" to R.drawable.stovel,
-       "ullgenser2" to R.drawable.ull2,
-       "vindjakke" to R.drawable.vind,
-       "votter & skjerf" to R.drawable.skjerf_og_vott,
-       "happy" to R.drawable.glad,
-       "paraply" to R.drawable.paraply,
-       "shorts" to R.drawable.shorts,
-       "exited" to R.drawable.spenstig,
-       "sleepy" to R.drawable.trott,
-       "ullgenser" to R.drawable.ull,
-       "vindjakke2" to R.drawable.vind2,
-       "vintersko" to R.drawable.vintersko,
+        "flagg" to R.drawable.flagg,
+        "vinterjakke" to R.drawable.frakk,
+        "vinterjakke2" to R.drawable.frakk,
+        "gummistøvler" to R.drawable.gummist_ler,
+        "joggebukse" to R.drawable.jogge,
+        "kjole" to R.drawable.kjole,
+        "langermet2" to R.drawable.langermet2,
+        "langermet" to R.drawable.langermet,
+        "øl" to R.drawable.ol,
+        "pannebånd" to R.drawable.panne,
+        "regnjakke" to R.drawable.regn,
+        "regnjakke2" to R.drawable.regn2,
+        "skjort" to R.drawable.skjort,
+        "sløyfe" to R.drawable.sl_yfe,
+        "solbriller" to R.drawable.solbriller,
+        "solhatt" to R.drawable.solhatt,
+        "tskjorte" to R.drawable.tskjorte,
+        "gummistøvler" to R.drawable.stovel,
+        "ullgenser2" to R.drawable.ull2,
+        "vindjakke" to R.drawable.vind,
+        "votter & skjerf" to R.drawable.skjerf_og_vott,
+        "happy" to R.drawable.glad,
+        "paraply" to R.drawable.paraply,
+        "shorts" to R.drawable.shorts,
+        "exited" to R.drawable.spenstig,
+        "sleepy" to R.drawable.trott,
+        "ullgenser" to R.drawable.ull,
+        "vindjakke2" to R.drawable.vind2,
+        "vintersko" to R.drawable.vintersko,
+        "vinterjakke" to R.drawable.frakk,
+        "vinterjakke2" to R.drawable.frakk2,
 
         //BRUH
         null to R.drawable.solhatt
@@ -209,7 +210,7 @@ fun Avatar(data: WeatherData?, locationName: String) {
                     50.dp
                 ).background(Color.Transparent)
             )
-            val top : List<String> = listOf("bobblejakke","regnjakke", "vinterjakke", "frakk", "tskjorte", "langermet", "ullgenser","kjole","genser"  )
+            val top : List<String> = listOf("bobblejakke","regnjakke","vinterjakke", "frakk", "tskjorte", "langermet", "ullgenser","kjole","genser"  )
             var plagg = 0
             for (ord in top){
                 if (ord in clothingString && plagg == 0){
@@ -245,7 +246,7 @@ fun Avatar(data: WeatherData?, locationName: String) {
                     .width(sizeDP)
                     .align(Alignment.Center)
             )
-            val gummi : List<String> = listOf("gummistøvler")
+            val gummi : List<String> = listOf("gummistøvler", "vintersko")
             for (ord in gummi){
                 if (ord in clothingString){
                     converterClothing.get(ord)?.let { painterResource(it) }?.let {

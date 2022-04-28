@@ -17,13 +17,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.vaerklar.data.WeatherData
-import com.example.vaerklar.ui.theme.DayTile1
-import com.example.vaerklar.ui.theme.DayTile2
+import com.example.vaerklar.data.*
+import com.example.vaerklar.ui.screens.altColor
+import com.example.vaerklar.ui.screens.baseColor
+import com.example.vaerklar.ui.screens.determineBase
+import com.example.vaerklar.ui.theme.DayTile
 import com.example.vaerklar.ui.theme.Rubik
-import java.text.SimpleDateFormat
 import java.time.LocalDate
-import java.time.LocalDateTime
 import java.time.Period
 
 private var globalTileCounter = 0
@@ -80,6 +80,9 @@ fun WeekTile(weatherData: WeatherData?) {
     // Find the index for the current provided hour.
     setTimeSeriesIndex(weatherData)
 
+    // Determine the base color based on time.
+    determineBase(weatherData)
+
     // While-loop responsible for finding weather information for the next six days. Runs as long as the difference in days from now to then is less than 7 days.
     while (dayDiff != 6) {
         var dayDate = "" // provided date
@@ -110,7 +113,7 @@ fun WeekTile(weatherData: WeatherData?) {
         modifier = Modifier
             .height(175.dp)
             .padding(10.dp),
-        backgroundColor = DayTile1,
+        backgroundColor = DayTile,
         shape = RoundedCornerShape(15.dp),
         elevation = 0.dp
     ) {
@@ -127,13 +130,13 @@ fun WeekTile(weatherData: WeatherData?) {
                 itemContent = {
                     when {
                         globalTileCounter == 1 -> {
-                            WeekTileItem(day = it, DayTile1)
+                            WeekTileItem(day = it, baseColor)
                         }
                         globalTileCounter % 2 == 0 -> {
-                            WeekTileItem(day = it, DayTile2)
+                            WeekTileItem(day = it, altColor)
                         }
                         else -> {
-                            WeekTileItem(day = it, DayTile1)
+                            WeekTileItem(day = it, baseColor)
                         }
                     }
 
@@ -151,15 +154,4 @@ class Day (
     val windSpeed: Double?,
     val precipitation: Double?,
     val icon: String?
-)
-
-// Translates the provided day to Norwegian.
-var dayTranslation = hashMapOf<String?, String> (
-    "MO" to "MA",
-    "TU" to "TI",
-    "WE" to "ON",
-    "TH" to "TO",
-    "FR" to "FR",
-    "SA" to "LØ",
-    "SU" to "SØ"
 )

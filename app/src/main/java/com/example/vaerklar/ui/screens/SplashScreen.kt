@@ -21,7 +21,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.vaerklar.R
-import com.example.vaerklar.ui.theme.DayTile1
+import com.example.vaerklar.ui.theme.DayTile
 import kotlinx.coroutines.delay
 
 @Preview
@@ -29,7 +29,7 @@ import kotlinx.coroutines.delay
 fun SplashScreen() {
     Box(
         modifier = Modifier
-            .background(color = DayTile1)
+            .background(color = DayTile)
             .fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {

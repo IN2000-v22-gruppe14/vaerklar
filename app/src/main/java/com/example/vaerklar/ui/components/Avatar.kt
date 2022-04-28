@@ -24,7 +24,7 @@ import com.example.vaerklar.data.WeatherData
 fun Avatar(data: WeatherData?, locationName: String) {
 
     val converterClothing = hashMapOf<String?, Int>(
-        // CLEAR
+        // CLOTHES
         "bukse" to R.drawable.bukse,
         "lue" to R.drawable.hatt,
         "genser" to R.drawable.genser,
@@ -66,8 +66,6 @@ fun Avatar(data: WeatherData?, locationName: String) {
         "ullgenser" to R.drawable.ull,
         "vindjakke2" to R.drawable.vind2,
         "vintersko" to R.drawable.vintersko,
-        "vinterjakke" to R.drawable.frakk,
-        "vinterjakke2" to R.drawable.frakk2,
 
         //BRUH
         null to R.drawable.solhatt
@@ -97,6 +95,7 @@ fun Avatar(data: WeatherData?, locationName: String) {
                 .absolutePadding(5.dp, 45.dp, 0.dp, 0.dp)
             // TODO: Place into row alongside pin icon with onClick. 
         )
+
         // Location within city.
         Text(
             text = "Location",
@@ -106,12 +105,19 @@ fun Avatar(data: WeatherData?, locationName: String) {
             fontSize = 25.sp,
         )
 
-        Box(Modifier.fillMaxSize()) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+        ) {
+
             Box(
-                Modifier.align(Alignment.TopCenter).fillMaxHeight().width(
-                    50.dp
-                ).background(Color.Transparent)
+                modifier = Modifier
+                    .align(Alignment.TopCenter)
+                    .fillMaxHeight()
+                    .width(50.dp)
+                    .background(Color.Transparent)
             )
+
             val sole : List<String> = listOf("sko")
             for (ord in sole){
                 if (ord in clothingString){
@@ -126,6 +132,7 @@ fun Avatar(data: WeatherData?, locationName: String) {
                     }
                 }
             }
+
             // kunn skobunn
             Image(
                 painter = painterResource(R.drawable.kropp),
@@ -134,6 +141,7 @@ fun Avatar(data: WeatherData?, locationName: String) {
                     .width(sizeDP)
                     .align(Alignment.Center)
             )
+
             val shoes : List<String> = listOf("sko", "sneakers")
             for (ord in shoes){
                 if (ord in clothingString){
@@ -150,10 +158,13 @@ fun Avatar(data: WeatherData?, locationName: String) {
             }
 
             Box(
-                Modifier.align(Alignment.TopCenter).fillMaxHeight().width(
-                    50.dp
-                ).background(Color.Transparent)
+                modifier = Modifier
+                    .align(Alignment.TopCenter)
+                    .fillMaxHeight()
+                    .width(50.dp)
+                    .background(Color.Transparent)
             )
+
             val pants : List<String> = listOf("bukse","skj_rt","regnbukse", "shorts")
 
             for (ord in pants){
@@ -169,6 +180,7 @@ fun Avatar(data: WeatherData?, locationName: String) {
                     }
                 }
             }
+
             /*
 
             Image(
@@ -179,10 +191,13 @@ fun Avatar(data: WeatherData?, locationName: String) {
                     .align(Alignment.Center)
             )*/
             Box(
-                Modifier.align(Alignment.TopCenter).fillMaxHeight().width(
-                    50.dp
-                ).background(Color.Transparent)
+                modifier = Modifier
+                    .align(Alignment.TopCenter)
+                    .fillMaxHeight()
+                    .width(50.dp)
+                    .background(Color.Transparent)
             )
+
             Image(
                 painter = painterResource(R.drawable.h_r),
                 contentDescription = "Icon",
@@ -190,6 +205,7 @@ fun Avatar(data: WeatherData?, locationName: String) {
                     .width(sizeDP)
                     .align(Alignment.Center)
             )
+
             val hatt : List<String> = listOf("lue", "solhatt", "pannebånd")
             for (ord in hatt){
                 if (ord in clothingString){
@@ -206,10 +222,13 @@ fun Avatar(data: WeatherData?, locationName: String) {
             }
 
             Box(
-                Modifier.align(Alignment.TopCenter).fillMaxHeight().width(
-                    50.dp
-                ).background(Color.Transparent)
+                modifier = Modifier
+                    .align(Alignment.TopCenter)
+                    .fillMaxHeight()
+                    .width(50.dp)
+                    .background(Color.Transparent)
             )
+            
             val top : List<String> = listOf("bobblejakke","regnjakke","vinterjakke", "frakk", "tskjorte", "langermet", "ullgenser","kjole","genser"  )
             var plagg = 0
             for (ord in top){
@@ -228,10 +247,13 @@ fun Avatar(data: WeatherData?, locationName: String) {
             }
 
             Box(
-                Modifier.align(Alignment.TopCenter).fillMaxHeight().width(
-                    50.dp
-                ).background(Color.Transparent)
+                modifier = Modifier
+                    .align(Alignment.TopCenter)
+                    .fillMaxHeight()
+                    .width(50.dp)
+                    .background(Color.Transparent)
             )
+
             Image(
                 painter = painterResource(R.drawable.aniskt),
                 contentDescription = "Icon",
@@ -239,6 +261,7 @@ fun Avatar(data: WeatherData?, locationName: String) {
                     .width(sizeDP)
                     .align(Alignment.Center)
             )
+
             Image(
                 painter = painterResource(R.drawable.oyne),
                 contentDescription = "Icon",
@@ -246,6 +269,7 @@ fun Avatar(data: WeatherData?, locationName: String) {
                     .width(sizeDP)
                     .align(Alignment.Center)
             )
+
             val gummi : List<String> = listOf("gummistøvler", "vintersko")
             for (ord in gummi){
                 if (ord in clothingString){
@@ -262,10 +286,13 @@ fun Avatar(data: WeatherData?, locationName: String) {
             }
 
             Box(
-                Modifier.align(Alignment.TopCenter).fillMaxHeight().width(
-                    50.dp
-                ).background(Color.Transparent)
+                modifier = Modifier
+                    .align(Alignment.TopCenter)
+                    .fillMaxHeight()
+                    .width(50.dp)
+                    .background(Color.Transparent)
             )
+
             val sunglasses : List<String> = listOf("solbriller")
             for (ord in sunglasses){
                 if (ord in clothingString){
@@ -282,10 +309,13 @@ fun Avatar(data: WeatherData?, locationName: String) {
             }
 
             Box(
-                    Modifier.align(Alignment.TopCenter).fillMaxHeight().width(
-                        50.dp
-                    ).background(Color.Transparent)
-                    )
+                Modifier
+                .align(Alignment.TopCenter)
+                .fillMaxHeight()
+                .width(50.dp).
+                background(Color.Transparent)
+            )
+
             val handThing : List<String> = listOf("flagg","gummist_ler","ol","paraply")
             for (ord in handThing){
                 if (ord in clothingString){
@@ -309,12 +339,14 @@ fun Avatar(data: WeatherData?, locationName: String) {
                     .align(Alignment.Center)
             )
 
-
             Box(
-                Modifier.align(Alignment.TopCenter).fillMaxHeight().width(
-                    50.dp
-                ).background(Color.Transparent)
+                Modifier
+                    .align(Alignment.TopCenter)
+                    .fillMaxHeight()
+                    .width(50.dp)
+                    .background(Color.Transparent)
             )
+            
             var plagg2 = 0
             for (ord in top){
                 if (ord in clothingString && plagg2 == 0){
@@ -332,9 +364,11 @@ fun Avatar(data: WeatherData?, locationName: String) {
             }
 
             Box(
-                Modifier.align(Alignment.TopCenter).fillMaxHeight().width(
-                    50.dp
-                ).background(Color.Transparent)
+                modifier = Modifier
+                    .align(Alignment.TopCenter)
+                    .fillMaxHeight()
+                    .width(50.dp)
+                    .background(Color.Transparent)
             )
 
             val mitten : List<String> = listOf("votter & skjerf")
@@ -352,8 +386,6 @@ fun Avatar(data: WeatherData?, locationName: String) {
                     }
                 }
             }
-
         }
-
     }
 }

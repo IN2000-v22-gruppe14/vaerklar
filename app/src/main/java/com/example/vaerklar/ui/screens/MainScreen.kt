@@ -38,7 +38,7 @@ fun MainScreen(weatherData: WeatherData?, locationName: String) {
                 .verticalScroll(rememberScrollState())
                 .background(
                     brush = Brush.verticalGradient(
-                        colors = DetermineGradient(weatherData)
+                        colors = determineGradient(weatherData)
                     )
                 )
         ) {
@@ -53,13 +53,13 @@ fun MainScreen(weatherData: WeatherData?, locationName: String) {
 }
 
 // Determines the gradient of the background of the screen, based on time (2) and weather (3).
-fun DetermineGradient(weatherData: WeatherData?): List<Color> {
+fun determineGradient(weatherData: WeatherData?): List<Color> {
     setTimeSeriesIndex(weatherData)
     val timeIcon = weatherData?.properties?.timeseries?.get(timeSeriesIndex - 1)?.data?.next_1_hours?.summary?.symbol_code
     val timeInt = weatherData?.properties?.timeseries?.get(timeSeriesIndex - 1)?.time?.substring(11,13)?.toInt()
 
     if (timeInt != null) {
-        if (timeInt < 20) {
+        if (timeInt < 21) {
             if (timeIcon?.contains("clear") == true || timeIcon?.contains("fair") == true) {
                 return ClearDay
             }
@@ -96,7 +96,7 @@ fun determineBase(weatherData: WeatherData?) {
     val timeInt = weatherData?.properties?.timeseries?.get(com.example.vaerklar.ui.components.timeSeriesIndex - 1)?.time?.substring(11,13)?.toInt()
 
     if (timeInt != null) {
-        if (timeInt < 15) {
+        if (timeInt < 21) {
             baseColor = DayTile
             altColor = DayTileAlt
         }

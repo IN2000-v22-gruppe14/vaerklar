@@ -1,11 +1,10 @@
 package com.example.vaerklar.ui.components
 
 import androidx.compose.foundation.Image
-import com.example.vaerklar.ui.theme.DayTile
-import com.example.vaerklar.ui.theme.Rubik
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
+import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -16,20 +15,28 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.vaerklar.data.WeatherData
-import com.example.vaerklar.data.Translation
-import com.example.vaerklar.data.iconTranslation
+import com.example.vaerklar.R
+import com.example.vaerklar.data.*
+import com.example.vaerklar.ui.screens.baseColor
+import com.example.vaerklar.ui.screens.determineBase
+import com.example.vaerklar.ui.theme.*
 import kotlin.math.roundToInt
 
 @Composable
 // The primary tile, responsible for displaying weather information beneath the avatar.
 fun MainTile(data: WeatherData?) {
+
+    // Determine the base color based on time.
+    determineBase(data)
+
+    // Determine temperatures.
     val minTemp = data?.properties?.timeseries?.get(0)?.data?.next_6_hours?.details?.air_temperature_min
     val maxTemp = data?.properties?.timeseries?.get(0)?.data?.next_6_hours?.details?.air_temperature_max
     val avgTemp = (minTemp?.plus(maxTemp!!))?.div(2)?.toInt()
+    val temp = data?.properties?.timeseries?.get(0)?.data?.instant?.details?.air_temperature?.toInt()
 
-    val precipitation = data?.properties?.timeseries?.get(0)?.data?.next_6_hours?.details?.precipitation_amount
-    val weather = data?.properties?.timeseries?.get(0)?.data?.next_6_hours?.summary?.symbol_code
+    val precipitation = data?.properties?.timeseries?.get(0)?.data?.next_1_hours?.details?.precipitation_amount
+    val weather = data?.properties?.timeseries?.get(0)?.data?.next_1_hours?.summary?.symbol_code
 
     var translatedWeather = weather?.let { Translation.getTranslation(it) }
     if (translatedWeather == null) translatedWeather = "(...)"
@@ -43,7 +50,7 @@ fun MainTile(data: WeatherData?) {
             .fillMaxWidth()
             .height(195.dp)
             .padding(10.dp),
-        backgroundColor = DayTile,
+        backgroundColor = baseColor,
         shape = RoundedCornerShape(15.dp),
         elevation = 0.dp
     ) {
@@ -75,16 +82,17 @@ fun MainTile(data: WeatherData?) {
                     text = translatedWeather,
                     color = Color.White,
                     fontFamily = Rubik,
-                    fontWeight = FontWeight.Normal
+                    fontWeight = FontWeight.Normal,
+                    fontSize = 20.sp
                 )
 
                 // Temperature in Celsius.
                 Text (
-                    text = avgTemp.toString() + "°",
+                    text = temp.toString() + "°",
                     color = Color.White,
                     fontFamily = Rubik,
                     fontSize = 25.sp,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
                 )
             }
 
@@ -97,13 +105,24 @@ fun MainTile(data: WeatherData?) {
 
                 Row() {
                     // Precipitation measured in millimeters (mm).
+                    Icon(
+                        painter = painterResource(R.drawable.precipitation),
+                        "Precipitation",
+                        modifier = Modifier
+                            .size(20.dp)
+                            .absolutePadding(0.dp, 0.dp, 5.dp, 0.dp),
+                        tint = Color.White
+                    )
+
                     Text(
                         text = precipitation.toString(),
                         textAlign = TextAlign.Right,
                         color = Color.White,
                         fontFamily = Rubik,
                         fontSize = 15.sp,
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier
+                            .align(Alignment.CenterVertically)
                     )
 
                     Text(
@@ -112,18 +131,32 @@ fun MainTile(data: WeatherData?) {
                         color = Color.White,
                         fontFamily = Rubik,
                         fontSize = 15.sp,
+                        modifier = Modifier
+                            .align(Alignment.CenterVertically)
                     )
                 }
 
                 Row() {
                     // Wind measured in meters per second (m/s).
+                    Icon(
+                        painter = painterResource(R.drawable.wind),
+                        "Wind",
+                        modifier = Modifier
+                            .size(25.dp)
+                            .absolutePadding(0.dp, 0.dp, 5.dp, 0.dp)
+                            .align(Alignment.CenterVertically),
+                        tint = Color.White
+                    )
+
                     Text(
                         text = wind10?.roundToInt().toString() + "(" + wind90?.roundToInt().toString() + ")",
                         textAlign = TextAlign.Right,
                         color = Color.White,
                         fontFamily = Rubik,
                         fontSize = 15.sp,
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier
+                            .align(Alignment.CenterVertically)
                     )
 
                     Text(
@@ -132,6 +165,8 @@ fun MainTile(data: WeatherData?) {
                         color = Color.White,
                         fontFamily = Rubik,
                         fontSize = 15.sp,
+                        modifier = Modifier
+                            .align(Alignment.CenterVertically)
                     )
                 }
             }

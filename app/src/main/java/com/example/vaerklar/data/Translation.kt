@@ -1,6 +1,12 @@
 package com.example.vaerklar.data
 
 import com.example.vaerklar.R
+import com.example.vaerklar.ui.components.setTimeSeriesIndex
+import com.example.vaerklar.ui.components.timeSeriesIndex
+import com.example.vaerklar.ui.theme.DayTile
+import com.example.vaerklar.ui.theme.DayTileAlt
+import com.example.vaerklar.ui.theme.NightTile
+import com.example.vaerklar.ui.theme.NightTileAlt
 
 /***
  *Oversettelse av de forskjellige vær man kan hente ut av APIet vi har brukt for å hente ut vær.

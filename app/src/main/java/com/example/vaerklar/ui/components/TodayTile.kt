@@ -21,8 +21,10 @@ import com.example.vaerklar.ui.theme.DayTile
 import com.example.vaerklar.ui.theme.DayTileAlt
 import com.example.vaerklar.ui.theme.Rubik
 import com.example.vaerklar.R
-import com.example.vaerklar.data.WeatherData
-import com.example.vaerklar.data.iconTranslation
+import com.example.vaerklar.data.*
+import com.example.vaerklar.ui.screens.altColor
+import com.example.vaerklar.ui.screens.baseColor
+import com.example.vaerklar.ui.screens.determineBase
 import java.time.LocalDateTime
 
 private var globalTileCounter = 0
@@ -89,6 +91,8 @@ fun TodayTileItem(hour: Hour, backgroundColor: Color) {
 @Composable
 // The secondary tile, responsible for displaying today's weather across 4 timeslots. Requires TodayCycler.
 fun TodayTile(weatherData: WeatherData?) {
+    determineBase(weatherData)
+
     val hourList = mutableListOf<Hour>()
     println(weatherData)
 
@@ -130,11 +134,11 @@ fun TodayTile(weatherData: WeatherData?) {
 
                 itemContent = {
                     if (globalTileCounter % 2 == 0) {
-                        TodayTileItem(hour = it, DayTileAlt)
+                        TodayTileItem(hour = it, altColor)
                     }
 
                     else {
-                        TodayTileItem(hour = it, DayTile)
+                        TodayTileItem(hour = it, baseColor)
                     }
 
                     globalTileCounter++

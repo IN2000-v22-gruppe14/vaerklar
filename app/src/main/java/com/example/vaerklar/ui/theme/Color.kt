@@ -11,7 +11,8 @@ val Teal200 = Color(0xFF03DAC5)
 // TIME OF DAY - determines the color of tiles on MainScreen, not affected by Dark or Light mode
 val DayTile = Color(0xFF23323C)
 val DayTileAlt = Color(0xFF2C3E4A)
-val InactiveWhite = Color(0xFFD5D5D5)
+val NightTile = Color(0xFF040D13)
+val NightTileAlt = Color(0xFF061219)
 
 // WEATHER - determines the gradient background on MainScreen, not affected by Dark or Light mode
 val ClearDay = listOf<Color>(Color(0xFF77ACBC), Color(0xFFBAB886), Color(0xFF133B47))
@@ -37,3 +38,4 @@ val InactiveDarkMode = Color(0xFFD5D5D5)
 // CONSTANT
 val Secondary = Color(0xFF28B9B9)
 val Warning = Color(0xFF80373C)
+val InactiveWhite = Color(0xFFD5D5D5)

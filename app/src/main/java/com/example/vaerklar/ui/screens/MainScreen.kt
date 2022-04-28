@@ -87,17 +87,33 @@ fun DetermineGradient(weatherData: WeatherData?): List<Color> {
     return CloudyDay
 }
 
-fun DetermineBase(weatherData: WeatherData?) {
+// Determines color for tile bases.
+var baseColor = DayTile // NULL-SAFE
+var altColor = DayTileAlt // NULL-SAFE
 
+fun determineBase(weatherData: WeatherData?) {
+    com.example.vaerklar.ui.components.setTimeSeriesIndex(weatherData)
+    val timeInt = weatherData?.properties?.timeseries?.get(com.example.vaerklar.ui.components.timeSeriesIndex - 1)?.time?.substring(11,13)?.toInt()
+
+    if (timeInt != null) {
+        if (timeInt < 15) {
+            baseColor = DayTile
+            altColor = DayTileAlt
+        }
+
+        else {
+            baseColor = NightTile
+            altColor = NightTileAlt
+        }
+    }
 }
-
 
 fun setTimeSeriesIndex(weatherData: WeatherData?){
     val updatedAt = weatherData?.properties?.meta?.updated_at
     val updateHour = updatedAt?.substring(11,13)
-    //val updateMinute = updatedAt?.substring(14,16)
     val uhourInt = updateHour?.toInt()
     var firstHour = 0
+
     if(uhourInt != 23){
         firstHour = uhourInt?.plus(1)!!
     }
@@ -107,11 +123,6 @@ fun setTimeSeriesIndex(weatherData: WeatherData?){
     val nowHour = nowString.substring(11,13)
     val nowHourInt = nowHour.toInt()
     timeSeriesIndex = (nowHourInt - firstHour) + 1
-    //println("NowHourInt: $nowHourInt")
-    //println("firstHour: $firstHour")
-
-    //val time = weatherData?.properties?.timeseries?.get(timeSeriesIndex)?.time
-    //println("Denne inneværende time: $time")
 }
 
 

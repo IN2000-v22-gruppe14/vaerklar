@@ -1,12 +1,14 @@
 package com.example.vaerklar.data
 
+import com.example.vaerklar.R
+
 /***
  *Oversettelse av de forskjellige vær man kan hente ut av APIet vi har brukt for å hente ut vær.
  * Oversikt over de forskjellige typene vær kan man finne her:
  * https://in2000-apiproxy.ifi.uio.no/weatherapi/weathericon/2.0/documentation
  ***/
 
-class WeatherTranslation {
+class Translation {
     companion object Translation {
         var WeatherMap: HashMap<String, String> = hashMapOf(
             "clearsky_day" to "Skyfritt",
@@ -96,3 +98,94 @@ class WeatherTranslation {
         }
     }
 }
+
+// Translates the provided day to Norwegian.
+var dayTranslation = hashMapOf<String?, String> (
+    "MO" to "MA",
+    "TU" to "TI",
+    "WE" to "ON",
+    "TH" to "TO",
+    "FR" to "FR",
+    "SA" to "LØ",
+    "SU" to "SØ"
+)
+
+// Translates symbol strings from the API to icons provided in the application for display.
+var iconTranslation = hashMapOf<String?, Int>(
+
+    // CLEAR
+    "clearsky_day" to R.drawable.clear_day,
+    "clearsky_night" to R.drawable.clear_night,
+
+    // CLOUDS
+    "fair_day" to R.drawable.fair_day,
+    "fair_night" to R.drawable.fair_night,
+
+    "cloudy" to R.drawable.cloudy,
+    "partlycloudy_day" to R.drawable.partly_cloudy_day,
+    "partlycloudy_night" to R.drawable.partly_cloudy_night,
+
+    // FOG
+    "fog" to R.drawable.foggy,
+
+    // RAIN
+    "lightrain" to R.drawable.light_rain,
+    "lightrainshowers_day" to R.drawable.light_rain_day,
+    "lightrainshowers_night" to R.drawable.light_rain_night,
+    "rain" to R.drawable.rain,
+    "rainshowers_day" to R.drawable.rain_day,
+    "rainshowers_night" to R.drawable.rain_night,
+    "heavyrain" to R.drawable.heavy_rain,
+    "heavyshowers_day" to R.drawable.heavy_rain_day,
+    "heavyshowers_night" to R.drawable.heavy_rain_night,
+
+    // SLEET
+    "lightsleet" to R.drawable.light_sleet,
+    "lightsleetshowers_day" to R.drawable.light_sleet_day,
+    "lightsleetshowers_night" to R.drawable.light_sleet_night,
+    "sleet" to R.drawable.sleet,
+    "sleetshowers_day" to R.drawable.sleet_day,
+    "sleetshowers_night" to R.drawable.sleet_night,
+    "heavysleet" to R.drawable.heavy_sleet,
+    "heavysleetshowers_day" to R.drawable.heavy_sleet_day,
+    "heavysleetshowers_night" to R.drawable.heavy_sleet_night,
+
+    // SNOW
+    "lightsnow" to R.drawable.light_snow,
+    "lightsnowshowers_day" to R.drawable.light_snow_day,
+    "lightsnowshowers_night" to R.drawable.light_snow_night,
+    "snow" to R.drawable.snow,
+    "snowshowers_day" to R.drawable.snow_day,
+    "snowshowers_night" to R.drawable.snow_night,
+    "heavysnow" to R.drawable.heavy_snow,
+    "heavysnowshowers_day" to R.drawable.heavy_snow_day,
+    "heavysnowshowers_day" to R.drawable.heavy_snow_night,
+
+    // THUNDER (RAIN, NO SLEET, SNOW)
+    "" to R.drawable.light_rain_thunder,
+    "" to R.drawable.light_rain_thunder_day,
+    "" to R.drawable.light_rain_thunder_night,
+
+    "" to R.drawable.rain_thunder,
+    "" to R.drawable.rain_thunder_day,
+    "" to R.drawable.rain_thunder_night,
+
+    "" to R.drawable.heavy_rain_thunder,
+    "" to R.drawable.heavy_rain_thunder_day,
+    "" to R.drawable.heavy_rain_thunder_night,
+
+    "" to R.drawable.light_snow_thunder,
+    "" to R.drawable.light_snow_thunder_day,
+    "" to R.drawable.light_snow_thunder_night,
+
+    "" to R.drawable.snow_thunder,
+    "" to R.drawable.snow_thunder_day,
+    "" to R.drawable.snow_thunder_night,
+
+    "" to R.drawable.heavy_snow_thunder,
+    "" to R.drawable.heavy_snow_thunder_day,
+    "" to R.drawable.heavy_snow_thunder_night,
+
+    // NULL-SAFE
+    null to R.drawable.partly_cloudy_day
+)

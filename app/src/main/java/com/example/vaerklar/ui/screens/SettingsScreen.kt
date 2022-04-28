@@ -10,7 +10,7 @@ import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
-import com.example.vaerklar.ui.theme.GradientClearDay
+import com.example.vaerklar.ui.theme.ClearDay
 import kotlin.math.roundToInt
 
 @Composable
@@ -22,7 +22,7 @@ fun SettingsScreen() {
                 .fillMaxWidth()
                 .background(
                     brush = Brush.verticalGradient(
-                        colors = GradientClearDay
+                        colors = ClearDay
                     )
                 )
         ) {

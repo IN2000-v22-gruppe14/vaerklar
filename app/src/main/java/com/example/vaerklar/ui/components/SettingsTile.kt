@@ -15,8 +15,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.vaerklar.ui.theme.DayTile1
-import com.example.vaerklar.ui.theme.DayTile2
+import com.example.vaerklar.ui.theme.DayTile
+import com.example.vaerklar.ui.theme.DayTileAlt
 import com.example.vaerklar.ui.theme.InactiveWhite
 import com.example.vaerklar.ui.theme.Rubik
 import kotlin.math.roundToInt
@@ -29,7 +29,7 @@ fun SettingsTile() {
     Scaffold(
         modifier = Modifier
             .fillMaxSize(),
-        backgroundColor = DayTile1,
+        backgroundColor = DayTile,
     ) {
 
         //put all settings in a column to sort them downwards
@@ -53,7 +53,7 @@ fun SettingsTile() {
                 modifier = Modifier
                     .fillMaxWidth()
                     .absolutePadding(10.dp, 0.dp, 10.dp, 0.dp),
-                backgroundColor = DayTile2,
+                backgroundColor = DayTileAlt,
                 shape = RoundedCornerShape(15.dp),
                 elevation = 0.dp
             ) {
@@ -88,7 +88,7 @@ fun SettingsTile() {
                 modifier = Modifier
                     .fillMaxWidth()
                     .absolutePadding(10.dp, 0.dp, 10.dp, 0.dp),
-                backgroundColor = DayTile2,
+                backgroundColor = DayTileAlt,
                 shape = RoundedCornerShape(15.dp),
                 elevation = 0.dp
             ) {
@@ -126,7 +126,7 @@ fun SettingsTile() {
                 modifier = Modifier
                     .fillMaxWidth()
                     .absolutePadding(10.dp, 0.dp, 10.dp, 0.dp),
-                backgroundColor = DayTile2,
+                backgroundColor = DayTileAlt,
                 shape = RoundedCornerShape(15.dp),
                 elevation = 0.dp
             ) {
@@ -156,7 +156,7 @@ fun SettingsTile() {
                         colors = SwitchDefaults.colors(
                             uncheckedThumbColor = Color.White,
                             checkedThumbColor = Color.White,
-                            uncheckedTrackColor = DayTile1,
+                            uncheckedTrackColor = DayTile,
                             checkedTrackColor = InactiveWhite
                         )
                     )
@@ -167,7 +167,7 @@ fun SettingsTile() {
                 modifier = Modifier
                     .fillMaxWidth()
                     .absolutePadding(10.dp, 0.dp, 10.dp, 0.dp),
-                backgroundColor = DayTile2,
+                backgroundColor = DayTileAlt,
                 shape = RoundedCornerShape(15.dp),
                 elevation = 0.dp
             ) {
@@ -196,7 +196,7 @@ fun SettingsTile() {
                         colors = SliderDefaults.colors(
                             thumbColor = Color.White,
                             activeTrackColor = InactiveWhite,
-                            inactiveTrackColor = DayTile1
+                            inactiveTrackColor = DayTile
                         )
                         ,
                         value = sliderPosition,
@@ -224,7 +224,7 @@ fun SettingsTile() {
                 modifier = Modifier
                     .fillMaxWidth()
                     .absolutePadding(10.dp, 0.dp, 10.dp, 0.dp),
-                backgroundColor = DayTile2,
+                backgroundColor = DayTileAlt,
                 shape = RoundedCornerShape(15.dp),
                 elevation = 0.dp,
             ) {
@@ -257,7 +257,7 @@ fun SettingsTile() {
                         Text (
                             text = "Slett",
                             textAlign = TextAlign.Center,
-                            color = DayTile1,
+                            color = DayTile,
                             fontSize = 15.sp,
                             fontFamily = Rubik,
                         )
@@ -270,7 +270,7 @@ fun SettingsTile() {
                 modifier = Modifier
                     .fillMaxWidth()
                     .absolutePadding(10.dp, 0.dp, 10.dp, 0.dp),
-                backgroundColor = DayTile2,
+                backgroundColor = DayTileAlt,
                 shape = RoundedCornerShape(15.dp),
                 elevation = 0.dp,
             ) {
@@ -305,7 +305,7 @@ fun SettingsTile() {
                         Text (
                             text = "Les",
                             textAlign = TextAlign.Center,
-                            color = DayTile1,
+                            color = DayTile,
                             fontSize = 15.sp,
                             fontFamily = Rubik,
                         )

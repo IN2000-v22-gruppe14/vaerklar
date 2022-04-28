@@ -30,7 +30,7 @@ import com.example.vaerklar.data.WeatherData
 import com.example.vaerklar.databinding.ActivityMainBinding
 import com.example.vaerklar.ui.screens.MainScreen
 import com.example.vaerklar.ui.screens.SplashScreen
-import com.example.vaerklar.ui.theme.VærklarTheme
+import com.example.vaerklar.ui.theme.Theme
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationRequest.PRIORITY_HIGH_ACCURACY
 import com.google.android.gms.location.LocationServices
@@ -51,7 +51,7 @@ class MainActivity : ComponentActivity(), ActivityCompat.OnRequestPermissionsRes
        // setContentView(binding.root)
 
         setContent {
-            VærklarTheme {
+            Theme {
                 // The scaffold is responsible for revealing the drawer.
 
                 Scaffold {
@@ -84,7 +84,7 @@ class MainActivity : ComponentActivity(), ActivityCompat.OnRequestPermissionsRes
         println("ONCREATE (MainActivity): Appen starter rendering.")
         Handler(Looper.getMainLooper()).postDelayed({
             setContent {
-                VærklarTheme {
+                Theme {
                     // The scaffold is responsible for revealing the drawer.
 
                     Scaffold {
@@ -100,7 +100,7 @@ class MainActivity : ComponentActivity(), ActivityCompat.OnRequestPermissionsRes
                     }
                 }
             }
-        }, 5000)
+        }, 1000)
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION), 0);

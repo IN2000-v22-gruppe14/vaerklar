@@ -1,13 +1,11 @@
 package com.example.vaerklar.ui.components
 
 import androidx.compose.foundation.Image
-import com.example.vaerklar.R
-import com.example.vaerklar.ui.theme.DayTile1
+import com.example.vaerklar.ui.theme.DayTile
 import com.example.vaerklar.ui.theme.Rubik
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
-import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -16,26 +14,24 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.vaerklar.MainActivity
-import com.example.vaerklar.MainActivityViewModel
-import com.example.vaerklar.data.ForecastTimeInstant
 import com.example.vaerklar.data.WeatherData
-import com.example.vaerklar.data.WeatherTranslation
+import com.example.vaerklar.data.Translation
+import com.example.vaerklar.data.iconTranslation
+import kotlin.math.roundToInt
 
 @Composable
 // The primary tile, responsible for displaying weather information beneath the avatar.
 fun MainTile(data: WeatherData?) {
-    val min_temp = data?.properties?.timeseries?.get(0)?.data?.next_6_hours?.details?.air_temperature_min
-    val max_temp = data?.properties?.timeseries?.get(0)?.data?.next_6_hours?.details?.air_temperature_max
-    val avg_temp = (min_temp?.plus(max_temp!!))?.div(2)?.toInt()
+    val minTemp = data?.properties?.timeseries?.get(0)?.data?.next_6_hours?.details?.air_temperature_min
+    val maxTemp = data?.properties?.timeseries?.get(0)?.data?.next_6_hours?.details?.air_temperature_max
+    val avgTemp = (minTemp?.plus(maxTemp!!))?.div(2)?.toInt()
 
     val precipitation = data?.properties?.timeseries?.get(0)?.data?.next_6_hours?.details?.precipitation_amount
     val weather = data?.properties?.timeseries?.get(0)?.data?.next_6_hours?.summary?.symbol_code
 
-    var translatedWeather = weather?.let { WeatherTranslation.getTranslation(it) }
+    var translatedWeather = weather?.let { Translation.getTranslation(it) }
     if (translatedWeather == null) translatedWeather = "(...)"
 
     val wind90 = data?.properties?.timeseries?.get(0)?.data?.instant?.details?.wind_speed_percentile_90
@@ -47,8 +43,9 @@ fun MainTile(data: WeatherData?) {
             .fillMaxWidth()
             .height(195.dp)
             .padding(10.dp),
-        backgroundColor = DayTile1,
-        shape = RoundedCornerShape(15.dp)
+        backgroundColor = DayTile,
+        shape = RoundedCornerShape(15.dp),
+        elevation = 0.dp
     ) {
 
         // Row element that allows us to place items horizontally.
@@ -83,7 +80,7 @@ fun MainTile(data: WeatherData?) {
 
                 // Temperature in Celsius.
                 Text (
-                    text = avg_temp.toString() + "°",
+                    text = avgTemp.toString() + "°",
                     color = Color.White,
                     fontFamily = Rubik,
                     fontSize = 25.sp,
@@ -121,7 +118,7 @@ fun MainTile(data: WeatherData?) {
                 Row() {
                     // Wind measured in meters per second (m/s).
                     Text(
-                        text = wind90.toString(),
+                        text = wind10?.roundToInt().toString() + "(" + wind90?.roundToInt().toString() + ")",
                         textAlign = TextAlign.Right,
                         color = Color.White,
                         fontFamily = Rubik,

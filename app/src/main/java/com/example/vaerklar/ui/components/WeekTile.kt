@@ -18,8 +18,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.vaerklar.data.WeatherData
-import com.example.vaerklar.ui.theme.DayTile1
-import com.example.vaerklar.ui.theme.DayTile2
+import com.example.vaerklar.data.dayTranslation
+import com.example.vaerklar.data.iconTranslation
+import com.example.vaerklar.ui.theme.DayTile
+import com.example.vaerklar.ui.theme.DayTileAlt
 import com.example.vaerklar.ui.theme.Rubik
 import java.text.SimpleDateFormat
 import java.time.LocalDate
@@ -110,7 +112,7 @@ fun WeekTile(weatherData: WeatherData?) {
         modifier = Modifier
             .height(175.dp)
             .padding(10.dp),
-        backgroundColor = DayTile1,
+        backgroundColor = DayTile,
         shape = RoundedCornerShape(15.dp),
         elevation = 0.dp
     ) {
@@ -127,13 +129,13 @@ fun WeekTile(weatherData: WeatherData?) {
                 itemContent = {
                     when {
                         globalTileCounter == 1 -> {
-                            WeekTileItem(day = it, DayTile1)
+                            WeekTileItem(day = it, DayTile)
                         }
                         globalTileCounter % 2 == 0 -> {
-                            WeekTileItem(day = it, DayTile2)
+                            WeekTileItem(day = it, DayTileAlt)
                         }
                         else -> {
-                            WeekTileItem(day = it, DayTile1)
+                            WeekTileItem(day = it, DayTile)
                         }
                     }
 
@@ -151,15 +153,4 @@ class Day (
     val windSpeed: Double?,
     val precipitation: Double?,
     val icon: String?
-)
-
-// Translates the provided day to Norwegian.
-var dayTranslation = hashMapOf<String?, String> (
-    "MO" to "MA",
-    "TU" to "TI",
-    "WE" to "ON",
-    "TH" to "TO",
-    "FR" to "FR",
-    "SA" to "LØ",
-    "SU" to "SØ"
 )

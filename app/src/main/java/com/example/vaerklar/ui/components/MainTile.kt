@@ -34,10 +34,14 @@ fun MainTile(data: WeatherData?) {
     setTimeSeriesIndex(data)
 
     var airTemp = data?.properties?.timeseries?.get(timeSeriesIndex)?.data?.instant?.details?.air_temperature?.toInt()
+    var airTempText = airTemp.toString()
+    if (airTempText == "null") airTempText = "Fant ikke temp"
+
     val precipitation = data?.properties?.timeseries?.get(timeSeriesIndex)?.data?.next_1_hours?.details?.precipitation_amount
+    val precipitationText:String = precipitation?.toString() ?: "Fant ikke nedbør"
+
     val weather = data?.properties?.timeseries?.get(timeSeriesIndex)?.data?.next_1_hours?.summary?.symbol_code
-    var translatedWeather = weather?.let { Translation.getTranslation(it) }
-    if (translatedWeather == null) translatedWeather = "(...)"
+    val translatedWeather = weather?.let { Translation.getTranslation(it) } ?: "Fant ikke vær"
 
 
     // Wind data.
@@ -45,7 +49,8 @@ fun MainTile(data: WeatherData?) {
     val wind10 = data?.properties?.timeseries?.get(0)?.data?.instant?.details?.wind_speed_percentile_10
 
     val windAvgRn = data?.properties?.timeseries?.get(timeSeriesIndex)?.data?.instant?.details?.wind_speed
-    val windText = windAvgRn.toString() + "m/s"
+    val windText =  if(wind10 != null) wind10?.roundToInt().toString() + "(" + wind90?.roundToInt().toString() + ")"
+                    else "Fant ikke vind"
 
     // The base of the card with colors.
     Card(
@@ -91,7 +96,7 @@ fun MainTile(data: WeatherData?) {
 
                 // Temperature in Celsius.
                 Text (
-                    text = airTemp.toString() + "°",
+                    text = "$airTempText°",
                     color = Color.White,
                     fontFamily = Rubik,
                     fontSize = 25.sp,
@@ -118,7 +123,7 @@ fun MainTile(data: WeatherData?) {
                     )
 
                     Text(
-                        text = precipitation.toString(),
+                        text = precipitationText,
                         textAlign = TextAlign.Right,
                         color = Color.White,
                         fontFamily = Rubik,
@@ -152,7 +157,7 @@ fun MainTile(data: WeatherData?) {
                     )
 
                     Text(
-                        text = wind10?.roundToInt().toString() + "(" + wind90?.roundToInt().toString() + ")",
+                        text = windText,
                         textAlign = TextAlign.Right,
                         color = Color.White,
                         fontFamily = Rubik,

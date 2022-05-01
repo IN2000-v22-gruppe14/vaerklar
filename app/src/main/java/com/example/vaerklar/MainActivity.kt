@@ -77,6 +77,9 @@ class MainActivity : ComponentActivity(), ActivityCompat.OnRequestPermissionsRes
             if (it != null) {
                 locationName = it.data?.get(0)?.name.toString()  // Nydelig. elsker kotlin
             }
+            else {
+                locationName = "Blindern"
+            }
         }
 
         val clothesAlgorithm = ClothesAlgorithm()

@@ -30,23 +30,6 @@ import java.time.LocalDateTime
 private var globalTileCounter = 0
 var timeSeriesIndex = 0
 
-fun setTimeSeriesIndex(weatherData: WeatherData?){
-    val updatedAt = weatherData?.properties?.meta?.updated_at
-    val updateHour = updatedAt?.substring(11,13)
-    //val updateMinute = updatedAt?.substring(14,16)
-    val uhourInt = updateHour?.toInt()
-    var firstHour = 0
-    if (uhourInt != 23){
-        firstHour = uhourInt?.plus(1)!!
-    }
-
-    val nowTime = LocalDateTime.now()
-    val nowString = nowTime.toString()
-    val nowHour = nowString.substring(11,13)
-    val nowHourInt = nowHour.toInt()
-    timeSeriesIndex = (nowHourInt - firstHour) + 1
-}
-
 //Component to be recycled. The icon (51 dp) provides the correct width for the entire row displayed.  
 @Composable
 fun TodayTileItem(hour: Hour, backgroundColor: Color) {
@@ -96,7 +79,7 @@ fun TodayTile(weatherData: WeatherData?) {
     val hourList = mutableListOf<Hour>()
     println(weatherData)
 
-    setTimeSeriesIndex(weatherData)
+    timeSeriesIndex = getTimeSeriesIndex(weatherData)
 
     // For-loop responsible for reading data from nearest next hour, then incrementing 2 hours five more times.
     for (i in timeSeriesIndex..timeSeriesIndex+10 step 2) {

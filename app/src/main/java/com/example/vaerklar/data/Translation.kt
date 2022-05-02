@@ -1,7 +1,6 @@
 package com.example.vaerklar.data
 
 import com.example.vaerklar.R
-import com.example.vaerklar.ui.components.setTimeSeriesIndex
 import com.example.vaerklar.ui.components.timeSeriesIndex
 import com.example.vaerklar.ui.theme.DayTile
 import com.example.vaerklar.ui.theme.DayTileAlt

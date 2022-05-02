@@ -78,7 +78,7 @@ fun WeekTile(weatherData: WeatherData?) {
     var dayDiff = 0
 
     // Find the index for the current provided hour.
-    setTimeSeriesIndex(weatherData)
+    timeSeriesIndex = getTimeSeriesIndex(weatherData)
 
     // Determine the base color based on time.
     determineBase(weatherData)

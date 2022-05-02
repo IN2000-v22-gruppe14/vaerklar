@@ -13,10 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import com.example.vaerklar.MainActivityViewModel
-import com.example.vaerklar.data.LocationData
-import com.example.vaerklar.data.WeatherData
-import com.example.vaerklar.data.ClothesAlgorithm
-import com.example.vaerklar.data.iconTranslation
+import com.example.vaerklar.data.*
 import com.example.vaerklar.ui.components.Avatar
 import com.example.vaerklar.ui.components.MainTile
 import com.example.vaerklar.ui.components.TodayTile
@@ -54,7 +51,7 @@ fun MainScreen(weatherData: WeatherData?, locationName: String) {
 
 // Determines the gradient of the background of the screen, based on time (2) and weather (3).
 fun determineGradient(weatherData: WeatherData?): List<Color> {
-    setTimeSeriesIndex(weatherData)
+    timeSeriesIndex = getTimeSeriesIndex(weatherData)
     val timeIcon = weatherData?.properties?.timeseries?.get(timeSeriesIndex - 1)?.data?.next_1_hours?.summary?.symbol_code
     val timeInt = weatherData?.properties?.timeseries?.get(timeSeriesIndex - 1)?.time?.substring(11,13)?.toInt()
 
@@ -92,8 +89,8 @@ var baseColor = DayTile // NULL-SAFE
 var altColor = DayTileAlt // NULL-SAFE
 
 fun determineBase(weatherData: WeatherData?) {
-    com.example.vaerklar.ui.components.setTimeSeriesIndex(weatherData)
-    val timeInt = weatherData?.properties?.timeseries?.get(com.example.vaerklar.ui.components.timeSeriesIndex - 1)?.time?.substring(11,13)?.toInt()
+    timeSeriesIndex = getTimeSeriesIndex(weatherData)
+    val timeInt = weatherData?.properties?.timeseries?.get(timeSeriesIndex - 1)?.time?.substring(11,13)?.toInt()
 
     if (timeInt != null) {
         if (timeInt < 21) {
@@ -107,22 +104,3 @@ fun determineBase(weatherData: WeatherData?) {
         }
     }
 }
-
-fun setTimeSeriesIndex(weatherData: WeatherData?){
-    val updatedAt = weatherData?.properties?.meta?.updated_at
-    val updateHour = updatedAt?.substring(11,13)
-    val uhourInt = updateHour?.toInt()
-    var firstHour = 0
-
-    if(uhourInt != 23){
-        firstHour = uhourInt?.plus(1)!!
-    }
-
-    val nowTime = LocalDateTime.now()
-    val nowString = nowTime.toString()
-    val nowHour = nowString.substring(11,13)
-    val nowHourInt = nowHour.toInt()
-    timeSeriesIndex = (nowHourInt - firstHour) + 1
-}
-
-

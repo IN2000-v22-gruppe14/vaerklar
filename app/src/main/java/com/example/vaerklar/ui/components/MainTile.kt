@@ -31,7 +31,7 @@ fun MainTile(data: WeatherData?) {
     determineBase(data)
 
     // Determine time to start on.
-    setTimeSeriesIndex(data)
+    timeSeriesIndex = getTimeSeriesIndex(data)
 
     var airTemp = data?.properties?.timeseries?.get(timeSeriesIndex)?.data?.instant?.details?.air_temperature?.toInt()
     val precipitation = data?.properties?.timeseries?.get(timeSeriesIndex)?.data?.next_1_hours?.details?.precipitation_amount

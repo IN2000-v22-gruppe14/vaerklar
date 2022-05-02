@@ -17,10 +17,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.vaerklar.data.*
+import com.example.vaerklar.data.WeatherData
+import com.example.vaerklar.data.dayTranslation
+import com.example.vaerklar.data.iconTranslation
 import com.example.vaerklar.ui.screens.altColor
 import com.example.vaerklar.ui.screens.baseColor
-import com.example.vaerklar.ui.screens.determineBase
 import com.example.vaerklar.ui.theme.DayTile
 import com.example.vaerklar.ui.theme.Rubik
 import java.time.LocalDate
@@ -77,20 +78,13 @@ fun WeekTile(weatherData: WeatherData?) {
     var counter = 0
     var dayDiff = 0
 
-    // Find the index for the current provided hour.
-    setTimeSeriesIndex(weatherData)
-
-    // Determine the base color based on time.
-    determineBase(weatherData)
-
     // While-loop responsible for finding weather information for the next six days. Runs as long as the difference in days from now to then is less than 7 days.
     while (dayDiff != 6) {
-        var dayDate = "" // provided date
         val hour = weatherData?.properties?.timeseries?.get(counter)?.time?.substring(11,13) // provided hour of given date
 
         // If the found hour is 12:00:00 (which is applicable for all future dates), create a day object.
         if (hour == "12") {
-            dayDate = weatherData.properties.timeseries[counter].time.substring(0, 10)
+            val dayDate = weatherData.properties.timeseries[counter].time.substring(0, 10)
             val airTemp = weatherData.properties.timeseries[counter].data.instant.details?.air_temperature?.toInt().toString()
             val windSpeed = weatherData.properties.timeseries[counter].data.instant.details?.wind_speed
             val precipitation = weatherData.properties.timeseries[counter].data.next_1_hours?.details?.precipitation_amount_max

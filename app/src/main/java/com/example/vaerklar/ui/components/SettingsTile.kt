@@ -1,6 +1,5 @@
 package com.example.vaerklar.ui.components
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
@@ -201,7 +200,7 @@ fun SettingsTile() {
                         ,
                         value = sliderPosition,
                         onValueChange = {
-                            sliderPosition = it;
+                            sliderPosition = it
                             adjustWarmth(it)
                         }
                     )

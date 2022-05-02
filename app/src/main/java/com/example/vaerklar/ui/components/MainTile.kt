@@ -16,16 +16,17 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.vaerklar.R
-import com.example.vaerklar.data.*
+import com.example.vaerklar.data.Translation
+import com.example.vaerklar.data.WeatherData
+import com.example.vaerklar.data.iconTranslation
 import com.example.vaerklar.ui.screens.baseColor
-import com.example.vaerklar.ui.screens.determineBase
-import com.example.vaerklar.ui.theme.*
+import com.example.vaerklar.ui.theme.Rubik
 import kotlin.math.roundToInt
 
 
 @Composable
 // The primary tile, responsible for displaying weather information beneath the avatar.
-fun MainTile(data: WeatherData?) {
+fun MainTile(weatherData: WeatherData?, timeSeriesIndex: Int) {
 
     // Determine the base color based on time.
     determineBase(data)
@@ -111,7 +112,7 @@ fun MainTile(data: WeatherData?) {
                 modifier = Modifier.padding(20.dp)
             ) {
 
-                Row() {
+                Row {
                     // Precipitation measured in millimeters (mm).
                     Icon(
                         painter = painterResource(R.drawable.precipitation),
@@ -144,7 +145,7 @@ fun MainTile(data: WeatherData?) {
                     )
                 }
 
-                Row() {
+                Row {
                     // Wind measured in meters per second (m/s).
                     Icon(
                         painter = painterResource(R.drawable.wind),

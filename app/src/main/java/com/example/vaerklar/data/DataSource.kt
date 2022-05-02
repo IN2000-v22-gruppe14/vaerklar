@@ -4,9 +4,9 @@ import android.util.Log
 import com.github.kittinunf.fuel.Fuel
 import com.github.kittinunf.fuel.core.extensions.authentication
 import com.github.kittinunf.fuel.coroutines.awaitString
-import kotlinx.serialization.json.*
 import kotlinx.serialization.decodeFromString
-import java.lang.Exception
+import kotlinx.serialization.json.Json
+import java.time.LocalDateTime
 
 class DataSource {
 
@@ -47,4 +47,21 @@ class DataSource {
         }
         return null
     }
+}
+
+fun getTimeSeriesIndex(weatherData: WeatherData?): Int {
+    val updatedAt = weatherData?.properties?.meta?.updated_at
+    val updateHour = updatedAt?.substring(11,13)
+
+    val uhourInt = updateHour?.toInt()
+    var firstHour = 0
+    if(uhourInt != 23){
+        firstHour = uhourInt?.plus(1)!!
+    }
+
+    val nowTime = LocalDateTime.now()
+    val nowString = nowTime.toString()
+    val nowHour = nowString.substring(11,13)
+    val nowHourInt = nowHour.toInt()
+    return nowHourInt - firstHour + 1
 }

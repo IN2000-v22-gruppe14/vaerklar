@@ -10,20 +10,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.vaerklar.ui.theme.Rubik
 import com.example.vaerklar.R
 import com.example.vaerklar.data.ClothesAlgorithm
 import com.example.vaerklar.data.WeatherData
+import com.example.vaerklar.ui.theme.Rubik
 
-@Preview
 @Composable
 // The avatar, alongside location.
 fun Avatar(data: WeatherData?, locationName: String) {
 
-    val converterClothing = hashMapOf<String?, Int>(
+    val converterClothing = hashMapOf(
         // CLOTHES
         "bukse" to R.drawable.bukse,
         "lue" to R.drawable.hatt,
@@ -233,7 +231,7 @@ fun Avatar(data: WeatherData?, locationName: String) {
             var plagg = 0
             for (ord in top){
                 if (ord in clothingString && plagg == 0){
-                    plagg = plagg + 1
+                    plagg += 1
                     converterClothing.get(ord)?.let { painterResource(it) }?.let {
                         Image(
                             painter = it,
@@ -350,7 +348,7 @@ fun Avatar(data: WeatherData?, locationName: String) {
             var plagg2 = 0
             for (ord in top){
                 if (ord in clothingString && plagg2 == 0){
-                    plagg2 = plagg2 + 1
+                    plagg2 += 1
                     converterClothing.get(ord+"2")?.let { painterResource(it) }?.let {
                         Image(
                             painter = it,

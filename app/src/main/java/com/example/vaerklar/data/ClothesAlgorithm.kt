@@ -1,11 +1,8 @@
 package com.example.vaerklar.data
 
 import java.lang.Math.round
-import java.time.LocalDateTime
-import java.time.ZoneOffset
 import kotlin.math.abs
 import kotlin.math.pow
-import kotlin.math.roundToInt
 import kotlin.math.sqrt
 
 
@@ -68,30 +65,8 @@ class ClothesAlgorithm {
 
     var realtemperature = 0.0
 
-    fun getTimeSeriesIndex(weatherData: WeatherData?){
-        val updatedAt = weatherData?.properties?.meta?.updated_at
-        val updateHour = updatedAt?.substring(11,13)
-        //val updateMinute = updatedAt?.substring(14,16)
-        val uhourInt = updateHour?.toInt()
-        var firstHour = 0
-        if(uhourInt != 23){
-            firstHour = uhourInt?.plus(1)!!
-        }
-
-        val nowTime = LocalDateTime.now()
-        val nowString = nowTime.toString()
-        val nowHour = nowString.substring(11,13)
-        val nowHourInt = nowHour.toInt()
-        timeSeriesIndex = (nowHourInt - firstHour) + 1
-        //println("NowHourInt: $nowHourInt")
-        //println("firstHour: $firstHour")
-
-        //val time = weatherData?.properties?.timeseries?.get(timeSeriesIndex)?.time
-        //println("Denne inneværende time: $time")
-    }
-
     fun getWeatherScore(weatherData: WeatherData?){
-        getTimeSeriesIndex(weatherData)
+        timeSeriesIndex = getTimeSeriesIndex(weatherData)
         var airTemp = weatherData?.properties?.timeseries?.get(timeSeriesIndex)?.data?.instant?.details?.air_temperature
         var windSpeed = weatherData?.properties?.timeseries?.get(timeSeriesIndex)?.data?.instant?.details?.wind_speed
         var humidity = weatherData?.properties?.timeseries?.get(timeSeriesIndex)?.data?.instant?.details?.relative_humidity

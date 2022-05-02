@@ -119,7 +119,7 @@ fun Avatar(data: WeatherData?, locationName: String) {
             val sole : List<String> = listOf("sko")
             for (ord in sole){
                 if (ord in clothingString){
-                    converterClothing.get(ord+"2")?.let { painterResource(it) }?.let {
+                    converterClothing[ord+"2"]?.let { painterResource(it) }?.let {
                         Image(
                             painter = it,
                             contentDescription = "Icon",
@@ -143,7 +143,7 @@ fun Avatar(data: WeatherData?, locationName: String) {
             val shoes : List<String> = listOf("sko", "sneakers")
             for (ord in shoes){
                 if (ord in clothingString){
-                    converterClothing.get(ord)?.let { painterResource(it) }?.let {
+                    converterClothing[ord]?.let { painterResource(it) }?.let {
                         Image(
                             painter = it,
                             contentDescription = "Icon",
@@ -167,7 +167,7 @@ fun Avatar(data: WeatherData?, locationName: String) {
 
             for (ord in pants){
                 if (ord in clothingString){
-                    converterClothing.get(ord)?.let { painterResource(it) }?.let {
+                    converterClothing[ord]?.let { painterResource(it) }?.let {
                         Image(
                             painter = it,
                             contentDescription = "Icon",
@@ -207,7 +207,7 @@ fun Avatar(data: WeatherData?, locationName: String) {
             val hatt : List<String> = listOf("lue", "solhatt", "pannebånd")
             for (ord in hatt){
                 if (ord in clothingString){
-                    converterClothing.get(ord)?.let { painterResource(it) }?.let {
+                    converterClothing[ord]?.let { painterResource(it) }?.let {
                         Image(
                             painter = it,
                             contentDescription = "Icon",
@@ -232,7 +232,7 @@ fun Avatar(data: WeatherData?, locationName: String) {
             for (ord in top){
                 if (ord in clothingString && plagg == 0){
                     plagg += 1
-                    converterClothing.get(ord)?.let { painterResource(it) }?.let {
+                    converterClothing[ord]?.let { painterResource(it) }?.let {
                         Image(
                             painter = it,
                             contentDescription = "Icon",
@@ -271,7 +271,7 @@ fun Avatar(data: WeatherData?, locationName: String) {
             val gummi : List<String> = listOf("gummistøvler", "vintersko")
             for (ord in gummi){
                 if (ord in clothingString){
-                    converterClothing.get(ord)?.let { painterResource(it) }?.let {
+                    converterClothing[ord]?.let { painterResource(it) }?.let {
                         Image(
                             painter = it,
                             contentDescription = "Icon",
@@ -294,7 +294,7 @@ fun Avatar(data: WeatherData?, locationName: String) {
             val sunglasses : List<String> = listOf("solbriller")
             for (ord in sunglasses){
                 if (ord in clothingString){
-                    converterClothing.get(ord)?.let { painterResource(it) }?.let {
+                    converterClothing[ord]?.let { painterResource(it) }?.let {
                         Image(
                             painter = it,
                             contentDescription = "Icon",
@@ -317,7 +317,7 @@ fun Avatar(data: WeatherData?, locationName: String) {
             val handThing : List<String> = listOf("flagg","gummist_ler","ol","paraply")
             for (ord in handThing){
                 if (ord in clothingString){
-                    converterClothing.get(ord)?.let { painterResource(it) }?.let {
+                    converterClothing[ord]?.let { painterResource(it) }?.let {
                         Image(
                             painter = it,
                             contentDescription = "Icon",
@@ -349,7 +349,7 @@ fun Avatar(data: WeatherData?, locationName: String) {
             for (ord in top){
                 if (ord in clothingString && plagg2 == 0){
                     plagg2 += 1
-                    converterClothing.get(ord+"2")?.let { painterResource(it) }?.let {
+                    converterClothing[ord+"2"]?.let { painterResource(it) }?.let {
                         Image(
                             painter = it,
                             contentDescription = "Icon",
@@ -373,7 +373,7 @@ fun Avatar(data: WeatherData?, locationName: String) {
 
             for (ord in mitten){
                 if (ord in clothingString){
-                    converterClothing.get(ord)?.let { painterResource(it) }?.let {
+                    converterClothing[ord]?.let { painterResource(it) }?.let {
                         Image(
                             painter = it,
                             contentDescription = "Icon",

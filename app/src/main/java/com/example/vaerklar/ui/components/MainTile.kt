@@ -43,7 +43,6 @@ fun MainTile(weatherData: WeatherData?, timeSeriesIndex: Int) {
     val wind90 = weatherData?.properties?.timeseries?.get(0)?.data?.instant?.details?.wind_speed_percentile_90
     val wind10 = weatherData?.properties?.timeseries?.get(0)?.data?.instant?.details?.wind_speed_percentile_10
 
-    val windAvgRn = weatherData?.properties?.timeseries?.get(timeSeriesIndex)?.data?.instant?.details?.wind_speed
     val windText =  if(wind10 != null) wind10.roundToInt().toString() + "(" + wind90?.roundToInt().toString() + ")"
                     else "Fant ikke vind"
 

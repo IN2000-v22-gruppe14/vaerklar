@@ -236,11 +236,6 @@ fun SettingsTile() {
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceBetween,
                 ) {
-
-                    val notifyState = remember {
-                        mutableStateOf(false)
-                    }
-
                     Text(
                         text = "Slett data",
                         textAlign = TextAlign.Start,

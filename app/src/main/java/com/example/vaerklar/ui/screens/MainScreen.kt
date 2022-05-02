@@ -26,6 +26,7 @@ var timeSeriesIndex = 0
 @Composable
 // The main screen, shown when the application boots up. Loaded through MainActivity, and includes the avatar.
 fun MainScreen(weatherData: WeatherData?, locationName: String) {
+    timeSeriesIndex = getTimeSeriesIndex(weatherData)
     Scaffold() {
         // Box that occupies the entire screen. The background is determined by the time of day and cloud condition. It is currently static.
         Box(
@@ -40,10 +41,11 @@ fun MainScreen(weatherData: WeatherData?, locationName: String) {
                 )
         ) {
             Column() {
+                println("TIMESERIESINDEX ER FUCKINGS $timeSeriesIndex")
                 Avatar(weatherData, locationName)
-                MainTile(weatherData)
-                TodayTile(weatherData)
-                WeekTile(weatherData)
+                MainTile(weatherData, timeSeriesIndex)
+                TodayTile(weatherData, timeSeriesIndex)
+                WeekTile(weatherData, timeSeriesIndex)
             }
         }
     }
@@ -88,8 +90,7 @@ fun determineGradient(weatherData: WeatherData?): List<Color> {
 var baseColor = DayTile // NULL-SAFE
 var altColor = DayTileAlt // NULL-SAFE
 
-fun determineBase(weatherData: WeatherData?) {
-    timeSeriesIndex = getTimeSeriesIndex(weatherData)
+fun determineBase(weatherData: WeatherData?, timeSeriesIndex: Int) {
     val timeInt = weatherData?.properties?.timeseries?.get(timeSeriesIndex - 1)?.time?.substring(11,13)?.toInt()
 
     if (timeInt != null) {

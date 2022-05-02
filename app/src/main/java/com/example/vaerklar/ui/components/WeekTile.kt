@@ -71,17 +71,14 @@ fun WeekTileItem(day: Day, backgroundColor: Color) {
 
 @Composable
 // The secondary tile, responsible for displaying today's weather across 4 timeslots. Requires TodayCycler.
-fun WeekTile(weatherData: WeatherData?) {
+fun WeekTile(weatherData: WeatherData?, timeSeriesIndex: Int) {
     val dayList = mutableListOf<Day>()
     val currentDate = LocalDate.now()
     var counter = 0
     var dayDiff = 0
 
-    // Find the index for the current provided hour.
-    timeSeriesIndex = getTimeSeriesIndex(weatherData)
-
     // Determine the base color based on time.
-    determineBase(weatherData)
+    determineBase(weatherData, timeSeriesIndex)
 
     // While-loop responsible for finding weather information for the next six days. Runs as long as the difference in days from now to then is less than 7 days.
     while (dayDiff != 6) {

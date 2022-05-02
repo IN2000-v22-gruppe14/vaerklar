@@ -73,13 +73,11 @@ fun TodayTileItem(hour: Hour, backgroundColor: Color) {
 
 @Composable
 // The secondary tile, responsible for displaying today's weather across 4 timeslots. Requires TodayCycler.
-fun TodayTile(weatherData: WeatherData?) {
-    determineBase(weatherData)
+fun TodayTile(weatherData: WeatherData?, timeSeriesIndex: Int) {
+    determineBase(weatherData, timeSeriesIndex)
 
     val hourList = mutableListOf<Hour>()
     println(weatherData)
-
-    timeSeriesIndex = getTimeSeriesIndex(weatherData)
 
     // For-loop responsible for reading data from nearest next hour, then incrementing 2 hours five more times.
     for (i in timeSeriesIndex..timeSeriesIndex+10 step 2) {

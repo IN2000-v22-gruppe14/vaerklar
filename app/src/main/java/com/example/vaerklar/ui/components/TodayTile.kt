@@ -2,14 +2,13 @@ package com.example.vaerklar.ui.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.compose.material.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -17,15 +16,69 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.vaerklar.R
+import com.example.vaerklar.data.WeatherData
 import com.example.vaerklar.ui.theme.DayTile1
 import com.example.vaerklar.ui.theme.DayTile2
 import com.example.vaerklar.ui.theme.Rubik
-import com.example.vaerklar.R
-import com.example.vaerklar.data.WeatherData
 import java.time.LocalDateTime
 
 private var globalTileCounter = 0
 var timeSeriesIndex = 0
+val showDialog = mutableStateOf(false)
+
+
+@Composable
+fun PopUpScreen(weatherData: WeatherData?){
+    AlertDialog(
+
+        backgroundColor = Color(0XFF23323c),
+
+        shape = RoundedCornerShape(15.dp),
+
+
+        title = {
+            Column(
+                Modifier
+                    .fillMaxSize()
+                    .size(500.dp, 100.dp)
+                    .background(Color(0XFF23323c))
+            ){ Box(
+                Modifier
+                    .fillMaxSize()
+
+            ) {
+                Avatar(weatherData, "")}
+
+            }
+            Box(
+                Modifier.fillMaxSize(),
+                contentAlignment = Alignment.TopEnd){
+                TextButton(
+
+                    colors =
+                    ButtonDefaults.buttonColors(backgroundColor = Color.Transparent),
+
+                    onClick = { showDialog.value = false }) {
+                    Text(
+                        text = "X",
+                        fontSize = 22.sp,
+                        color = Color.White,
+                        fontWeight = FontWeight.Bold)
+
+                }
+            }
+        },
+        onDismissRequest = {
+
+        },
+
+        buttons = {
+
+        }
+        )
+
+}
 
 fun setTimeSeriesIndex(weatherData: WeatherData?){
     val updatedAt = weatherData?.properties?.meta?.updated_at
@@ -42,7 +95,9 @@ fun setTimeSeriesIndex(weatherData: WeatherData?){
     val nowHour = nowString.substring(11,13)
     val nowHourInt = nowHour.toInt()
     timeSeriesIndex = (nowHourInt - firstHour) + 1
+
 }
+
 
 //Component to be recycled. The icon (51 dp) provides the correct width for the entire row displayed.  
 @Composable
@@ -55,7 +110,8 @@ fun TodayTileItem(hour: Hour, backgroundColor: Color) {
             .absolutePadding(7.dp, 0.dp, 7.dp, 0.dp)
             .fillMaxHeight()
             .fillMaxWidth()
-    ) {
+            .clickable(onClick = { showDialog.value = true })
+            ){
 
         Text(
             text = hour.airTemp.toString(),
@@ -90,7 +146,9 @@ fun TodayTileItem(hour: Hour, backgroundColor: Color) {
 fun TodayTile(weatherData: WeatherData?) {
     val hourList = mutableListOf<Hour>()
     println(weatherData)
-
+    if(showDialog.value){
+        PopUpScreen(weatherData)
+    }
     setTimeSeriesIndex(weatherData)
 
     // For-loop responsible for reading data from nearest next hour, then incrementing 2 hours five more times.

@@ -98,7 +98,7 @@ fun Avatar(data: WeatherData?, locationName: String) {
         )
         // Location within city.
         Text(
-            text = "Location",
+            text = "",
             color = Color.White,
             fontFamily = Rubik,
             fontWeight = FontWeight.Normal,

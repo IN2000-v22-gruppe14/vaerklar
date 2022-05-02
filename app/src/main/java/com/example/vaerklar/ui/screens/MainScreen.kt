@@ -11,6 +11,7 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
+import androidx.navigation.NavController
 import com.example.vaerklar.MainActivityViewModel
 import com.example.vaerklar.data.LocationData
 import com.example.vaerklar.data.WeatherData

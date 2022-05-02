@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.navigation.NavController
 import com.example.vaerklar.data.ClothesAlgorithm
 import com.example.vaerklar.data.LocationData
 import com.example.vaerklar.data.WeatherData
@@ -93,7 +94,7 @@ class MainActivity : ComponentActivity(), ActivityCompat.OnRequestPermissionsRes
                         // Column responsible for the vertical stacking of all elements on the page.
                         Column() {
                             Box() {
-                                MainScreen(weatherData, locationName)
+                                MainScreen(weatherData, locationName, )
                                 NavigationBar(state)
                             }
                         }

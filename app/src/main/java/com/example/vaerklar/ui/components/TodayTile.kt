@@ -13,7 +13,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.vaerklar.R
@@ -26,10 +28,12 @@ import java.time.LocalDateTime
 private var globalTileCounter = 0
 var timeSeriesIndex = 0
 val showDialog = mutableStateOf(false)
+var globalHourNumber = 0
+val hourList = mutableListOf<Hour>()
 
 
 @Composable
-fun PopUpScreen(weatherData: WeatherData?){
+fun PopUpScreen(weatherData: WeatherData?, hourNumber: Int){
     AlertDialog(
 
         backgroundColor = Color(0XFF23323c),
@@ -41,14 +45,33 @@ fun PopUpScreen(weatherData: WeatherData?){
             Column(
                 Modifier
                     .fillMaxSize()
-                    .size(500.dp, 100.dp)
+                    .size(200.dp, 100.dp)
                     .background(Color(0XFF23323c))
             ){ Box(
                 Modifier
                     .fillMaxSize()
 
             ) {
-                Avatar(weatherData, "")}
+                val avatar = Avatar()
+                val piss = avatar.avatarMain(weatherData, "", hourList[globalHourNumber].timeIndex)
+                var theString = ""
+                for(i in piss){
+                    theString += i.capitalize() + "\n"
+                }
+                Box(
+                    Modifier
+                    .fillMaxSize(),
+                    contentAlignment = Alignment.BottomCenter){
+
+                    Text(
+                        text = theString,
+                        fontSize = 22.sp,
+                        color = Color.White,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier
+                                .absolutePadding(40.dp, 50.dp, 50.dp, 0.dp)
+                    )}
+                }
 
             }
             Box(
@@ -110,7 +133,9 @@ fun TodayTileItem(hour: Hour, backgroundColor: Color) {
             .absolutePadding(7.dp, 0.dp, 7.dp, 0.dp)
             .fillMaxHeight()
             .fillMaxWidth()
-            .clickable(onClick = { showDialog.value = true })
+            .clickable(onClick = { showDialog.value = true
+                                    globalHourNumber = hour.hourNumber
+            })
             ){
 
         Text(
@@ -144,15 +169,16 @@ fun TodayTileItem(hour: Hour, backgroundColor: Color) {
 @Composable
 // The secondary tile, responsible for displaying today's weather across 4 timeslots. Requires TodayCycler.
 fun TodayTile(weatherData: WeatherData?) {
-    val hourList = mutableListOf<Hour>()
     println(weatherData)
     if(showDialog.value){
-        PopUpScreen(weatherData)
+        PopUpScreen(weatherData, globalHourNumber)
     }
     setTimeSeriesIndex(weatherData)
 
     // For-loop responsible for reading data from nearest next hour, then incrementing 2 hours five more times.
+    var count = -1
     for (i in timeSeriesIndex..timeSeriesIndex+10 step 2) {
+        count++
         val timeString = weatherData?.properties?.timeseries?.get(i)?.time
         val airTemp = weatherData?.properties?.timeseries?.get(i)?.data?.instant?.details?.air_temperature?.toInt().toString()
         val windSpeed = weatherData?.properties?.timeseries?.get(i)?.data?.instant?.details?.wind_speed
@@ -161,7 +187,7 @@ fun TodayTile(weatherData: WeatherData?) {
 
         val time = timeString?.substring(11,13)
 
-        val hour = Hour(time, "$airTemp°", windSpeed, precipitation, icon)
+        val hour = Hour(time, "$airTemp°", windSpeed, precipitation, icon, i, count)
         hourList.add(hour)
     }
 
@@ -207,7 +233,9 @@ public class Hour(
     val airTemp: String?,
     val windSpeed: Double?,
     val precipitation: Double?,
-    val icon: String?
+    val icon: String?,
+    val timeIndex : Int,
+    val hourNumber : Int
 )
 
 // Translates symbol strings from the API to icons provided in the application for display.

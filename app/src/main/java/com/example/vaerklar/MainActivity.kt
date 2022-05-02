@@ -15,8 +15,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
@@ -78,7 +77,7 @@ class MainActivity : ComponentActivity(), ActivityCompat.OnRequestPermissionsRes
         val clothesAlgorithm = ClothesAlgorithm()
         var weatherData: WeatherData? = null
         viewModel.getWeatherData().observe(this) {
-            val weatherScore = clothesAlgorithm.getWeatherScore(it)
+            val weatherScore = clothesAlgorithm.getWeatherScore(it, 0)
             weatherData = it
         }
 
@@ -208,4 +207,5 @@ class MainActivity : ComponentActivity(), ActivityCompat.OnRequestPermissionsRes
         val scope = rememberCoroutineScope()
         // TODO: Create a drawer.
     }
+
 }

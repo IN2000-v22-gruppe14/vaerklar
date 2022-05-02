@@ -17,15 +17,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.vaerklar.ui.theme.DayTile
-import com.example.vaerklar.ui.theme.DayTileAlt
-import com.example.vaerklar.ui.theme.Rubik
-import com.example.vaerklar.R
-import com.example.vaerklar.data.*
+import com.example.vaerklar.data.WeatherData
+import com.example.vaerklar.data.iconTranslation
 import com.example.vaerklar.ui.screens.altColor
 import com.example.vaerklar.ui.screens.baseColor
 import com.example.vaerklar.ui.screens.determineBase
-import java.time.LocalDateTime
+import com.example.vaerklar.ui.theme.DayTile
+import com.example.vaerklar.ui.theme.Rubik
 
 private var globalTileCounter = 0
 var timeSeriesIndex = 0

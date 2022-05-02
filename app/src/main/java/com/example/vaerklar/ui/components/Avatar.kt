@@ -13,10 +13,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.vaerklar.ui.theme.Rubik
 import com.example.vaerklar.R
 import com.example.vaerklar.data.ClothesAlgorithm
 import com.example.vaerklar.data.WeatherData
+import com.example.vaerklar.ui.theme.Rubik
 
 @Preview
 @Composable

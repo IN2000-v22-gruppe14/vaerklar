@@ -4,9 +4,8 @@ import android.util.Log
 import com.github.kittinunf.fuel.Fuel
 import com.github.kittinunf.fuel.core.extensions.authentication
 import com.github.kittinunf.fuel.coroutines.awaitString
-import kotlinx.serialization.json.*
 import kotlinx.serialization.decodeFromString
-import java.lang.Exception
+import kotlinx.serialization.json.Json
 import java.time.LocalDateTime
 
 class DataSource {

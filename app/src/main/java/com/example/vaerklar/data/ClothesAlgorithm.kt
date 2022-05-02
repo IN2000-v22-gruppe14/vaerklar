@@ -1,11 +1,8 @@
 package com.example.vaerklar.data
 
 import java.lang.Math.round
-import java.time.LocalDateTime
-import java.time.ZoneOffset
 import kotlin.math.abs
 import kotlin.math.pow
-import kotlin.math.roundToInt
 import kotlin.math.sqrt
 
 

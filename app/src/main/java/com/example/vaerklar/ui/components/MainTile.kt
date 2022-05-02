@@ -16,10 +16,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.vaerklar.R
-import com.example.vaerklar.data.*
+import com.example.vaerklar.data.Translation
+import com.example.vaerklar.data.WeatherData
+import com.example.vaerklar.data.iconTranslation
 import com.example.vaerklar.ui.screens.baseColor
 import com.example.vaerklar.ui.screens.determineBase
-import com.example.vaerklar.ui.theme.*
+import com.example.vaerklar.ui.theme.Rubik
 import kotlin.math.roundToInt
 
 

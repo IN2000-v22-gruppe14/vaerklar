@@ -7,19 +7,18 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.*
+import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import com.example.vaerklar.MainActivityViewModel
-import com.example.vaerklar.data.*
+import com.example.vaerklar.data.WeatherData
+import com.example.vaerklar.data.getTimeSeriesIndex
 import com.example.vaerklar.ui.components.Avatar
 import com.example.vaerklar.ui.components.MainTile
 import com.example.vaerklar.ui.components.TodayTile
 import com.example.vaerklar.ui.components.WeekTile
 import com.example.vaerklar.ui.theme.*
-import java.time.LocalDateTime
 
 var timeSeriesIndex = 0
 
@@ -27,7 +26,7 @@ var timeSeriesIndex = 0
 // The main screen, shown when the application boots up. Loaded through MainActivity, and includes the avatar.
 fun MainScreen(weatherData: WeatherData?, locationName: String) {
     timeSeriesIndex = getTimeSeriesIndex(weatherData)
-    Scaffold() {
+    Scaffold {
         // Box that occupies the entire screen. The background is determined by the time of day and cloud condition. It is currently static.
         Box(
             modifier = Modifier
@@ -40,7 +39,7 @@ fun MainScreen(weatherData: WeatherData?, locationName: String) {
                     )
                 )
         ) {
-            Column() {
+            Column {
                 println("TIMESERIESINDEX ER FUCKINGS $timeSeriesIndex")
                 Avatar(weatherData, locationName)
                 MainTile(weatherData, timeSeriesIndex)

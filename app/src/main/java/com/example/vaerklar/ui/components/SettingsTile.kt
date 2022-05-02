@@ -14,6 +14,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.vaerklar.ui.screens.*
 import com.example.vaerklar.ui.theme.DayTile
 import com.example.vaerklar.ui.theme.DayTileAlt
 import com.example.vaerklar.ui.theme.InactiveWhite

@@ -28,29 +28,23 @@ import kotlin.math.roundToInt
 // The primary tile, responsible for displaying weather information beneath the avatar.
 fun MainTile(weatherData: WeatherData?, timeSeriesIndex: Int) {
 
-    // Determine the base color based on time.
-    determineBase(data)
-
-    // Determine time to start on.
-    setTimeSeriesIndex(data)
-
-    var airTemp = data?.properties?.timeseries?.get(timeSeriesIndex)?.data?.instant?.details?.air_temperature?.toInt()
+    val airTemp = weatherData?.properties?.timeseries?.get(timeSeriesIndex)?.data?.instant?.details?.air_temperature?.toInt()
     var airTempText = airTemp.toString()
     if (airTempText == "null") airTempText = "Fant ikke temp"
 
-    val precipitation = data?.properties?.timeseries?.get(timeSeriesIndex)?.data?.next_1_hours?.details?.precipitation_amount
-    val precipitationText:String = precipitation?.toString() ?: "Fant ikke nedbør"
+    val precipitation = weatherData?.properties?.timeseries?.get(timeSeriesIndex)?.data?.next_1_hours?.details?.precipitation_amount
+    val precipitationText = precipitation?.toString() ?: "Fant ikke nedbør"
 
-    val weather = data?.properties?.timeseries?.get(timeSeriesIndex)?.data?.next_1_hours?.summary?.symbol_code
+    val weather = weatherData?.properties?.timeseries?.get(timeSeriesIndex)?.data?.next_1_hours?.summary?.symbol_code
     val translatedWeather = weather?.let { Translation.getTranslation(it) } ?: "Fant ikke vær"
 
 
     // Wind data.
-    val wind90 = data?.properties?.timeseries?.get(0)?.data?.instant?.details?.wind_speed_percentile_90
-    val wind10 = data?.properties?.timeseries?.get(0)?.data?.instant?.details?.wind_speed_percentile_10
+    val wind90 = weatherData?.properties?.timeseries?.get(0)?.data?.instant?.details?.wind_speed_percentile_90
+    val wind10 = weatherData?.properties?.timeseries?.get(0)?.data?.instant?.details?.wind_speed_percentile_10
 
-    val windAvgRn = data?.properties?.timeseries?.get(timeSeriesIndex)?.data?.instant?.details?.wind_speed
-    val windText =  if(wind10 != null) wind10?.roundToInt().toString() + "(" + wind90?.roundToInt().toString() + ")"
+    val windAvgRn = weatherData?.properties?.timeseries?.get(timeSeriesIndex)?.data?.instant?.details?.wind_speed
+    val windText =  if(wind10 != null) wind10.roundToInt().toString() + "(" + wind90?.roundToInt().toString() + ")"
                     else "Fant ikke vind"
 
     // The base of the card with colors.

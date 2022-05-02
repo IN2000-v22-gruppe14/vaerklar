@@ -1,4 +1,4 @@
-package com.example.vaerklar.ui.components
+package com.example.vaerklar.ui.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -9,6 +9,7 @@ import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
+import com.example.vaerklar.ui.components.SettingsTile
 import com.example.vaerklar.ui.theme.ClearDay
 import kotlin.math.roundToInt
 

@@ -25,7 +25,6 @@ import com.example.vaerklar.ui.theme.DayTile
 import com.example.vaerklar.ui.theme.Rubik
 
 private var globalTileCounter = 0
-var timeSeriesIndex = 0
 
 //Component to be recycled. The icon (51 dp) provides the correct width for the entire row displayed.  
 @Composable

@@ -34,8 +34,3 @@ fun SplashScreen() {
         )
     }
 }
-
-@Composable
-fun Splash() {
-
-}

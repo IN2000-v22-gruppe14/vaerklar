@@ -26,7 +26,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.example.vaerklar.data.ClothesAlgorithm
 import com.example.vaerklar.data.WeatherData
 import com.example.vaerklar.databinding.ActivityMainBinding
 import com.example.vaerklar.ui.screens.MainScreen
@@ -59,7 +58,7 @@ class MainActivity : ComponentActivity(), ActivityCompat.OnRequestPermissionsRes
 
                 Scaffold {
                     // Column responsible for the vertical stacking of all elements on the page.
-                    Column() {
+                    Column {
                         Box {
                             SplashScreen()
                         }
@@ -75,10 +74,8 @@ class MainActivity : ComponentActivity(), ActivityCompat.OnRequestPermissionsRes
             }
         }
 
-        val clothesAlgorithm = ClothesAlgorithm()
         var weatherData: WeatherData? = null
         viewModel.getWeatherData().observe(this) {
-            val weatherScore = clothesAlgorithm.getWeatherScore(it)
             weatherData = it
         }
 
@@ -133,11 +130,10 @@ class MainActivity : ComponentActivity(), ActivityCompat.OnRequestPermissionsRes
                         }
                         )
                         {
-                        val state = rememberScaffoldState()
 
                         // Column responsible for the vertical stacking of all elements on the page.
-                        Column() {
-                            Box() {
+                        Column {
+                            Box {
                                 MainScreen(weatherData, locationName)
                                 NavigationBar(scaffoldState,scope )
                             }
@@ -148,7 +144,7 @@ class MainActivity : ComponentActivity(), ActivityCompat.OnRequestPermissionsRes
         }, 1000)
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION), 0);
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION), 0)
         } else {
             fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
             fusedLocationClient.getCurrentLocation(PRIORITY_HIGH_ACCURACY, CancellationTokenSource().token)

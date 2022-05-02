@@ -28,7 +28,7 @@ import kotlin.math.roundToInt
 // The primary tile, responsible for displaying weather information beneath the avatar.
 fun MainTile(weatherData: WeatherData?, timeSeriesIndex: Int) {
 
-    var airTemp = weatherData?.properties?.timeseries?.get(timeSeriesIndex)?.data?.instant?.details?.air_temperature?.toInt()
+    val airTemp = weatherData?.properties?.timeseries?.get(timeSeriesIndex)?.data?.instant?.details?.air_temperature?.toInt()
     val precipitation = weatherData?.properties?.timeseries?.get(timeSeriesIndex)?.data?.next_1_hours?.details?.precipitation_amount
     val weather = weatherData?.properties?.timeseries?.get(timeSeriesIndex)?.data?.next_1_hours?.summary?.symbol_code
     var translatedWeather = weather?.let { Translation.getTranslation(it) }
@@ -38,9 +38,6 @@ fun MainTile(weatherData: WeatherData?, timeSeriesIndex: Int) {
     // Wind data.
     val wind90 = weatherData?.properties?.timeseries?.get(0)?.data?.instant?.details?.wind_speed_percentile_90
     val wind10 = weatherData?.properties?.timeseries?.get(0)?.data?.instant?.details?.wind_speed_percentile_10
-
-    val windAvgRn = weatherData?.properties?.timeseries?.get(timeSeriesIndex)?.data?.instant?.details?.wind_speed
-    val windText = windAvgRn.toString() + "m/s"
 
     // The base of the card with colors.
     Card(
@@ -101,7 +98,7 @@ fun MainTile(weatherData: WeatherData?, timeSeriesIndex: Int) {
                 modifier = Modifier.padding(20.dp)
             ) {
 
-                Row() {
+                Row {
                     // Precipitation measured in millimeters (mm).
                     Icon(
                         painter = painterResource(R.drawable.precipitation),
@@ -134,7 +131,7 @@ fun MainTile(weatherData: WeatherData?, timeSeriesIndex: Int) {
                     )
                 }
 
-                Row() {
+                Row {
                     // Wind measured in meters per second (m/s).
                     Icon(
                         painter = painterResource(R.drawable.wind),

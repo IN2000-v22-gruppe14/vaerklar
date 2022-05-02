@@ -200,7 +200,7 @@ fun SettingsTile() {
                         ,
                         value = sliderPosition,
                         onValueChange = {
-                            sliderPosition = it;
+                            sliderPosition = it
                             adjustWarmth(it)
                         }
                     )

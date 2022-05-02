@@ -45,7 +45,7 @@ fun MainScreen(weatherData: WeatherData?, locationName: String) {
                 Avatar(weatherData, locationName)
                 MainTile(weatherData, timeSeriesIndex)
                 TodayTile(weatherData, timeSeriesIndex)
-                WeekTile(weatherData, timeSeriesIndex)
+                WeekTile(weatherData)
             }
         }
     }

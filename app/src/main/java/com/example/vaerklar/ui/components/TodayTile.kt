@@ -125,7 +125,7 @@ fun TodayTile(weatherData: WeatherData?, timeSeriesIndex: Int) {
 }
 
 // Hour class storing information about a particular hour. Windspeed and precipitation currently not in use.
-public class Hour(
+class Hour(
     val time: String?,
     val airTemp: String?,
     val windSpeed: Double?,

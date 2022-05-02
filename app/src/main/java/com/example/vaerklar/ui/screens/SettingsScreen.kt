@@ -14,7 +14,7 @@ import kotlin.math.roundToInt
 
 @Composable
 fun SettingsScreen() {
-    Scaffold() {
+    Scaffold {
         Box(
             modifier = Modifier
                 .fillMaxHeight()

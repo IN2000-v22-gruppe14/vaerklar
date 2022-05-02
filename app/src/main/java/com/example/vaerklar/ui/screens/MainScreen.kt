@@ -26,6 +26,7 @@ var timeSeriesIndex = 0
 // The main screen, shown when the application boots up. Loaded through MainActivity, and includes the avatar.
 fun MainScreen(weatherData: WeatherData?, locationName: String) {
     timeSeriesIndex = getTimeSeriesIndex(weatherData)
+    determineBase(weatherData, timeSeriesIndex)
     Scaffold {
         // Box that occupies the entire screen. The background is determined by the time of day and cloud condition. It is currently static.
         Box(

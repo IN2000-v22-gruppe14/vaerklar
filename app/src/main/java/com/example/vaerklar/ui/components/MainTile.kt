@@ -20,7 +20,6 @@ import com.example.vaerklar.data.Translation
 import com.example.vaerklar.data.WeatherData
 import com.example.vaerklar.data.iconTranslation
 import com.example.vaerklar.ui.screens.baseColor
-import com.example.vaerklar.ui.screens.determineBase
 import com.example.vaerklar.ui.theme.Rubik
 import kotlin.math.roundToInt
 
@@ -28,9 +27,6 @@ import kotlin.math.roundToInt
 @Composable
 // The primary tile, responsible for displaying weather information beneath the avatar.
 fun MainTile(weatherData: WeatherData?, timeSeriesIndex: Int) {
-
-    // Determine the base color based on time.
-    determineBase(weatherData, timeSeriesIndex)
 
     var airTemp = weatherData?.properties?.timeseries?.get(timeSeriesIndex)?.data?.instant?.details?.air_temperature?.toInt()
     val precipitation = weatherData?.properties?.timeseries?.get(timeSeriesIndex)?.data?.next_1_hours?.details?.precipitation_amount

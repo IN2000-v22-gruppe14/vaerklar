@@ -22,7 +22,6 @@ import com.example.vaerklar.data.dayTranslation
 import com.example.vaerklar.data.iconTranslation
 import com.example.vaerklar.ui.screens.altColor
 import com.example.vaerklar.ui.screens.baseColor
-import com.example.vaerklar.ui.screens.determineBase
 import com.example.vaerklar.ui.theme.DayTile
 import com.example.vaerklar.ui.theme.Rubik
 import java.time.LocalDate
@@ -78,9 +77,6 @@ fun WeekTile(weatherData: WeatherData?, timeSeriesIndex: Int) {
     val currentDate = LocalDate.now()
     var counter = 0
     var dayDiff = 0
-
-    // Determine the base color based on time.
-    determineBase(weatherData, timeSeriesIndex)
 
     // While-loop responsible for finding weather information for the next six days. Runs as long as the difference in days from now to then is less than 7 days.
     while (dayDiff != 6) {

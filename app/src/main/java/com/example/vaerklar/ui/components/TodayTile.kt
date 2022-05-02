@@ -21,7 +21,6 @@ import com.example.vaerklar.data.WeatherData
 import com.example.vaerklar.data.iconTranslation
 import com.example.vaerklar.ui.screens.altColor
 import com.example.vaerklar.ui.screens.baseColor
-import com.example.vaerklar.ui.screens.determineBase
 import com.example.vaerklar.ui.theme.DayTile
 import com.example.vaerklar.ui.theme.Rubik
 
@@ -72,8 +71,6 @@ fun TodayTileItem(hour: Hour, backgroundColor: Color) {
 @Composable
 // The secondary tile, responsible for displaying today's weather across 4 timeslots. Requires TodayCycler.
 fun TodayTile(weatherData: WeatherData?, timeSeriesIndex: Int) {
-    determineBase(weatherData, timeSeriesIndex)
-
     val hourList = mutableListOf<Hour>()
     println(weatherData)
 

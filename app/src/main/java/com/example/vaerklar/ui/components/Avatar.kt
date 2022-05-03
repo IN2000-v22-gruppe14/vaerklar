@@ -78,6 +78,7 @@ class Avatar() {
                         isOpen = !isOpen
                     }
                         .scale(1f, if(isOpen) -1f else 1f)
+                        .size(40.dp)
                 )
             }
             Box(
@@ -437,7 +438,7 @@ class Avatar() {
                             theString += i.capitalize() + "\n"
                         }
                         Text(
-
+                            color = Color.White,
                             text = theString,
                             fontSize = 20.sp,
                             modifier = Modifier

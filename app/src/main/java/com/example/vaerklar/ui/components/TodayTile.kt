@@ -27,13 +27,13 @@ import java.time.LocalDateTime
 
 private var globalTileCounter = 0
 var timeSeriesIndex = 0
-val showDialog = mutableStateOf(false)
-var globalHourNumber = 0
+private val showDialog = mutableStateOf(false)
+private var globalHourNumber = 0
 val hourList = mutableListOf<Hour>()
 
 
 @Composable
-fun PopUpScreen(weatherData: WeatherData?, hourNumber: Int){
+private fun PopUpScreen(weatherData: WeatherData?, hourNumber: Int){
     AlertDialog(
 
         backgroundColor = Color(0XFF23323c),

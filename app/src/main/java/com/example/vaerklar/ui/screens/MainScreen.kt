@@ -1,14 +1,12 @@
 package com.example.vaerklar.ui.screens
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -40,9 +38,13 @@ fun MainScreen(weatherData: WeatherData?, locationName: String) {
                     )
                 )
         ) {
-            Column {
-                println("TIMESERIESINDEX ER FUCKINGS $timeSeriesIndex")
-                Avatar(weatherData, locationName)
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                horizontalAlignment = Alignment.End,
+                verticalArrangement = Arrangement.Center
+            ) {
+                val avatar = Avatar()
+                avatar.avatarMain(weatherData, locationName, 0)
                 MainTile(weatherData, timeSeriesIndex)
                 TodayTile(weatherData, timeSeriesIndex)
                 WeekTile(weatherData)

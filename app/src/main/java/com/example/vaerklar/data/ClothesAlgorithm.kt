@@ -1,53 +1,53 @@
 package com.example.vaerklar.data
 
-import java.lang.Math.round
 import kotlin.math.abs
 import kotlin.math.pow
+import kotlin.math.roundToLong
 import kotlin.math.sqrt
 
 
 class ClothesAlgorithm {
-    var timeSeriesIndex = 0
+    private var timeSeriesIndex = 0
 
-    var head = hashMapOf<List<Int>, String>(
+    private var head = hashMapOf(
         listOf(-100,0) to "lue",
         listOf(1,10) to "pannebånd",
         listOf(11,24) to "",
         listOf(25,50) to "solhatt"
     )
 
-    var body = hashMapOf<List<Int>, String>(
+    private var body = hashMapOf(
         listOf(-100,-1) to "ullgenser",
         listOf(0,15) to "genser",
       //  listOf(20,50) to "topp",
         listOf(16,50) to "tskjorte"
     )
 
-    var jacket = hashMapOf<List<Int>, String>(
+    private var jacket = hashMapOf(
         listOf(-100,4) to "vinterjakke",
         listOf(5,10) to "jakke",
         listOf(11,100) to ""
     )
 
-    var underdel = hashMapOf<List<Int>, String>(
+    private var underdel = hashMapOf(
         listOf(-100,-11) to "utebukse",
         listOf(-10,22) to "bukse",
         listOf(23,50) to "skjorts"
     )
 
-    var shoe = hashMapOf<List<Int>, String>(
+    private var shoe = hashMapOf(
         listOf(-100,4) to "vintersko",
         listOf(5,25) to "sneakers",
         listOf(26,50) to "sandaler"
     )
 
-    var special = hashMapOf<Int, String>(
+    private var special = hashMapOf(
         0 to "solbriller",
         1 to "votter & skjerf",
         2 to "paraply"
     )
 
-    var rainClothing = hashMapOf<Int, String>(
+    private var rainClothing = hashMapOf(
         0 to "regnhatt",
         1 to "_DETTE SKAL IKKE SKJE_",
         2 to "regnjakke",
@@ -55,7 +55,7 @@ class ClothesAlgorithm {
         4 to "gummistøvler"
     )
 
-    var clothingReg = listOf<HashMap<List<Int>, String>>(
+    private var clothingReg = listOf(
         head,
         body,
         jacket,
@@ -63,15 +63,18 @@ class ClothesAlgorithm {
         shoe
     )
 
-    var realtemperature = 0.0
+    private var realtemperature = 0.0
 
-    fun getWeatherScore(weatherData: WeatherData?){
-        timeSeriesIndex = getTimeSeriesIndex(weatherData)
-        var airTemp = weatherData?.properties?.timeseries?.get(timeSeriesIndex)?.data?.instant?.details?.air_temperature
-        var windSpeed = weatherData?.properties?.timeseries?.get(timeSeriesIndex)?.data?.instant?.details?.wind_speed
-        var humidity = weatherData?.properties?.timeseries?.get(timeSeriesIndex)?.data?.instant?.details?.relative_humidity
 
-        var fhTemp = ((airTemp?.times(9))?.div(5))?.plus(32)
+    fun getWeatherScore(weatherData: WeatherData?, index : Int) : MutableList<String>{
+
+        timeSeriesIndex = index
+        //getTimeSeriesIndex(weatherData)
+        val airTemp = weatherData?.properties?.timeseries?.get(timeSeriesIndex)?.data?.instant?.details?.air_temperature
+        val windSpeed = weatherData?.properties?.timeseries?.get(timeSeriesIndex)?.data?.instant?.details?.wind_speed
+        val humidity = weatherData?.properties?.timeseries?.get(timeSeriesIndex)?.data?.instant?.details?.relative_humidity
+
+        val fhTemp = ((airTemp?.times(9))?.div(5))?.plus(32)
         var realTemp = fhTemp
 
 
@@ -101,16 +104,20 @@ class ClothesAlgorithm {
 
 
         println("Real temperature: $realTemp")
-        var clothString = getOutfit(weatherData, realTemp?.toFloat())
+        val clothString = getOutfit(weatherData, realTemp?.toFloat())
         println("Klær: $clothString")
+
+        return clothString
     }
+
+
     fun getRealTemp() : Double {
         return realtemperature
     }
 
-    fun getOutfit(weatherData: WeatherData?, realTemp : Float?): MutableList<String>{
-        var realTempRound = (realTemp?.let { round(it) })?.toFloat()
-        var outfitList = mutableListOf<String>()
+    private fun getOutfit(weatherData: WeatherData?, realTemp : Float?): MutableList<String>{
+        val realTempRound = (realTemp?.roundToLong())?.toFloat()
+        val outfitList = mutableListOf<String>()
         var plaggNummer = 0
         val rain = rainCheck(weatherData)
 
@@ -118,12 +125,12 @@ class ClothesAlgorithm {
             outfitList.add(getPiece(plaggNummer,rain, realTempRound))
             plaggNummer++
         }
-        outfitList.add(get_special(realTempRound, weatherData))
+        outfitList.add(getSpecial(realTempRound, weatherData))
 
         return outfitList
     }
 
-    fun getPiece(number : Int, rain: Int, realTemp : Float?) : String {
+    private fun getPiece(number : Int, rain: Int, realTemp : Float?) : String {
         /*
         0 to hodeplagg
         1 to genser, tskjorte etc
@@ -132,27 +139,27 @@ class ClothesAlgorithm {
         4 to sko*/
 
         //sjekker om nummer = jakke og om regn er riktig, isåfall regnjakke
-        if (number != 1 && rain == 10) {
+        return if (number != 1 && rain == 10) {
             //regner masse, fullt utstyr på
-            return rainClothing.getValue(number)
+            rainClothing.getValue(number)
         }else if (number != 1 && number != 0 && number != 3 && rain == 5){
             //regner endel, hent alt unntatt regnbukse og hatt
-            return rainClothing.getValue(number)
+            rainClothing.getValue(number)
         }else if (number == 2 && rain == 3){
             //lett regn, bare regnjakke
-            return rainClothing.getValue(number)
+            rainClothing.getValue(number)
         }else{
             //når man ikke trenger et spesielt plagg pga regn
-            return getNormalClothing(number, realTemp)
+            getNormalClothing(number, realTemp)
         }
     }
 
-    fun getNormalClothing(number : Int, realTemp: Float?) : String{
+    private fun getNormalClothing(number : Int, realTemp: Float?) : String{
         val pieceMap = clothingReg[number]
         for(tempRange:List<Int> in pieceMap.keys){
             if (realTemp != null) {
-                if(realTemp >= tempRange.get(0) && realTemp <= tempRange.get(1)){
-                    val list = listOf(tempRange.get(0), tempRange.get(1))
+                if(realTemp >= tempRange[0] && realTemp <= tempRange[1]){
+                    val list = listOf(tempRange[0], tempRange[1])
                     return pieceMap.getValue(list)
                 }
             }
@@ -160,7 +167,7 @@ class ClothesAlgorithm {
         return "Noe galt har skjedd"
     }
 
-    fun get_special(realTemp : Float?, weatherData: WeatherData?) : String{
+    private fun getSpecial(realTemp : Float?, weatherData: WeatherData?) : String{
         val rain = rainCheck(weatherData)
         val windSpeed1time = weatherData?.properties?.timeseries?.get(timeSeriesIndex)?.data?.instant?.details?.wind_speed
         val windSpeed3time = weatherData?.properties?.timeseries?.get(timeSeriesIndex+2)?.data?.instant?.details?.wind_speed
@@ -191,14 +198,14 @@ class ClothesAlgorithm {
         val time = weatherData?.properties?.timeseries?.get(timeSeriesIndex)?.time
         val day = time?.substring(8,10)
         val month = time?.substring(5,7)
-        if(day == "17" && month == "05"){
+        if (day == "17" && month == "05") {
             //hent 17. mai flagg
         }
         // eller kanskje til og med steder eks hemsedal (Snowboard briller)
         return ""
     }
 
-    fun rainCheck (weatherData: WeatherData?) : Int{
+    private fun rainCheck (weatherData: WeatherData?) : Int{
         //endrer denne fra å bruke symbol (det er alt for mange ulike, eks: lightsleetshowers_day) til å bruke precipitation og temp
         val minTemp = weatherData?.properties?.timeseries?.get(timeSeriesIndex)?.data?.next_6_hours?.details?.air_temperature_min
         val avgPrecip = weatherData?.properties?.timeseries?.get(timeSeriesIndex)?.data?.next_6_hours?.details?.precipitation_amount
@@ -219,7 +226,7 @@ class ClothesAlgorithm {
     }
 
 
-    fun sunCheck (weatherData: WeatherData?) : Boolean{
+    private fun sunCheck (weatherData: WeatherData?) : Boolean{
         val symbol = weatherData?.properties?.timeseries?.get(timeSeriesIndex)?.data?.next_6_hours?.summary?.symbol_code
         if (symbol == "fair_day" || symbol == "clearsky_day") {
             return true

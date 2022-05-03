@@ -10,7 +10,6 @@ import android.widget.Toast.LENGTH_LONG
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -28,8 +27,6 @@ import androidx.compose.ui.unit.sp
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.example.vaerklar.data.WeatherData
 import com.example.vaerklar.databinding.ActivityMainBinding
 import com.example.vaerklar.ui.screens.MainScreen
@@ -54,11 +51,10 @@ class MainActivity : ComponentActivity(), ActivityCompat.OnRequestPermissionsRes
         // Acquire location data.
         var locationName = "..."
         viewModel.getLocationData().observe(this) {
-            if (it != null) {
-                locationName = it.data?.get(0)?.name.toString()  // Nydelig. elsker kotlin
-            }
-            else {
-                locationName = "Blindern"
+            locationName = if (it != null) {
+                it.data?.get(0)?.name.toString()  // Nydelig. elsker kotlin
+            } else {
+                "Blindern"
             }
         }
 
@@ -134,7 +130,7 @@ class MainActivity : ComponentActivity(), ActivityCompat.OnRequestPermissionsRes
                                 // Column responsible for the vertical stacking of all elements on the page.
                                 Column {
                                     Box {
-                                        MainScreen(weatherData, locationName)
+                                        MainScreen(weatherData, locationName, )
                                         NavigationBar(scaffoldState,scope )
                                     }
                                 }
@@ -222,7 +218,7 @@ class MainActivity : ComponentActivity(), ActivityCompat.OnRequestPermissionsRes
                             }
                         }
                     }
-                    ) {
+                ) {
 
                     Icon(
                         Icons.Default.Menu,

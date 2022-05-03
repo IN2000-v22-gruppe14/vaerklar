@@ -5,6 +5,8 @@ import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
+import android.widget.Toast
+import android.widget.Toast.LENGTH_LONG
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -186,6 +188,12 @@ class MainActivity : ComponentActivity(), ActivityCompat.OnRequestPermissionsRes
                     }
                 }
         }
+
+        else {
+            val toast = Toast.makeText(this, "Vennligst gi lokasjonstillatelse. Appen vil ellers ikke kjøre.", LENGTH_LONG)
+            toast.show()
+        }
+
         // HAMBURGER GREIER VVVV
         //setContentView(R.layout.nav_activity_main)
     }

@@ -10,7 +10,7 @@ import com.example.vaerklar.R
 
 class Translation {
     companion object Translation {
-        var WeatherMap: HashMap<String, String> = hashMapOf(
+        private var WeatherMap: HashMap<String, String> = hashMapOf(
             "clearsky_day" to "Skyfritt",
             "clearsky_night" to "Skyfritt",
             "clearsky_dusk" to "Skyfritt",
@@ -111,7 +111,7 @@ var dayTranslation = hashMapOf<String?, String> (
 )
 
 // Translates symbol strings from the API to icons provided in the application for display.
-var iconTranslation = hashMapOf<String?, Int>(
+var iconTranslation = hashMapOf(
 
     // CLEAR
     "clearsky_day" to R.drawable.clear_day,

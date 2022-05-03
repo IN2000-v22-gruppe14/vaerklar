@@ -130,7 +130,7 @@ class MainActivity : ComponentActivity(), ActivityCompat.OnRequestPermissionsRes
                                 // Column responsible for the vertical stacking of all elements on the page.
                                 Column {
                                     Box {
-                                        MainScreen(weatherData, locationName, )
+                                        MainScreen(weatherData, locationName)
                                         NavigationBar(scaffoldState,scope )
                                     }
                                 }

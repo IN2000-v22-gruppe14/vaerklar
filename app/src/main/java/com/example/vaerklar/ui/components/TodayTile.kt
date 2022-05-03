@@ -27,7 +27,6 @@ import com.example.vaerklar.ui.theme.Rubik
 import java.util.*
 
 private var globalTileCounter = 0
-var timeSeriesIndex = 0
 private val showDialog = mutableStateOf(false)
 private var globalHourNumber = 0
 val hourList = mutableListOf<Hour>()

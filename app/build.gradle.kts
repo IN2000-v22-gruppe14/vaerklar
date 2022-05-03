@@ -78,12 +78,13 @@ dependencies {
     implementation("androidx.compose.ui:ui-tooling-preview:1.1.1")
     implementation ("androidx.compose.material:material:1.1.1")
     implementation("androidx.navigation:navigation-compose:2.4.2")
-    //
+    // Splash screen
+    implementation("androidx.core:core-splashscreen:1.0.0-beta02")
 
 
     // Saved state module for ViewModel
     implementation("androidx.lifecycle:lifecycle-viewmodel-savedstate:2.4.1")
 
     implementation("androidx.activity:activity-ktx:1.6.0-alpha01")
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4:${rootProject.extra["compose_version"]}")
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.1.1")
 }

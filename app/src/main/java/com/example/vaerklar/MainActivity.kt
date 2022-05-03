@@ -5,11 +5,10 @@ import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -26,10 +25,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.vaerklar.data.WeatherData
 import com.example.vaerklar.databinding.ActivityMainBinding
 import com.example.vaerklar.ui.screens.MainScreen
-import com.example.vaerklar.ui.screens.SplashScreen
 import com.example.vaerklar.ui.theme.Rubik
 import com.example.vaerklar.ui.theme.Theme
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -43,30 +44,12 @@ class MainActivity : ComponentActivity(), ActivityCompat.OnRequestPermissionsRes
     private lateinit var binding: ActivityMainBinding
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private val viewModel: MainActivityViewModel by viewModels()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
 
-
-       // setContentView(binding.root)
-
-        setContent {
-            Theme {
-                // The scaffold is responsible for revealing the drawer.
-
-                Scaffold {
-                    // Column responsible for the vertical stacking of all elements on the page.
-                    Column {
-                        Box {
-                            SplashScreen()
-                        }
-                    }
-                }
-            }
-        }
-
+        // Acquire location data.
         var locationName = "..."
         viewModel.getLocationData().observe(this) {
             if (it != null) {
@@ -77,78 +60,94 @@ class MainActivity : ComponentActivity(), ActivityCompat.OnRequestPermissionsRes
             }
         }
 
+        // Acquire weather data.
         var weatherData: WeatherData? = null
         viewModel.getWeatherData().observe(this) {
             weatherData = it
         }
 
-        println("ONCREATE (MainActivity): Appen starter rendering.")
-        Handler(Looper.getMainLooper()).postDelayed({
-            setContent {
-                Theme {
-                    // The scaffold is responsible for revealing the drawer.
-                    val scaffoldState = rememberScaffoldState()
-                    val scope = rememberCoroutineScope()
-                    Scaffold (
-                        scaffoldState = scaffoldState,
-                        drawerBackgroundColor = Color(222, 254, 255),
-                        drawerContent = {
-                            IconButton(
-                                onClick = {
+        // Run splash screen
+        // https://github.com/tgloureiro/animated_splashscreen_android/blob/step4_core_splash_jetpack/app/src/main/java/com/example/animatedsplashscreen/MainActivity.kt
+        val splashScreen = installSplashScreen()
+        splashScreen.setKeepOnScreenCondition { weatherData == null } // Splash screen continues running until weatherData is set.
+
+        // Splash screen exits when weatherData is set, running setContent.
+        splashScreen.setOnExitAnimationListener { splashScreenViewProvider ->
+            splashScreenViewProvider.iconView
+                .animate()
+                .alpha(0f)
+                .setStartDelay(500.toLong())
+                .withEndAction {
+                    splashScreenViewProvider.remove()
+
+                    setContent {
+                        Theme {
+                            // The scaffold is responsible for revealing the drawer.
+                            val scaffoldState = rememberScaffoldState()
+                            val scope = rememberCoroutineScope()
+                            Scaffold (
+                                scaffoldState = scaffoldState,
+                                drawerBackgroundColor = Color(222, 254, 255),
+                                drawerContent = {
+                                    IconButton(
+                                        onClick = {
+                                        }
+                                    ){
+                                        Text("     Hjem",
+                                            modifier = Modifier.padding(20.dp),
+                                            color = Color(29, 58, 59),
+                                            fontFamily = Rubik
+                                        )
+                                        Icon(
+                                            imageVector = Icons.Default.Home,
+                                            contentDescription = "Hjem",
+                                            modifier = Modifier.padding(end = 48.dp),
+                                            tint = Color(29, 58, 59)
+                                        )
+                                    }
+
+                                    Divider()
+                                    IconButton(
+                                        onClick = {
+                                        }
+                                    ){
+                                        Text("     Innstillinger",
+                                            modifier = Modifier.padding(20.dp),
+                                            color = Color(29, 58, 59),
+                                            fontFamily = Rubik
+                                        )
+                                        Icon(
+                                            imageVector = Icons.Default.Settings,
+                                            contentDescription = "Innstillinger",
+                                            modifier = Modifier.padding(end = 94.dp),
+                                            tint = Color(29, 58, 59)
+                                        )
+                                    }
+
+                                    Divider()
+                                    // Drawer items
                                 }
-                            ){
-                                Text("     Hjem",
-                                    modifier = Modifier.padding(20.dp),
-                                    color = Color(29, 58, 59),
-                                    fontFamily = Rubik
-                                )
-                                Icon(
-                                    imageVector = Icons.Default.Home,
-                                    contentDescription = "Hjem",
-                                    modifier = Modifier.padding(end = 48.dp),
-                                    tint = Color(29, 58, 59)
-                                )
-                            }
+                            ) {
 
-                            Divider()
-                            IconButton(
-                                onClick = {
+                                // Column responsible for the vertical stacking of all elements on the page.
+                                Column {
+                                    Box {
+                                        MainScreen(weatherData, locationName)
+                                        NavigationBar(scaffoldState,scope )
+                                    }
                                 }
-                            ){
-                                Text("     Innstillinger",
-                                    modifier = Modifier.padding(20.dp),
-                                    color = Color(29, 58, 59),
-                                    fontFamily = Rubik
-                                )
-                                Icon(
-                                    imageVector = Icons.Default.Settings,
-                                    contentDescription = "Innstillinger",
-                                    modifier = Modifier.padding(end = 94.dp),
-                                    tint = Color(29, 58, 59)
-                                )
-                            }
-
-                            Divider()
-                            // Drawer items
-                        }
-                        )
-                        {
-
-                        // Column responsible for the vertical stacking of all elements on the page.
-                        Column {
-                            Box {
-                                MainScreen(weatherData, locationName)
-                                NavigationBar(scaffoldState,scope )
                             }
                         }
                     }
                 }
-            }
-        }, 1000)
+                .start()
+        }
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION), 0)
-        } else {
+        }
+
+        else {
             fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
             fusedLocationClient.getCurrentLocation(PRIORITY_HIGH_ACCURACY, CancellationTokenSource().token)
                 .addOnSuccessListener { location: Location? ->
@@ -164,8 +163,6 @@ class MainActivity : ComponentActivity(), ActivityCompat.OnRequestPermissionsRes
                 }
         }
     }
-
-
 
     @SuppressLint("MissingPermission")
     override fun onRequestPermissionsResult(
@@ -249,6 +246,4 @@ class MainActivity : ComponentActivity(), ActivityCompat.OnRequestPermissionsRes
 
         // TODO: Add functional onClick modifiers.
     }
-
-
 }

@@ -55,7 +55,10 @@ private fun PopUpScreen(weatherData: WeatherData?) {
                 val avatar = Avatar()
                 val piss = avatar.avatarMain(weatherData, "", hourList[globalHourNumber].timeIndex)
                 var theString = ""
-                for(i in piss){
+                for (i in piss) {
+                    if (i == "") {
+                        continue
+                    }
                     theString += i.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() } + "\n"
                 }
                 Box(

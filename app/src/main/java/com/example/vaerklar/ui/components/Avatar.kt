@@ -428,7 +428,10 @@ class Avatar {
                     ) {
 
                         var theString = ""
-                        for(i in clothingString){
+                        for (i in clothingString) {
+                            if (i == "") {
+                                continue
+                            }
                             theString += i.replaceFirstChar {
                                 if (it.isLowerCase()) it.titlecase(
                                     Locale.getDefault()

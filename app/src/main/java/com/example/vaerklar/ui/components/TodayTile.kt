@@ -174,7 +174,9 @@ fun TodayTile(weatherData: WeatherData?, timeSeriesIndex: Int) {
         val time = timeString?.substring(11,13)
 
         val hour = Hour(time, "$airTemp°", windSpeed, precipitation, icon, i, count)
-        hourList.add(hour)
+        if(hourList.size < 6){
+            hourList.add(hour)
+        }
     }
 
     val day = remember {hourList}

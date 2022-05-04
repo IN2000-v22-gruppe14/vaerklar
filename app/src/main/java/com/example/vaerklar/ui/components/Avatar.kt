@@ -429,11 +429,13 @@ class Avatar {
 
                             var theString = ""
                             for(i in clothingString){
-                                theString += i.replaceFirstChar {
-                                    if (it.isLowerCase()) it.titlecase(
-                                        Locale.getDefault()
-                                    ) else it.toString()
-                                } + "\n"
+                                if(i != ""){
+                                    theString += i.replaceFirstChar {
+                                        if (it.isLowerCase()) it.titlecase(
+                                            Locale.getDefault()
+                                        ) else it.toString()
+                                    } + "\n"
+                                }
                             }
                             Text(
                                 color = Color.White,

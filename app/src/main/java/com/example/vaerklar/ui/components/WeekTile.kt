@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.vaerklar.data.WeatherData
 import com.example.vaerklar.data.dayTranslation
+import com.example.vaerklar.data.dayTranslationWhole
 import com.example.vaerklar.data.iconTranslation
 import com.example.vaerklar.ui.screens.altColor
 import com.example.vaerklar.ui.screens.baseColor
@@ -55,10 +56,16 @@ private fun PopUpScreen(weatherData: WeatherData?){
 
             ) {
                 val avatar = Avatar()
-                val piss = avatar.avatarMain(weatherData, "", dayList[globalDayNumber].timeIndex)
+                var dName = ""
+                if(dayList[globalDayNumber].dayNameWhole != null){
+                    dName = dayList[globalDayNumber].dayNameWhole.toString()
+                }
+                val piss = avatar.avatarMain(weatherData, dName, dayList[globalDayNumber].timeIndex, 0)
                 var theString = ""
                 for(i in piss){
-                    theString += i.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() } + "\n"
+                    if(i != ""){
+                        theString += i.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() } + "\n"
+                    }
                 }
                 Box(
                     Modifier
@@ -161,13 +168,14 @@ fun WeekTile(weatherData: WeatherData?) {
     }
 
     // While-loop responsible for finding weather information for the next six days. Runs as long as the difference in days from now to then is less than 7 days.
+    var index = -1
     while (dayDiff != 6) {
         val hour = weatherData?.properties?.timeseries?.get(counter)?.time?.substring(11,13) // provided hour of given date
 
         // If the found hour is 12:00:00 (which is applicable for all future dates), create a day object.
-        var index = -1
         if (hour == "12") {
             index++
+            println("index for dag: $index")
             val dayDate = weatherData.properties.timeseries[counter].time.substring(0, 10)
             val airTemp = weatherData.properties.timeseries[counter].data.instant.details?.air_temperature?.toInt().toString()
             val windSpeed = weatherData.properties.timeseries[counter].data.instant.details?.wind_speed
@@ -176,8 +184,9 @@ fun WeekTile(weatherData: WeatherData?) {
 
             val dayIntermediary = LocalDate.parse(dayDate).dayOfWeek // acquire name of day in English
             val dayName = dayTranslation[dayIntermediary.name.substring(0,2)] // acquire two first letters of the name of the day
+            val dayNameWhole  = dayTranslationWhole[dayIntermediary.name.substring(0,2)] //aquire the whole name
 
-            val day = Day(dayName,  dayDate,"$airTemp°", windSpeed, precipitation, icon, counter, index) // create day object
+            val day = Day(dayName, dayNameWhole,  dayDate,"$airTemp°", windSpeed, precipitation, icon, counter, index) // create day object
             dayList.add(day) // add day object to list of days
             dayDiff = Period.between(currentDate, LocalDate.parse(dayDate)).days // calculate new difference of days between today and the provided day
         }
@@ -227,6 +236,7 @@ fun WeekTile(weatherData: WeatherData?) {
 
 class Day (
     val dayName: String?,
+    val dayNameWhole: String?,
     val date: String?,
     val airTemp: String?,
     val windSpeed: Double?,

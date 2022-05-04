@@ -94,7 +94,7 @@ class Avatar {
     }
 
     @Composable
-    fun avatarMain(data: WeatherData?, locationName: String, index : Int): MutableList<String>{
+    fun avatarMain(data: WeatherData?, locationName: String, index : Int, flag: Int): MutableList<String>{
         val converterClothing = hashMapOf(
             // CLOTHES
             "bukse" to R.drawable.bukse,
@@ -416,35 +416,36 @@ class Avatar {
                         }
                     }
                 }
+                if(flag == 1){
+                    Box(
+                        modifier = Modifier
+                            .align(Alignment.CenterEnd))
+                    {
+                        DropDown(
 
-                Box(
-                    modifier = Modifier
-                        .align(Alignment.CenterEnd))
-                {
-                    DropDown(
+                            text = "",
+                            modifier = Modifier.absolutePadding(255.dp, 50.dp, 0.dp, 0.dp)
+                        ) {
 
-                        text = "",
-                        modifier = Modifier.absolutePadding(255.dp, 50.dp, 0.dp, 0.dp)
-                    ) {
-
-                        var theString = ""
-                        for(i in clothingString){
-                            theString += i.replaceFirstChar {
-                                if (it.isLowerCase()) it.titlecase(
-                                    Locale.getDefault()
-                                ) else it.toString()
-                            } + "\n"
+                            var theString = ""
+                            for(i in clothingString){
+                                theString += i.replaceFirstChar {
+                                    if (it.isLowerCase()) it.titlecase(
+                                        Locale.getDefault()
+                                    ) else it.toString()
+                                } + "\n"
+                            }
+                            Text(
+                                color = Color.White,
+                                text = theString,
+                                fontSize = 20.sp,
+                                modifier = Modifier
+                                    .absolutePadding(15.dp, 15.dp, 15.dp, 15.dp)
+                                    .width(250.dp)
+                                    .height(500.dp)
+                                    .background(Color.Transparent)
+                            )
                         }
-                        Text(
-                            color = Color.White,
-                            text = theString,
-                            fontSize = 20.sp,
-                            modifier = Modifier
-                                .absolutePadding(15.dp, 15.dp, 15.dp, 15.dp)
-                                .width(250.dp)
-                                .height(500.dp)
-                                .background(Color.Transparent)
-                        )
                     }
                 }
 

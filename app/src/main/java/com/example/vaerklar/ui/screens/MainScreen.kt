@@ -44,7 +44,7 @@ fun MainScreen(weatherData: WeatherData?, locationName: String) {
                 verticalArrangement = Arrangement.Center
             ) {
                 val avatar = Avatar()
-                avatar.avatarMain(weatherData, locationName, 0)
+                avatar.avatarMain(weatherData, locationName, 0, 1)
                 MainTile(weatherData, timeSeriesIndex)
                 TodayTile(weatherData, timeSeriesIndex)
                 WeekTile(weatherData)

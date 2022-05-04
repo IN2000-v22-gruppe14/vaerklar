@@ -110,6 +110,16 @@ var dayTranslation = hashMapOf<String?, String> (
     "SU" to "SØ"
 )
 
+var dayTranslationWhole = hashMapOf<String?, String> (
+    "MO" to "MANDAG",
+    "TU" to "TIRSDAG",
+    "WE" to "ONSDAG",
+    "TH" to "TORSDAG",
+    "FR" to "FREDAG",
+    "SA" to "LØRDAG",
+    "SU" to "SØNDAG"
+)
+
 // Translates symbol strings from the API to icons provided in the application for display.
 var iconTranslation = hashMapOf(
 

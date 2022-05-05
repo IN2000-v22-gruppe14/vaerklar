@@ -28,7 +28,14 @@ Sørg også for at du har satt en lokasjon for enhetens emulatorinstillinger i A
 
 ## Kjente problemer - og hvordan man løser dem.
 
-kommer snart™️
+### Mangel på lokasjon
+
+* Sørg for at lokasjon er satt i enhetens emulatorinstillinger i Android Studio
+* Åpne google maps i bakgrunnen
+
+### Appen min går ikke videre fra splash screen. Den viser bare logoen
+
+* Sørg for at du har gitt appen lokasjonstillatelse
 
 
 ## Bilder

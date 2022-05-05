@@ -7,6 +7,9 @@ import com.github.kittinunf.fuel.coroutines.awaitString
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
+import java.util.*
 
 class DataSource {
 
@@ -51,22 +54,16 @@ class DataSource {
 
 fun getTimeSeriesIndex(weatherData: WeatherData?): Int {
     val updatedAt = weatherData?.properties?.meta?.updated_at
-    val updateHour = updatedAt?.substring(11,13)
 
-    val uhourInt = updateHour?.toInt()
-    var firstHour = 0
-    if(uhourInt != 23){
-        firstHour = uhourInt?.plus(1)!!
-    }
+    // Konverterer ISO string til dateteimeobjekt
+    // Konverterer denne så til tidssone for Oslo
+    println(TimeZone.getDefault().id)
+    val updatedAtDateTime = LocalDateTime.parse(updatedAt, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'"))
+        .atZone(ZoneId.of("UTC"))
+        .withZoneSameInstant(ZoneId.of(TimeZone.getDefault().id))
 
-    val nowTime = LocalDateTime.now()
-    val nowString = nowTime.toString()
-    val nowHour = nowString.substring(11,13)
-    var nowHourInt = nowHour.toInt()
-    println("nowhourint: $nowHourInt, firsthour: $firstHour")
-    //val timeindex = nowHourInt - firstHour + 1
-    if(nowHourInt < firstHour){
-        nowHourInt = 25
-    }
-    return nowHourInt - firstHour + 1
+    val updateHour = updatedAtDateTime.hour
+    val firstHour = if (updateHour != 23) updateHour + 1 else 0
+
+    return updateHour - firstHour + 1
 }

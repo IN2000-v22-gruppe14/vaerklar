@@ -60,7 +60,13 @@ private fun PopUpScreen(weatherData: WeatherData?){
                 if(dayList[globalDayNumber].dayNameWhole != null){
                     dName = dayList[globalDayNumber].dayNameWhole.toString()
                 }
-                val piss = avatar.avatarMain(weatherData, dName, dayList[globalDayNumber].timeIndex, 0)
+                var date = ""
+                if(dayList[globalDayNumber].date != null){
+                    val day = dayList[globalDayNumber].date.toString().substring(8,10)
+                    val month = dayList[globalDayNumber].date.toString().substring(5,7)
+                    date = "$day.$month"
+                }
+                val piss = avatar.avatarMain(weatherData, dName, dayList[globalDayNumber].timeIndex, 0, date)
                 var theString = ""
                 for(i in piss){
                     if(i != ""){

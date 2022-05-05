@@ -57,7 +57,7 @@ private fun PopUpScreen(weatherData: WeatherData?) {
                 if(hourList[globalHourNumber].time != null){
                     theTime = hourList[globalHourNumber].time.toString()
                 }
-                val piss = avatar.avatarMain(weatherData, theTime, hourList[globalHourNumber].timeIndex, 0)
+                val piss = avatar.avatarMain(weatherData, theTime, hourList[globalHourNumber].timeIndex, 0, "")
                 var theString = ""
                 for(i in piss){
                     if(i != ""){

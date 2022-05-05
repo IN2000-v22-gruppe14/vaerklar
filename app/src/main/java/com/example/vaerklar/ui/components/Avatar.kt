@@ -94,7 +94,7 @@ class Avatar {
     }
 
     @Composable
-    fun avatarMain(data: WeatherData?, locationName: String, index : Int, flag: Int): MutableList<String>{
+    fun avatarMain(data: WeatherData?, locationName: String, index : Int, flag: Int, date: String): MutableList<String>{
         val converterClothing = hashMapOf(
             // CLOTHES
             "bukse" to R.drawable.bukse,
@@ -164,9 +164,9 @@ class Avatar {
                     .absolutePadding(5.dp, 45.dp, 0.dp, 0.dp)
                 // TODO: Place into row alongside pin icon with onClick.
             )
-            // Location within city.
+            // used to show date of day clicked in popup
             Text(
-                text = "",
+                text = date,
                 color = Color.White,
                 fontFamily = Rubik,
                 fontWeight = FontWeight.Normal,

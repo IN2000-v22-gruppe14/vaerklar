@@ -49,7 +49,6 @@ class MainActivity : ComponentActivity(), ActivityCompat.OnRequestPermissionsRes
         super.onCreate(savedInstanceState)
         println("lifecycle: create")
 
-
         // Acquire location data.
         viewModel.getLocationData().observe(this) {
             locationName = if (it != null) {
@@ -155,7 +154,11 @@ class MainActivity : ComponentActivity(), ActivityCompat.OnRequestPermissionsRes
             fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
             fusedLocationClient.getCurrentLocation(PRIORITY_HIGH_ACCURACY, CancellationTokenSource().token)
                 .addOnSuccessListener { location: Location? ->
+                    println("(MainActivity): Enhetens lokasjon er funnet.")
                     if (location != null) {
+                        println("(MainActivity): Enhetens lokasjon er ikke null.")
+                        println("Enhetens gitte breddegrad/latitude er " + location.latitude)
+                        println("Enhetens gitte lengdegrad/longitude er " + location.longitude)
                         viewModel.fetchLocationData(location.latitude, location.longitude)
                         viewModel.fetchWeatherData(location.latitude, location.longitude)
                     }

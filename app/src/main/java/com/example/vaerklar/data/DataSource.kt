@@ -47,6 +47,22 @@ class DataSource {
         }
         return null
     }
+
+    suspend fun getLocationMetaDataFromName(locationName: String): List<LocationMetaData?>? {
+        try {
+            val response = Fuel.get("$locationUrl?names=$locationName")
+                .authentication()
+                .basic(apiClient, apiSecret)
+                .awaitString()
+            println(response)
+            val responseObject = Json.decodeFromString<LocationData>(response)
+            return responseObject.data
+        } catch(exception: Exception) {
+            Log.e("DataSource", "Weather data request and deserialization failed!")
+            Log.e("DataSource", exception.toString())
+        }
+        return null
+    }
 }
 
 fun getTimeSeriesIndex(weatherData: WeatherData?): Int {

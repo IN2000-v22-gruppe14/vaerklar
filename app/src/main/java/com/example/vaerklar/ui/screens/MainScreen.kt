@@ -93,7 +93,12 @@ var baseColor = DayTile // NULL-SAFE
 var altColor = DayTileAlt // NULL-SAFE
 
 fun determineBase(weatherData: WeatherData?, timeSeriesIndex: Int) {
-    val timeInt = weatherData?.properties?.timeseries?.get(timeSeriesIndex - 1)?.time?.substring(11,13)?.toInt()
+    var timeInt: Int
+    if(timeSeriesIndex > 0){
+        timeInt = weatherData?.properties?.timeseries?.get(timeSeriesIndex - 1)?.time?.substring(11,13)?.toInt()!!
+    }else{
+        timeInt = weatherData?.properties?.timeseries?.get(timeSeriesIndex)?.time?.substring(11,13)?.toInt()!!
+    }
 
     if (timeInt != null) {
         if (timeInt < 21) {

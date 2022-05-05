@@ -32,7 +32,7 @@ class ClothesAlgorithm {
     private var underdel = hashMapOf(
         listOf(-100,-11) to "utebukse",
         listOf(-10,22) to "bukse",
-        listOf(23,50) to "skjorts"
+        listOf(23,50) to "shorts"
     )
 
     private var shoe = hashMapOf(

@@ -47,7 +47,7 @@ fun MainTile(weatherData: WeatherData?, timeSeriesIndex: Int) {
                     else "Fant ikke vind"
 
     windText += if(windGust != null)"(" + windGust.roundToInt().toString() + ")"
-                else
+                else ""
 
 
     // The base of the card with colors.

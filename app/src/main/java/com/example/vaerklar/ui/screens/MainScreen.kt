@@ -34,7 +34,7 @@ fun MainScreen(weatherData: WeatherData?, locationName: String) {
                 .verticalScroll(rememberScrollState())
                 .background(
                     brush = Brush.verticalGradient(
-                        colors = determineGradient(weatherData)
+                        colors = determineGradient(weatherData, timeSeriesIndex)
                     )
                 )
         ) {
@@ -54,8 +54,7 @@ fun MainScreen(weatherData: WeatherData?, locationName: String) {
 }
 
 // Determines the gradient of the background of the screen, based on time (2) and weather (3).
-fun determineGradient(weatherData: WeatherData?): List<Color> {
-    timeSeriesIndex = getTimeSeriesIndex(weatherData)
+fun determineGradient(weatherData: WeatherData?, timeSeriesIndex: Int): List<Color> {
     var timeIcon: String?
     var timeInt: Int?
 
@@ -66,7 +65,6 @@ fun determineGradient(weatherData: WeatherData?): List<Color> {
         timeIcon = weatherData?.properties?.timeseries?.get(timeSeriesIndex)?.data?.next_1_hours?.summary?.symbol_code
         timeInt = weatherData?.properties?.timeseries?.get(timeSeriesIndex)?.time?.substring(11,13)?.toInt()
     }
-
 
     if (timeInt != null) {
         if (timeInt < 21) {

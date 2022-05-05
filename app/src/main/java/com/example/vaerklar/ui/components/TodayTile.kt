@@ -37,8 +37,8 @@ private fun PopUpScreen(weatherData: WeatherData?) {
     AlertDialog(
 
         backgroundColor = Color(0XFF23323c),
-
         shape = RoundedCornerShape(15.dp),
+        modifier = Modifier.height(620.dp),
 
 
         title = {
@@ -55,7 +55,7 @@ private fun PopUpScreen(weatherData: WeatherData?) {
                 val avatar = Avatar()
                 var theTime = ""
                 if(hourList[globalHourNumber].time != null){
-                    theTime = hourList[globalHourNumber].time.toString()
+                    theTime = hourList[globalHourNumber].time.toString() + ":00"
                 }
                 val piss = avatar.avatarMain(weatherData, theTime, hourList[globalHourNumber].timeIndex, 0, "")
                 var theString = ""
@@ -71,7 +71,7 @@ private fun PopUpScreen(weatherData: WeatherData?) {
 
                     Text(
                         text = theString,
-                        fontSize = 22.sp,
+                        fontSize = 20.sp,
                         color = Color.White,
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier

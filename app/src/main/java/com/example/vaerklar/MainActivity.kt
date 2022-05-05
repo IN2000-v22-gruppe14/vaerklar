@@ -40,16 +40,16 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity(), ActivityCompat.OnRequestPermissionsResultCallback {
-    private lateinit var binding: ActivityMainBinding
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private val viewModel: MainActivityViewModel by viewModels()
+    private var locationName = "..."  // This is kind of redundant but eh fuck it
+    var weatherData: WeatherData? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        println("lifecycle: create")
 
         // Acquire location data.
-        var locationName = "..."
         viewModel.getLocationData().observe(this) {
             locationName = if (it != null) {
                 it.data?.get(0)?.name.toString()  // Nydelig. elsker kotlin
@@ -59,10 +59,17 @@ class MainActivity : ComponentActivity(), ActivityCompat.OnRequestPermissionsRes
         }
 
         // Acquire weather data.
-        var weatherData: WeatherData? = null
         viewModel.getWeatherData().observe(this) {
             weatherData = it
         }
+    }
+
+    override fun onStart() {
+        // Runs when app is minimized and relaunches.
+        // Is responsible for rendering UI as well as obtaining location permissions
+
+        super.onStart()
+        println("lifecycle: start")
 
         // Run splash screen
         // https://github.com/tgloureiro/animated_splashscreen_android/blob/step4_core_splash_jetpack/app/src/main/java/com/example/animatedsplashscreen/MainActivity.kt
@@ -143,16 +150,13 @@ class MainActivity : ComponentActivity(), ActivityCompat.OnRequestPermissionsRes
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION), 0)
-        }
-
-        else {
+        } else {
             fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
             fusedLocationClient.getCurrentLocation(PRIORITY_HIGH_ACCURACY, CancellationTokenSource().token)
                 .addOnSuccessListener { location: Location? ->
-                    println("ONREQUESTPERMISSIONSRESULT (MainActivity): Enhetens lokasjon er funnet.")
-
+                    println("(MainActivity): Enhetens lokasjon er funnet.")
                     if (location != null) {
-                        println("ONREQUESTPERMISSIONSRESULT (MainActivity): Enhetens lokasjon er ikke null.")
+                        println("(MainActivity): Enhetens lokasjon er ikke null.")
                         println("Enhetens gitte breddegrad/latitude er " + location.latitude)
                         println("Enhetens gitte lengdegrad/longitude er " + location.longitude)
                         viewModel.fetchLocationData(location.latitude, location.longitude)
@@ -183,9 +187,7 @@ class MainActivity : ComponentActivity(), ActivityCompat.OnRequestPermissionsRes
                         viewModel.fetchWeatherData(location.latitude, location.longitude)
                     }
                 }
-        }
-
-        else {
+        } else {
             val toast = Toast.makeText(this, "Vennligst gi lokasjonstillatelse. Appen vil ellers ikke kjøre.", LENGTH_LONG)
             toast.show()
         }

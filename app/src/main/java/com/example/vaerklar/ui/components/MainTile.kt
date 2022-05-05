@@ -43,8 +43,12 @@ fun MainTile(weatherData: WeatherData?, timeSeriesIndex: Int) {
     val wind = weatherData?.properties?.timeseries?.get(timeSeriesIndex)?.data?.instant?.details?.wind_speed
     val windGust = weatherData?.properties?.timeseries?.get(timeSeriesIndex)?.data?.instant?.details?.wind_speed_of_gust
 
-    val windText =  if(wind != null) wind.roundToInt().toString() + "(" + windGust?.roundToInt().toString() + ")"
+    var windText =  if(wind != null) wind.roundToInt().toString()
                     else "Fant ikke vind"
+
+    windText += if(windGust != null)"(" + windGust.roundToInt().toString() + ")"
+                else
+
 
     // The base of the card with colors.
     Card(

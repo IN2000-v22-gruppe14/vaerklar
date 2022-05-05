@@ -56,8 +56,17 @@ fun MainScreen(weatherData: WeatherData?, locationName: String) {
 // Determines the gradient of the background of the screen, based on time (2) and weather (3).
 fun determineGradient(weatherData: WeatherData?): List<Color> {
     timeSeriesIndex = getTimeSeriesIndex(weatherData)
-    val timeIcon = weatherData?.properties?.timeseries?.get(timeSeriesIndex - 1)?.data?.next_1_hours?.summary?.symbol_code
-    val timeInt = weatherData?.properties?.timeseries?.get(timeSeriesIndex - 1)?.time?.substring(11,13)?.toInt()
+    var timeIcon: String?
+    var timeInt: Int?
+
+    if(timeSeriesIndex > 0){
+        timeIcon = weatherData?.properties?.timeseries?.get(timeSeriesIndex - 1)?.data?.next_1_hours?.summary?.symbol_code
+        timeInt = weatherData?.properties?.timeseries?.get(timeSeriesIndex - 1)?.time?.substring(11,13)?.toInt()
+    }else{
+        timeIcon = weatherData?.properties?.timeseries?.get(timeSeriesIndex)?.data?.next_1_hours?.summary?.symbol_code
+        timeInt = weatherData?.properties?.timeseries?.get(timeSeriesIndex)?.time?.substring(11,13)?.toInt()
+    }
+
 
     if (timeInt != null) {
         if (timeInt < 21) {

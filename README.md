@@ -2,7 +2,7 @@
 
 En Androidapp som gir deg klesanbefalinger basert på været
 
-![Værklar logo](app/src/main/ic_launcher-playstore.png)
+<img src="app/src/main/ic_launcher-playstore.png" width=256>
 
 
 ## Hva er dette prosjektet?

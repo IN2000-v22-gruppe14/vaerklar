@@ -36,7 +36,7 @@ val hourList = mutableListOf<Hour>()
 private fun PopUpScreen(weatherData: WeatherData?) {
     AlertDialog(
 
-        backgroundColor = Color(0XFF23323c),
+        backgroundColor = baseColor,
         shape = RoundedCornerShape(15.dp),
         modifier = Modifier.height(620.dp),
 
@@ -46,7 +46,7 @@ private fun PopUpScreen(weatherData: WeatherData?) {
                 Modifier
                     .fillMaxSize()
                     .size(200.dp, 100.dp)
-                    .background(Color(0XFF23323c))
+                    .background(baseColor)
             ){ Box(
                 Modifier
                     .fillMaxSize()

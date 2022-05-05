@@ -62,6 +62,11 @@ fun getTimeSeriesIndex(weatherData: WeatherData?): Int {
     val nowTime = LocalDateTime.now()
     val nowString = nowTime.toString()
     val nowHour = nowString.substring(11,13)
-    val nowHourInt = nowHour.toInt()
+    var nowHourInt = nowHour.toInt()
+    println("nowhourint: $nowHourInt, firsthour: $firstHour")
+    //val timeindex = nowHourInt - firstHour + 1
+    if(nowHourInt < firstHour){
+        nowHourInt = 25
+    }
     return nowHourInt - firstHour + 1
 }

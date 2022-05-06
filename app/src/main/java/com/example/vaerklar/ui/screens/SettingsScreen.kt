@@ -1,33 +1,29 @@
 package com.example.vaerklar.ui.screens
 
+import android.app.Activity
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
+import android.content.Context.CLIPBOARD_SERVICE
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material.Scaffold
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
-import com.example.vaerklar.ui.theme.ClearDay
-import kotlin.math.roundToInt
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.vaerklar.ui.theme.DayTile
-import com.example.vaerklar.ui.theme.DayTileAlt
-import com.example.vaerklar.ui.theme.InactiveWhite
-import com.example.vaerklar.ui.theme.Rubik
+import androidx.core.content.ContextCompat.getSystemService
+import com.example.vaerklar.ui.theme.*
+import kotlin.math.roundToInt
+
 
 @Composable
 fun SettingsScreen() {
@@ -74,8 +70,11 @@ fun termsOfService() {
     TODO("Shows a page with terms of Service")
 }
 
-fun invite() {
-    TODO("Invite friends to download the app")
+fun invite(activity: Activity) {
+    val context = activity.applicationContext
+    val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+    val clip = ClipData.newPlainText("Simple text", "https://github.com/IN2000-v22-gruppe14/vaerklar")
+    clipboard.setPrimaryClip(clip)
 }
 
 fun helpAndSupport() {
@@ -85,6 +84,7 @@ fun helpAndSupport() {
 @Preview
 @Composable
 fun SettingsMenu() {
+    val activity = LocalContext.current as Activity
     //Base card to hold everything together
     Scaffold(
         modifier = Modifier
@@ -358,7 +358,7 @@ fun SettingsMenu() {
                     )
 
                     Button(
-                        onClick = { invite() },
+                        onClick = { invite(activity) },
                         shape = RoundedCornerShape(10.dp),
                         colors = ButtonDefaults.buttonColors(
                             backgroundColor = Color.White)

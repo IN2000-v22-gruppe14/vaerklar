@@ -13,6 +13,7 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -31,6 +32,8 @@ import com.example.vaerklar.ui.theme.DayTileAlt
 fun SearchScreen() {
     var state = mutableStateOf("")
     val viewModel = SearchActivityViewModel()
+
+    val locations = viewModel.getLocations().observeAsState()
 
     Scaffold {
         val focusRequester = remember { FocusRequester() }
@@ -69,8 +72,8 @@ fun SearchScreen() {
             }
             Box {
                 Column {
-                    if (viewModel.getLocations().value != null) {
-                        LocationsList(locations = viewModel.getLocations().value!!)
+                    if (locations.value != null) {
+                        LocationsList(locations.value!!)
                     }
                 }
             }
@@ -89,7 +92,7 @@ fun LocationsList(locations: List<LocationMetaData?>) {
             items = yeet,
             itemContent = {
                 if (it != null) {
-                    SearchResultItem(location = it)
+                    SearchResultItem(it)
                 }
             }
         )

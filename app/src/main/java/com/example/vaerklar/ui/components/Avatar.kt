@@ -8,8 +8,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -58,9 +56,12 @@ class Avatar {
             )
         )
         Column(
-            modifier = modifier.fillMaxWidth()
+            modifier = modifier
+                .fillMaxWidth()
         ) {
             Row(
+                modifier = Modifier
+                    .offset(15.dp, 0.dp),
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically,
 
@@ -68,14 +69,16 @@ class Avatar {
                 Text(
                     text = text,
                 )
-                Icon(imageVector = Icons.Default.ArrowDropDown,
+                Icon(
+                    painter = painterResource(R.drawable.dropdown),
                     contentDescription = "Open or close the drop down",
                     tint = Color.White,
-                    modifier = Modifier.clickable {
-                        isOpen = !isOpen
-                    }
+                    modifier = Modifier
+                        .clickable {
+                            isOpen = !isOpen
+                        }
                         .scale(1f, if (isOpen) -1f else 1f)
-                        .size(40.dp)
+                        .size(15.dp)
                 )
             }
             Box(
@@ -162,9 +165,9 @@ class Avatar {
                 fontSize = 25.sp,
                 modifier = Modifier
                     .absolutePadding(5.dp, 45.dp, 0.dp, 0.dp)
-                // TODO: Place into row alongside pin icon with onClick.
             )
-            // used to show date of day clicked in popup
+
+            // Used to show date of day clicked in popup
             Text(
                 text = date,
                 color = Color.White,
@@ -175,9 +178,13 @@ class Avatar {
 
             Box(Modifier.fillMaxSize()) {
                 Box(
-                    Modifier.align(Alignment.TopCenter).fillMaxHeight().width(
-                        50.dp
-                    ).background(Color.Transparent)
+                    Modifier
+                        .align(Alignment.TopCenter)
+                        .fillMaxHeight()
+                        .width(
+                            50.dp
+                        )
+                        .background(Color.Transparent)
                 )
                 val sole : List<String> = listOf("sko")
                 for (ord in sole){
@@ -217,9 +224,13 @@ class Avatar {
                 }
 
                 Box(
-                    Modifier.align(Alignment.TopCenter).fillMaxHeight().width(
-                        50.dp
-                    ).background(Color.Transparent)
+                    Modifier
+                        .align(Alignment.TopCenter)
+                        .fillMaxHeight()
+                        .width(
+                            50.dp
+                        )
+                        .background(Color.Transparent)
                 )
                 val pants : List<String> = listOf("bukse","skj_rt","regnbukse", "shorts")
 
@@ -246,9 +257,13 @@ class Avatar {
                         .align(Alignment.Center)
                 )*/
                 Box(
-                    Modifier.align(Alignment.TopCenter).fillMaxHeight().width(
-                        50.dp
-                    ).background(Color.Transparent)
+                    Modifier
+                        .align(Alignment.TopCenter)
+                        .fillMaxHeight()
+                        .width(
+                            50.dp
+                        )
+                        .background(Color.Transparent)
                 )
                 Image(
                     painter = painterResource(R.drawable.h_r),
@@ -273,9 +288,13 @@ class Avatar {
                 }
 
                 Box(
-                    Modifier.align(Alignment.TopCenter).fillMaxHeight().width(
-                        50.dp
-                    ).background(Color.Transparent)
+                    Modifier
+                        .align(Alignment.TopCenter)
+                        .fillMaxHeight()
+                        .width(
+                            50.dp
+                        )
+                        .background(Color.Transparent)
                 )
                 val top : List<String> = listOf("bobblejakke", "vinterjakke", "frakk", "tskjorte", "langermet", "ullgenser","kjole","genser"  )
                 for (ord in top){
@@ -293,9 +312,13 @@ class Avatar {
                 }
 
                 Box(
-                    Modifier.align(Alignment.TopCenter).fillMaxHeight().width(
-                        50.dp
-                    ).background(Color.Transparent)
+                    Modifier
+                        .align(Alignment.TopCenter)
+                        .fillMaxHeight()
+                        .width(
+                            50.dp
+                        )
+                        .background(Color.Transparent)
                 )
                 Image(
                     painter = painterResource(R.drawable.aniskt),
@@ -327,9 +350,13 @@ class Avatar {
                 }
 
                 Box(
-                    Modifier.align(Alignment.TopCenter).fillMaxHeight().width(
-                        50.dp
-                    ).background(Color.Transparent)
+                    Modifier
+                        .align(Alignment.TopCenter)
+                        .fillMaxHeight()
+                        .width(
+                            50.dp
+                        )
+                        .background(Color.Transparent)
                 )
                 val sunglasses : List<String> = listOf("solbriller")
                 for (ord in sunglasses){
@@ -347,9 +374,13 @@ class Avatar {
                 }
 
                 Box(
-                    Modifier.align(Alignment.TopCenter).fillMaxHeight().width(
-                        50.dp
-                    ).background(Color.Transparent)
+                    Modifier
+                        .align(Alignment.TopCenter)
+                        .fillMaxHeight()
+                        .width(
+                            50.dp
+                        )
+                        .background(Color.Transparent)
                 )
                 val handThing : List<String> = listOf("flagg","gummist_ler","ol")
                 for (ord in handThing){
@@ -376,9 +407,13 @@ class Avatar {
 
 
                 Box(
-                    Modifier.align(Alignment.TopCenter).fillMaxHeight().width(
-                        50.dp
-                    ).background(Color.Transparent)
+                    Modifier
+                        .align(Alignment.TopCenter)
+                        .fillMaxHeight()
+                        .width(
+                            50.dp
+                        )
+                        .background(Color.Transparent)
                 )
 
                 for (ord in top){
@@ -396,9 +431,13 @@ class Avatar {
                 }
 
                 Box(
-                    Modifier.align(Alignment.TopCenter).fillMaxHeight().width(
-                        50.dp
-                    ).background(Color.Transparent)
+                    Modifier
+                        .align(Alignment.TopCenter)
+                        .fillMaxHeight()
+                        .width(
+                            50.dp
+                        )
+                        .background(Color.Transparent)
                 )
 
                 val mitten : List<String> = listOf("vott")

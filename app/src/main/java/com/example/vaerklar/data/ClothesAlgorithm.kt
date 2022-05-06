@@ -227,7 +227,7 @@ class ClothesAlgorithm {
 
 
     private fun sunCheck (weatherData: WeatherData?) : Boolean{
-        val symbol = weatherData?.properties?.timeseries?.get(timeSeriesIndex)?.data?.next_6_hours?.summary?.symbol_code
+        val symbol = weatherData?.properties?.timeseries?.get(timeSeriesIndex)?.data?.next_1_hours?.summary?.symbol_code
         if (symbol == "fair_day" || symbol == "clearsky_day") {
             return true
         }

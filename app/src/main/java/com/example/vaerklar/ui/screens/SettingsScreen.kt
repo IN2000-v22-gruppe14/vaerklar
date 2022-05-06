@@ -5,6 +5,7 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Context.CLIPBOARD_SERVICE
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -75,6 +76,7 @@ fun invite(activity: Activity) {
     val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
     val clip = ClipData.newPlainText("Simple text", "https://github.com/IN2000-v22-gruppe14/vaerklar")
     clipboard.setPrimaryClip(clip)
+    Toast.makeText(context, "copied to clipboard", Toast.LENGTH_LONG).show()
 }
 
 fun helpAndSupport() {

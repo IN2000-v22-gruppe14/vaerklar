@@ -8,6 +8,8 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -18,6 +20,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.vaerklar.R
 import com.example.vaerklar.data.WeatherData
 import com.example.vaerklar.data.iconTranslation
 import com.example.vaerklar.ui.screens.altColor
@@ -31,7 +34,6 @@ private val showDialog = mutableStateOf(false)
 private var globalHourNumber = 0
 val hourList = mutableListOf<Hour>()
 
-
 @Composable
 private fun PopUpScreen(weatherData: WeatherData?) {
     AlertDialog(
@@ -40,73 +42,75 @@ private fun PopUpScreen(weatherData: WeatherData?) {
         shape = RoundedCornerShape(15.dp),
         modifier = Modifier.height(620.dp),
 
-
         title = {
             Column(
-                Modifier
+                modifier = Modifier
                     .fillMaxSize()
                     .size(200.dp, 100.dp)
                     .background(baseColor)
-            ){ Box(
-                Modifier
-                    .fillMaxSize()
+            ){
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                ) {
+                    val avatar = Avatar()
+                    var theTime = ""
+                    if(hourList[globalHourNumber].time != null){
+                        theTime = hourList[globalHourNumber].time.toString() + ":00"
+                    }
+                    val piss = avatar.avatarMain(weatherData, theTime, hourList[globalHourNumber].timeIndex, 0, "")
+                    var theString = ""
+                    for(i in piss){
+                        if(i != ""){
+                            theString += i.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() } + "\n"
+                        }
+                    }
 
-            ) {
-                val avatar = Avatar()
-                var theTime = ""
-                if(hourList[globalHourNumber].time != null){
-                    theTime = hourList[globalHourNumber].time.toString() + ":00"
-                }
-                val piss = avatar.avatarMain(weatherData, theTime, hourList[globalHourNumber].timeIndex, 0, "")
-                var theString = ""
-                for(i in piss){
-                    if(i != ""){
-                        theString += i.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() } + "\n"
+                    Box(
+                        Modifier
+                        .fillMaxSize(),
+                        contentAlignment = Alignment.BottomCenter){
+                            Text(
+                                text = theString,
+                                fontSize = 20.sp,
+                                color = Color.White,
+                                fontWeight = FontWeight.Bold,
+                                modifier = Modifier
+                                    .absolutePadding(40.dp, 50.dp, 50.dp, 0.dp)
+                            )
+                        }
                     }
                 }
+
                 Box(
-                    Modifier
-                    .fillMaxSize(),
-                    contentAlignment = Alignment.BottomCenter){
-
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    contentAlignment = Alignment.TopEnd
+                ){
                     Text(
-                        text = theString,
-                        fontSize = 20.sp,
-                        color = Color.White,
-                        fontWeight = FontWeight.Bold,
+                        text = " "
+                    )
+
+                    Icon(
+                        imageVector = Icons.Default.Close,
+                        "Exit",
                         modifier = Modifier
-                                .absolutePadding(40.dp, 50.dp, 50.dp, 0.dp)
-                    )}
+                            .size(35.dp)
+                            .absolutePadding(0.dp, 0.dp, 5.dp, 0.dp)
+                            .clickable { showDialog.value = false }
+                            .offset(0.dp, 10.dp),
+                        tint = Color.White,
+                    )
                 }
+            },
+            onDismissRequest = {
+
+            },
+
+            buttons = {
 
             }
-            Box(
-                Modifier.fillMaxSize(),
-                contentAlignment = Alignment.TopEnd){
-                TextButton(
-
-                    colors =
-                    ButtonDefaults.buttonColors(backgroundColor = Color.Transparent),
-
-                    onClick = { showDialog.value = false }) {
-                    Text(
-                        text = "X",
-                        fontSize = 22.sp,
-                        color = Color.White,
-                        fontWeight = FontWeight.Bold)
-
-                }
-            }
-        },
-        onDismissRequest = {
-
-        },
-
-        buttons = {
-
-        }
-        )
-
+    )
 }
 
 
@@ -123,8 +127,8 @@ fun TodayTileItem(hour: Hour, backgroundColor: Color) {
             .fillMaxWidth()
             .clickable(onClick = { showDialog.value = true
                                     globalHourNumber = hour.hourNumber
-            })
-            ){
+                })
+            ) {
 
         Text(
             text = hour.airTemp.toString(),
@@ -143,14 +147,25 @@ fun TodayTileItem(hour: Hour, backgroundColor: Color) {
                 .width(51.dp)
         )
 
-        // Time
-        Text(
-            text = hour.time.toString(),
-            color = Color.White.copy(alpha = 0.5f),
-            fontFamily = Rubik,
-            fontSize = 18.sp,
-            fontWeight = FontWeight.Normal
-        )
+        Row() {
+            // Time
+            Text(
+                text = hour.time.toString(),
+                color = Color.White.copy(alpha = 0.5f),
+                fontFamily = Rubik,
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Normal
+            )
+
+            // 00
+            Text(
+                text = ":00",
+                color = Color.White.copy(alpha = 0.5f),
+                fontFamily = Rubik,
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Normal
+            )
+        }
     }
 }
 

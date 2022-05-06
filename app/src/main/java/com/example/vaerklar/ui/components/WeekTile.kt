@@ -8,6 +8,8 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -92,19 +94,21 @@ private fun PopUpScreen(weatherData: WeatherData?){
             Box(
                 Modifier.fillMaxSize(),
                 contentAlignment = Alignment.TopEnd){
-                TextButton(
 
-                    colors =
-                    ButtonDefaults.buttonColors(backgroundColor = Color.Transparent),
-
-                    onClick = { showDialog.value = false }) {
                     Text(
-                        text = "X",
-                        fontSize = 22.sp,
-                        color = Color.White,
-                        fontWeight = FontWeight.Bold)
+                        text = " "
+                    )
 
-                }
+                    Icon(
+                        imageVector = Icons.Default.Close,
+                        "Exit",
+                        modifier = Modifier
+                            .size(35.dp)
+                            .absolutePadding(0.dp, 0.dp, 5.dp, 0.dp)
+                            .clickable { showDialog.value = false }
+                            .offset(0.dp, 10.dp),
+                        tint = Color.White,
+                    )
             }
         },
         onDismissRequest = {

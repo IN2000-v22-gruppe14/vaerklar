@@ -45,6 +45,8 @@ class MainActivity : ComponentActivity(), ActivityCompat.OnRequestPermissionsRes
     private val viewModel: MainActivityViewModel by viewModels()
     private var locationName = "..."  // This is kind of redundant but eh fuck it
     var weatherData: WeatherData? = null
+    private var lat: Double? = null
+    private var lon: Double? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -149,6 +151,23 @@ class MainActivity : ComponentActivity(), ActivityCompat.OnRequestPermissionsRes
                 .start()
         }
 
+        val extras = intent.extras
+        if (extras != null) {
+            lat = extras.get("latitude") as Double?
+            lon = extras.get("longitude") as Double?
+        } else {
+            println("FUCKINGS Ingen data passed fra search")
+        }
+
+        // If gore men la gå
+        if (lat != null && lon != null) {
+            println("FUCKINGS LOKASJON BLIR HENTET FRA SØK")
+            viewModel.fetchLocationData(lat!!, lon!!)
+            viewModel.fetchWeatherData(lat!!, lon!!)
+            return
+        }
+
+        println("FUCKINGS LOKASJON BLIR HENTET FRA DEVICE")
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION), 0)
         } else {

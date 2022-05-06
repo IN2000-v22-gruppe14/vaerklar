@@ -10,6 +10,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -35,6 +36,7 @@ fun SearchScreen() {
 
     val locations = viewModel.getLocations().observeAsState()
 
+    var hasSearched = false
     Scaffold {
         val focusRequester = remember { FocusRequester() }
         Column(
@@ -66,6 +68,7 @@ fun SearchScreen() {
                     keyboardActions = KeyboardActions(
                         onSearch = {
                             viewModel.fetchLocations(state.value)
+                            hasSearched = true
                         }
                     ),
                 )
@@ -74,6 +77,10 @@ fun SearchScreen() {
                 Column {
                     if (locations.value != null) {
                         LocationsList(locations.value!!)
+                    } else {
+                        if (hasSearched) {
+                            Text(text = "Ingen steder funnet! Sørg for å skrive navnet helt rett eller prøv et annet sted")
+                        }
                     }
                 }
             }

@@ -3,7 +3,7 @@ package com.example.vaerklar.ui.screens
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -18,12 +18,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.graphics.Color.Companion.White
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import com.example.vaerklar.SearchActivityViewModel
 import com.example.vaerklar.data.LocationMetaData
 import com.example.vaerklar.ui.components.SearchResultItem
+import com.example.vaerklar.ui.theme.CloudyDay
+import com.example.vaerklar.ui.theme.DayTileAlt
 
 @Composable
 fun SearchScreen() {
@@ -32,47 +34,49 @@ fun SearchScreen() {
 
     Scaffold {
         val focusRequester = remember { FocusRequester() }
-        Column() {
+        Column(
+            modifier = Modifier
+                .background(
+                    brush = Brush.verticalGradient(
+                        colors = CloudyDay
+                    )
+                )
+                .fillMaxHeight()
+        ) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(
-                        color = White
+                        color = DayTileAlt
                     )
             ) {
-                Row {
-                    Column {
-                        TextField(
-                            modifier = Modifier
-                                .focusRequester(focusRequester)
-                                .fillMaxWidth(),
-                            value = state.value,
-                            onValueChange = { state.value = it },
-                            keyboardOptions = KeyboardOptions(
-                                keyboardType = KeyboardType.Text,
-                                imeAction = ImeAction.Search,
-                            ),
-                            keyboardActions = KeyboardActions(
-                                onSearch = {
-                                    viewModel.fetchLocations(state.value)
-                                }
-                            ),
-                        )
-                    }
-                }
-            }
-            LaunchedEffect(Unit) {
-                focusRequester.requestFocus()
+                TextField(
+                    modifier = Modifier
+                        .focusRequester(focusRequester)
+                        .fillMaxWidth(),
+                    value = state.value,
+                    onValueChange = { state.value = it },
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Text,
+                        imeAction = ImeAction.Search,
+                    ),
+                    keyboardActions = KeyboardActions(
+                        onSearch = {
+                            viewModel.fetchLocations(state.value)
+                        }
+                    ),
+                )
             }
             Box {
-                Row {
-                    Column {
-                        if (viewModel.getLocations().value != null) {
-                            LocationsList(locations = viewModel.getLocations().value!!)
-                        }
+                Column {
+                    if (viewModel.getLocations().value != null) {
+                        LocationsList(locations = viewModel.getLocations().value!!)
                     }
                 }
             }
+        }
+        LaunchedEffect(Unit) {
+            focusRequester.requestFocus()
         }
     }
 }
@@ -91,5 +95,3 @@ fun LocationsList(locations: List<LocationMetaData?>) {
         )
     }
 }
-
-

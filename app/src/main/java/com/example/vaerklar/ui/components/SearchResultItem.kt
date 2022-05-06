@@ -2,8 +2,9 @@ package com.example.vaerklar.ui.components
 
 import android.app.Activity
 import android.content.Intent
-import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.absolutePadding
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.Card
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Text
@@ -11,11 +12,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat.startActivity
 import com.example.vaerklar.MainActivity
 import com.example.vaerklar.data.LocationMetaData
+import com.example.vaerklar.ui.theme.DayTile
 import com.example.vaerklar.ui.theme.Rubik
 
 
@@ -27,9 +30,8 @@ fun SearchResultItem(location: LocationMetaData) {
     if (location.name != null) {
         Card(
             modifier = Modifier
-                .fillMaxWidth()
-                .border(width = 4.dp, color = Color.Black),
-            backgroundColor = Color.Gray,
+                .fillMaxWidth(),
+            backgroundColor = DayTile,
             onClick = {
                 println(location.geometry?.coordinates?.get(0))
                 println(location.geometry?.coordinates?.get(1))
@@ -44,19 +46,21 @@ fun SearchResultItem(location: LocationMetaData) {
             Column {
                 Text(
                     text = location.name,
-                    Modifier.padding(16.dp),
-                    color = Color.Black,
+                    color = Color.White,
                     fontFamily = Rubik,
+                    fontWeight = FontWeight.Bold,
                     fontSize = 24.sp,
+                    modifier = Modifier
+                        .absolutePadding(16.dp, 16.dp, 16.dp, 2.dp)
                 )
-            }
-            Column {
                 Text(
-                    text = location.geometry?.coordinates?.get(0).toString() + ", " + location.geometry?.coordinates?.get(1).toString(),
-                    Modifier.padding(16.dp),
-                    color = Color.Black,
+                    text = location.geometry?.coordinates?.get(0)
+                        .toString() + ", " + location.geometry?.coordinates?.get(1).toString(),
+                    color = Color.LightGray,
                     fontFamily = Rubik,
                     fontSize = 12.sp,
+                    modifier = Modifier
+                        .absolutePadding(16.dp, 2.dp, 16.dp, 16.dp)
                 )
             }
         }

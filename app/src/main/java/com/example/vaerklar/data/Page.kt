@@ -7,21 +7,23 @@ data class Page(val title : String, val description : String, @DrawableRes val i
 
 val onboardPages = listOf(
     Page("Anbefalt for deg",
-    "Klesplaggene du vil få anbefalt vil vises på denne avataren eller trykk på pilen for en skriftlig beskrivelse",
-    R.drawable.avatar
+    "På avataren får du anbefalt klesplagg til været akkurat nå. \n\n Du kan også få en tesktlig beskrivelse ved å trykke på pilen.",
+    R.drawable.bilde1
     ),
 
-    Page("Værforholdene akkurat nå",
-    "Her kan du se temperaturen, været, nedbørsmengde og vindstyrke akkurat nå, hvor enn du er",
-    R.drawable.rightnow
+    Page("Været nå",
+    "Her kan du se temperaturen, været, nedbørsmengde og vindstyrke akkurat nå. \n\n ",
+    R.drawable.bilde3
     ),
 
     Page("Dagens vær",
-    "Her kan du se værmeldingen for dagen og trykke på tidspunktene for å få anbefalte klesplagg",
-    R.drawable.todays),
+    "Her kan du se værmeldingen for dagen og trykke på tidspunktene for å få anbefalte klesplagg. \n\n",
+    R.drawable.bilde4
+    ),
 
-    Page("Ukas vær",
-    "Her kan se værmeldingen for uka og trykke på dagene for å få anbefalt klesplagg",
-    R.drawable.week)
+    Page("Ukens vær",
+    "Her kan du se værmeldingen for uka og trykke på dagene for å få anbefalt klesplagg. \n\n",
+    R.drawable.bilde5
+    )
 
 )

@@ -2,6 +2,7 @@ package com.example.vaerklar
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
@@ -63,6 +64,10 @@ class MainActivity : ComponentActivity(), ActivityCompat.OnRequestPermissionsRes
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
+
+        loadData()
+
+
 
         // Acquire location data.
         var locationName = "..."
@@ -148,6 +153,7 @@ class MainActivity : ComponentActivity(), ActivityCompat.OnRequestPermissionsRes
                                     Box {
                                         OnBoardUi()
                                         if(showDialog.value == true){
+                                            saveData()
                                             MainScreen(weatherData, locationName)
                                             NavigationBar(scaffoldState,scope )
                                         }
@@ -282,10 +288,11 @@ class MainActivity : ComponentActivity(), ActivityCompat.OnRequestPermissionsRes
         Column(){
             Text(
                 text = "Skip",
+                color = Color.White,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(4.dp)
-                    .clickable {})
+                    .absolutePadding(10.dp, 10.dp, 0.dp, 0.dp)
+                    .clickable {showDialog.value = true})
 
             HorizontalPager(
                 state = pagerstate,
@@ -302,7 +309,8 @@ class MainActivity : ComponentActivity(), ActivityCompat.OnRequestPermissionsRes
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
                     .padding(16.dp),
-                activeColor = Color.Blue
+                activeColor = Color.White,
+                inactiveColor = Color.Gray
             )
             
             AnimatedVisibility(visible = pagerstate.currentPage == 3) {
@@ -317,12 +325,28 @@ class MainActivity : ComponentActivity(), ActivityCompat.OnRequestPermissionsRes
                             id = R.color.day_tile_1))) {
 
                     Text(
-                        text = "La oss starte"
+                        text = "Kom i gang!"
                     )
                     }
 
             }
             
         }
+    }
+
+    private fun saveData(){
+        val sharedPreferences = getSharedPreferences("sharedPrefs", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.apply{
+            putBoolean("BOOLEAN_KEY", showDialog.value)
+        }.apply()
+
+    }
+
+    private fun loadData(){
+        val sharedPreferences = getSharedPreferences("sharedPrefs", Context.MODE_PRIVATE)
+        val savedBoolean = sharedPreferences.getBoolean("BOOLEAN_KEY", false)
+
+        showDialog.value = savedBoolean
     }
 }

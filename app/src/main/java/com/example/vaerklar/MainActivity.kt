@@ -336,8 +336,8 @@ class MainActivity : ComponentActivity(), ActivityCompat.OnRequestPermissionsRes
 
     private fun saveData(){
         val sharedPreferences = getSharedPreferences("sharedPrefs", Context.MODE_PRIVATE)
-        val editor = sharedPreferences.edit()
-        editor.apply{
+        val changer = sharedPreferences.edit()
+        changer.apply{
             putBoolean("BOOLEAN_KEY", showDialog.value)
         }.apply()
 

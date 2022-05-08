@@ -3,6 +3,7 @@ package com.example.vaerklar
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
@@ -11,18 +12,25 @@ import android.widget.Toast.LENGTH_LONG
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material.MaterialTheme.colors
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -30,9 +38,16 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.example.vaerklar.data.WeatherData
+import com.example.vaerklar.data.onboardPages
+import com.example.vaerklar.databinding.ActivityMainBinding
 import com.example.vaerklar.ui.screens.MainScreen
+import com.example.vaerklar.ui.screens.OnBoardPages
 import com.example.vaerklar.ui.theme.Rubik
 import com.example.vaerklar.ui.theme.Theme
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.HorizontalPager
+import com.google.accompanist.pager.HorizontalPagerIndicator
+import com.google.accompanist.pager.rememberPagerState
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationRequest.PRIORITY_HIGH_ACCURACY
 import com.google.android.gms.location.LocationServices
@@ -47,10 +62,13 @@ class MainActivity : ComponentActivity(), ActivityCompat.OnRequestPermissionsRes
     var weatherData: WeatherData? = null
     private var lat: Double? = null
     private var lon: Double? = null
+    private val showDialog = mutableStateOf(false)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         println("lifecycle: create")
+
+        loadData()
 
         // Acquire location data.
         viewModel.getLocationData().observe(this) {
@@ -140,8 +158,15 @@ class MainActivity : ComponentActivity(), ActivityCompat.OnRequestPermissionsRes
                                 // Column responsible for the vertical stacking of all elements on the page.
                                 Column {
                                     Box {
-                                        MainScreen(weatherData, locationName)
-                                        NavigationBar(scaffoldState,scope )
+                                        OnBoardUi()
+                                        if(showDialog.value == true){
+                                            saveData()
+                                            MainScreen(weatherData, locationName)
+                                            NavigationBar(scaffoldState,scope )
+                                        }
+                                            //MainScreen(weatherData, locationName)
+                                            //NavigationBar(scaffoldState,scope )
+
                                     }
                                 }
                             }
@@ -271,5 +296,76 @@ class MainActivity : ComponentActivity(), ActivityCompat.OnRequestPermissionsRes
         )
 
         // TODO: Add functional onClick modifiers.
+    }
+
+
+    @OptIn(ExperimentalPagerApi::class)
+    @Composable
+    fun OnBoardUi(){
+        val pagerstate = rememberPagerState(pageCount = 4)
+        
+        Column(){
+            Text(
+                text = "Skip",
+                color = Color.White,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .absolutePadding(10.dp, 10.dp, 0.dp, 0.dp)
+                    .clickable {showDialog.value = true})
+
+            HorizontalPager(
+                state = pagerstate,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f)) {
+
+                    page ->
+                OnBoardPages(page = onboardPages[page])
+            }
+
+            HorizontalPagerIndicator(
+                pagerState = pagerstate,
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .padding(16.dp),
+                activeColor = Color.White,
+                inactiveColor = Color.Gray
+            )
+            
+            AnimatedVisibility(visible = pagerstate.currentPage == 3) {
+                OutlinedButton(
+                    shape = RoundedCornerShape(15.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(6.dp),
+                    onClick = {showDialog.value = true},
+                    colors = ButtonDefaults.outlinedButtonColors(
+                        backgroundColor = colorResource(
+                            id = R.color.day_tile_1))) {
+
+                    Text(
+                        text = "Kom i gang!"
+                    )
+                    }
+
+            }
+            
+        }
+    }
+
+    private fun saveData(){
+        val sharedPreferences = getSharedPreferences("sharedPrefs", Context.MODE_PRIVATE)
+        val changer = sharedPreferences.edit()
+        changer.apply{
+            putBoolean("BOOLEAN_KEY", showDialog.value)
+        }.apply()
+
+    }
+
+    private fun loadData(){
+        val sharedPreferences = getSharedPreferences("sharedPrefs", Context.MODE_PRIVATE)
+        val savedBoolean = sharedPreferences.getBoolean("BOOLEAN_KEY", false)
+
+        showDialog.value = savedBoolean
     }
 }

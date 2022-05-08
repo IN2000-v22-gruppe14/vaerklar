@@ -88,4 +88,9 @@ dependencies {
 
     implementation("androidx.activity:activity-ktx:1.6.0-alpha01")
     androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.1.1")
+
+    implementation("com.google.accompanist:accompanist-pager:0.15.0")
+    implementation ("com.google.accompanist:accompanist-pager:<version>")
+    implementation("com.google.accompanist:accompanist-pager-indicators:0.15.0")
+
 }

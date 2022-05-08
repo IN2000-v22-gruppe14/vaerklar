@@ -2,6 +2,7 @@ package com.example.vaerklar
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
@@ -21,6 +22,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -43,6 +45,8 @@ class MainActivity : ComponentActivity(), ActivityCompat.OnRequestPermissionsRes
     private val viewModel: MainActivityViewModel by viewModels()
     private var locationName = "..."  // This is kind of redundant but eh fuck it
     var weatherData: WeatherData? = null
+    private var lat: Double? = null
+    private var lon: Double? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -147,6 +151,23 @@ class MainActivity : ComponentActivity(), ActivityCompat.OnRequestPermissionsRes
                 .start()
         }
 
+        val extras = intent.extras
+        if (extras != null) {
+            lat = extras.get("latitude") as Double?
+            lon = extras.get("longitude") as Double?
+        } else {
+            println("FUCKINGS Ingen data passed fra search")
+        }
+
+        // If gore men la gå
+        if (lat != null && lon != null) {
+            println("FUCKINGS LOKASJON BLIR HENTET FRA SØK")
+            viewModel.fetchLocationData(lat!!, lon!!)
+            viewModel.fetchWeatherData(lat!!, lon!!)
+            return
+        }
+
+        println("FUCKINGS LOKASJON BLIR HENTET FRA DEVICE")
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION), 0)
         } else {
@@ -199,6 +220,7 @@ class MainActivity : ComponentActivity(), ActivityCompat.OnRequestPermissionsRes
     // Navigation bar. Since it must be available on all screens, it is present in the MainActivity.
     fun NavigationBar(state: ScaffoldState, scope : CoroutineScope) {
         //scope = rememberCoroutineScope()
+        val context = LocalContext.current
 
         TopAppBar(
             title = {
@@ -231,8 +253,7 @@ class MainActivity : ComponentActivity(), ActivityCompat.OnRequestPermissionsRes
             actions = {
                 IconButton(
                     onClick = {
-                        scope.launch {
-                        }
+                        context.startActivity(Intent(context, SearchActivity::class.java))
                     }) {
 
                     Icon(

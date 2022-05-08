@@ -209,8 +209,10 @@ class Avatar {
                         .align(Alignment.Center)
                 )
                 val shoes : List<String> = listOf("sko", "sneakers")
-                for (ord in shoes){
-                    if (ord in clothingString){
+                var shoesTrue = 0
+                for (ord in shoes ){
+                    if (ord in clothingString && shoesTrue == 0){
+                        shoesTrue = 1
                         converterClothing[ord]?.let { painterResource(it) }?.let {
                             Image(
                                 painter = it,
@@ -296,9 +298,11 @@ class Avatar {
                         )
                         .background(Color.Transparent)
                 )
-                val top : List<String> = listOf("bobblejakke", "vinterjakke", "frakk", "tskjorte", "langermet", "ullgenser","kjole","genser"  )
+                val top : List<String> = listOf("bobblejakke","regnjakke", "vinterjakke", "frakk", "tskjorte", "langermet", "ullgenser","kjole","genser"  )
+                var plagg = 0
                 for (ord in top){
-                    if (ord in clothingString){
+                    if (ord in clothingString  && plagg == 0){
+                        plagg = plagg + 1
                         converterClothing[ord]?.let { painterResource(it) }?.let {
                             Image(
                                 painter = it,
@@ -334,9 +338,34 @@ class Avatar {
                         .width(sizeDP)
                         .align(Alignment.Center)
                 )
-                val scarf : List<String> = listOf("skjerf","gummist_ler")
+                val scarf : List<String> = listOf("votter & skjerf")
                 for (ord in scarf){
                     if (ord in clothingString){
+                        converterClothing[ord]?.let { painterResource(it) }?.let {
+                            Image(
+                                painter = it,
+                                contentDescription = "Icon",
+                                modifier = Modifier
+                                    .width(sizeDP)
+                                    .align(Alignment.Center)
+                            )
+                        }
+                    }
+                }
+                Box(
+                    Modifier
+                        .align(Alignment.TopCenter)
+                        .fillMaxHeight()
+                        .width(
+                            50.dp
+                        )
+                        .background(Color.Transparent)
+                )
+
+                val specialShoe : List<String> = listOf("gummistøvler", "vintersko")
+                for (ord in specialShoe){
+                    if (ord in clothingString && shoesTrue == 0){
+                        shoesTrue = 1
                         converterClothing[ord]?.let { painterResource(it) }?.let {
                             Image(
                                 painter = it,
@@ -382,9 +411,11 @@ class Avatar {
                         )
                         .background(Color.Transparent)
                 )
-                val handThing : List<String> = listOf("flagg","gummist_ler","ol")
+                var handThingTrue = 0
+                val handThing : List<String> = listOf("flagg","ol", "paraply")
                 for (ord in handThing){
-                    if (ord in clothingString){
+                    if (ord in clothingString && handThingTrue == 0){
+                        handThingTrue = 1
                         converterClothing[ord]?.let { painterResource(it) }?.let {
                             Image(
                                 painter = it,
@@ -415,9 +446,10 @@ class Avatar {
                         )
                         .background(Color.Transparent)
                 )
-
+                var plagg2 = 0
                 for (ord in top){
-                    if (ord in clothingString){
+                    if (ord in clothingString && plagg2 == 0){
+                        plagg2 = plagg2 + 1
                         converterClothing[ord+"2"]?.let { painterResource(it) }?.let {
                             Image(
                                 painter = it,
@@ -440,21 +472,6 @@ class Avatar {
                         .background(Color.Transparent)
                 )
 
-                val mitten : List<String> = listOf("vott")
-
-                for (ord in mitten){
-                    if (ord in clothingString){
-                        converterClothing[ord]?.let { painterResource(it) }?.let {
-                            Image(
-                                painter = it,
-                                contentDescription = "Icon",
-                                modifier = Modifier
-                                    .width(sizeDP)
-                                    .align(Alignment.Center)
-                            )
-                        }
-                    }
-                }
                 if(flag == 1){
                     Box(
                         modifier = Modifier

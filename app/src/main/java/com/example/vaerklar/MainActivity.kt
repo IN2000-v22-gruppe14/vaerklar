@@ -2,11 +2,12 @@ package com.example.vaerklar
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
+import android.view.Window
 import android.widget.Toast
 import android.widget.Toast.LENGTH_LONG
 import androidx.activity.ComponentActivity
@@ -17,14 +18,13 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.material.MaterialTheme.colors
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.*
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -39,7 +39,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.example.vaerklar.data.WeatherData
 import com.example.vaerklar.data.onboardPages
-import com.example.vaerklar.databinding.ActivityMainBinding
 import com.example.vaerklar.ui.screens.MainScreen
 import com.example.vaerklar.ui.screens.OnBoardPages
 import com.example.vaerklar.ui.theme.Rubik
@@ -67,6 +66,10 @@ class MainActivity : ComponentActivity(), ActivityCompat.OnRequestPermissionsRes
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         println("lifecycle: create")
+
+        // Hide title bar
+        requestWindowFeature(Window.FEATURE_NO_TITLE)
+        requestWindowFeature(Window.FEATURE_ACTION_BAR)
 
         loadData()
 

@@ -26,7 +26,7 @@ Om du velger å bruke en virtuell enhet må du sørge for at du bruker API-nivå
 Sørg også for at du har satt en lokasjon for enhetens emulatorinstillinger i Android Studio.
 
 
-## Kjente problemer - og hvordan man løser dem.
+## Kjente problemer - og hvordan man evt. løser de.
 
 ### Mangel på lokasjon
 

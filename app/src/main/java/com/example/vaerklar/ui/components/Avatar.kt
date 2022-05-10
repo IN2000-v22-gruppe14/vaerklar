@@ -61,7 +61,7 @@ class Avatar {
         ) {
             Row(
                 modifier = Modifier
-                    .offset(15.dp, 0.dp),
+                    .offset(15.dp, 25.dp),
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically,
 
@@ -498,6 +498,7 @@ class Avatar {
                                 text = theString,
                                 fontSize = 20.sp,
                                 modifier = Modifier
+                                    .offset(0.dp, 20.dp)
                                     .absolutePadding(15.dp, 15.dp, 15.dp, 15.dp)
                                     .width(250.dp)
                                     .height(500.dp)

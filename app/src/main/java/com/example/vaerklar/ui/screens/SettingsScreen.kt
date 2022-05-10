@@ -1,12 +1,16 @@
 package com.example.vaerklar.ui.screens
 
 import android.app.Activity
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Context.CLIPBOARD_SERVICE
+import android.os.Build
 import android.widget.Toast
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -21,9 +25,16 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Popup
+import androidx.compose.ui.window.PopupProperties
 import androidx.core.content.ContextCompat.getSystemService
+import androidx.core.content.getSystemService
+import androidx.core.content.res.TypedArrayUtils.getText
+import com.example.vaerklar.data.Notifications
+import com.example.vaerklar.data.TermsOfService
 import com.example.vaerklar.ui.theme.*
 import kotlin.math.roundToInt
+import com.example.vaerklar.ui.screens.notifications as notifications1
 
 
 @Composable
@@ -50,8 +61,9 @@ fun toggleTheme(darkmode: Boolean) {
     TODO("Toggle between light and dark theme")
 }
 
+@Composable
 fun notifications(notify: Boolean) {
-    TODO("Toggles notifications onn and off")
+    if (notify) Notifications(LocalContext.current).setNotification()
 }
 
 fun adjustWarmth(hotness: Float) {
@@ -59,8 +71,8 @@ fun adjustWarmth(hotness: Float) {
     TODO("Make this adjust the recommended clothes")
 }
 
-fun termsOfService() {
-    TODO("Shows a page with terms of Service")
+fun termsOfService(){
+    //lol
 }
 
 fun invite(activity: Activity) {
@@ -79,12 +91,39 @@ fun helpAndSupport() {
 @Composable
 fun SettingsMenu() {
     val activity = LocalContext.current as Activity
+    val openWindow = remember { mutableStateOf(false)}
     //Base card to hold everything together
     Scaffold(
         modifier = Modifier
             .fillMaxSize(),
         backgroundColor = DayTile,
     ) {
+
+        if(openWindow.value) {
+            AlertDialog(
+                modifier = Modifier.fillMaxSize(),
+                onDismissRequest = { openWindow.value = false },
+                title = {
+                    Text(text = "Bruksvilkår")
+                },
+                text = {
+                    Text(TermsOfService().getText())
+                },
+                buttons = {
+                    Row(
+                        modifier = Modifier.padding(all = 8.dp),
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        Button(
+                            modifier = Modifier.fillMaxWidth(),
+                            onClick = { openWindow.value = false }
+                        ) {
+                            Text("Dismiss")
+                        }
+                    }
+                }
+            )
+        }
 
         //put all settings in a column to sort them downwards
         Column(
@@ -169,7 +208,7 @@ fun SettingsMenu() {
 
                     Switch(
                         checked = notifyState.value,
-                        onCheckedChange = { notifyState.value = it; notifications(it) },
+                        onCheckedChange = { notifyState.value = it; },
                         colors = SwitchDefaults.colors(Color.Green)
                     )
                 }
@@ -261,7 +300,7 @@ fun SettingsMenu() {
                     )
 
                     Button(
-                        onClick = { termsOfService() },
+                        onClick = { openWindow.value != openWindow.value },
                         shape = RoundedCornerShape(10.dp),
                         colors = ButtonDefaults.buttonColors(
                             backgroundColor = Color.White)

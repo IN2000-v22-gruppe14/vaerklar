@@ -114,7 +114,9 @@ class Avatar {
             "" to R.drawable.chinos,
             "flagg" to R.drawable.flagg,
             "vinterjakke" to R.drawable.frakk,
-            "vinterjakke2" to R.drawable.frakk,
+            "vinterjakke2" to R.drawable.frakk2,
+            "jakke" to R.drawable.vind,
+            "jakke2" to R.drawable.vind2,
             "gummistøvler" to R.drawable.gummist_ler,
             "joggebukse" to R.drawable.jogge,
             "kjole" to R.drawable.kjole,
@@ -298,7 +300,7 @@ class Avatar {
                         )
                         .background(Color.Transparent)
                 )
-                val top : List<String> = listOf("bobblejakke","regnjakke", "vinterjakke", "frakk", "tskjorte", "langermet", "ullgenser","kjole","genser"  )
+                val top : List<String> = listOf("bobblejakke","vinterjakke","regnjakke","jakke", "vinterjakke", "tskjorte", "langermet", "ullgenser","kjole","genser" )
                 var plagg = 0
                 for (ord in top){
                     if (ord in clothingString  && plagg == 0){

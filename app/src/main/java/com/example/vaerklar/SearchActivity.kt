@@ -4,11 +4,10 @@ import android.os.Bundle
 import android.view.Window
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.core.app.ActivityCompat
 import com.example.vaerklar.ui.screens.SearchScreen
 
 
-class SearchActivity : ComponentActivity(), ActivityCompat.OnRequestPermissionsResultCallback {
+class SearchActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

@@ -17,52 +17,50 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat.startActivity
 import com.example.vaerklar.MainActivity
-import com.example.vaerklar.data.LocationMetaData
+import com.example.vaerklar.data.MeiliLocationMetaData
 import com.example.vaerklar.ui.theme.DayTile
 import com.example.vaerklar.ui.theme.Rubik
 
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun SearchResultItem(location: LocationMetaData) {
+fun SearchResultItem(location: MeiliLocationMetaData) {
     val currentActivity = LocalContext.current as Activity
 
-    if (location.name != null) {
-        Card(
-            modifier = Modifier
-                .fillMaxWidth(),
-            backgroundColor = DayTile,
-            onClick = {
-                println(location.geometry?.coordinates?.get(0))
-                println(location.geometry?.coordinates?.get(1))
-                val intent = Intent(currentActivity, MainActivity::class.java)
-                intent.putExtra("longitude", location.geometry?.coordinates?.get(0))
-                intent.putExtra("latitude", location.geometry?.coordinates?.get(1))
-                // currentActivity.finish()
-                startActivity(currentActivity, intent, null)
+    Card(
+        modifier = Modifier
+            .fillMaxWidth(),
+        backgroundColor = DayTile,
+        onClick = {
+            println(location.geometry?.coordinates?.get(0))
+            println(location.geometry?.coordinates?.get(1))
+            val intent = Intent(currentActivity, MainActivity::class.java)
+            intent.putExtra("longitude", location.geometry?.coordinates?.get(0))
+            intent.putExtra("latitude", location.geometry?.coordinates?.get(1))
+            // currentActivity.finish()
+            startActivity(currentActivity, intent, null)
 
-            }
-        ) {
-            Column {
-                Text(
-                    text = location.name,
-                    color = Color.White,
-                    fontFamily = Rubik,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 24.sp,
-                    modifier = Modifier
-                        .absolutePadding(16.dp, 16.dp, 16.dp, 2.dp)
-                )
-                Text(
-                    text = location.geometry?.coordinates?.get(0)
-                        .toString() + ", " + location.geometry?.coordinates?.get(1).toString(),
-                    color = Color.LightGray,
-                    fontFamily = Rubik,
-                    fontSize = 12.sp,
-                    modifier = Modifier
-                        .absolutePadding(16.dp, 2.dp, 16.dp, 16.dp)
-                )
-            }
+        }
+    ) {
+        Column {
+            Text(
+                text = location.name,
+                color = Color.White,
+                fontFamily = Rubik,
+                fontWeight = FontWeight.Bold,
+                fontSize = 24.sp,
+                modifier = Modifier
+                    .absolutePadding(16.dp, 16.dp, 16.dp, 2.dp)
+            )
+            Text(
+                text = location.geometry?.coordinates?.get(0)
+                    .toString() + ", " + location.geometry?.coordinates?.get(1).toString(),
+                color = Color.LightGray,
+                fontFamily = Rubik,
+                fontSize = 12.sp,
+                modifier = Modifier
+                    .absolutePadding(16.dp, 2.dp, 16.dp, 16.dp)
+            )
         }
     }
 }

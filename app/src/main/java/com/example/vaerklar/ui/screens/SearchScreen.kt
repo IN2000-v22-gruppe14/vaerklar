@@ -10,7 +10,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -24,19 +23,18 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import com.example.vaerklar.SearchActivityViewModel
-import com.example.vaerklar.data.LocationMetaData
+import com.example.vaerklar.data.MeiliLocationMetaData
 import com.example.vaerklar.ui.components.SearchResultItem
 import com.example.vaerklar.ui.theme.CloudyDay
 import com.example.vaerklar.ui.theme.DayTileAlt
 
 @Composable
 fun SearchScreen() {
-    var state = mutableStateOf("")
+    val state = mutableStateOf("")
     val viewModel = SearchActivityViewModel()
 
     val locations = viewModel.getLocations().observeAsState()
 
-    var hasSearched = false
     Scaffold {
         val focusRequester = remember { FocusRequester() }
         Column(
@@ -60,28 +58,23 @@ fun SearchScreen() {
                         .focusRequester(focusRequester)
                         .fillMaxWidth(),
                     value = state.value,
-                    onValueChange = { state.value = it },
+                    onValueChange = {
+                        state.value = it
+                        viewModel.fetchLocations(state.value)
+                    },
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Text,
                         imeAction = ImeAction.Search,
                     ),
                     keyboardActions = KeyboardActions(
                         onSearch = {
-                            viewModel.fetchLocations(state.value)
-                            hasSearched = true
                         }
                     ),
                 )
             }
             Box {
                 Column {
-                    if (locations.value != null) {
-                        LocationsList(locations.value!!)
-                    } else {
-                        if (hasSearched) {
-                            Text(text = "Ingen steder funnet! Sørg for å skrive navnet helt rett eller prøv et annet sted")
-                        }
-                    }
+                    locations.value?.let { locations -> LocationsList(locations.hits) }
                 }
             }
         }
@@ -92,15 +85,15 @@ fun SearchScreen() {
 }
 
 @Composable
-fun LocationsList(locations: List<LocationMetaData?>) {
-    val yeet = remember { locations }
+fun LocationsList(locations: List<MeiliLocationMetaData>) {
+    val forcedLocationsUpdate = locations.map { it }  // This is wildly horrible but in order to force a rerender we need to do this apparently
+    // val fuck = remember { locations }
+
     LazyColumn {
         items(
-            items = yeet,
+            items = forcedLocationsUpdate,
             itemContent = {
-                if (it != null) {
-                    SearchResultItem(it)
-                }
+                SearchResultItem(it)
             }
         )
     }

@@ -28,6 +28,9 @@ Sørg også for at du har satt en lokasjon for enhetens emulatorinstillinger i A
 
 ## Kjente problemer - og hvordan man evt. løser de.
 
+### Appen er ekstremt treg
+
+Dette er tildels fordi vi har skrevet appen dårlig, men også på grunn av at emulatorer er trege. I følge vår testing fungerer det ganske fint på fysiske enheter. Her er det ikke noe særlig man kan gjøre for å bedre som bruker.
 ### Mangel på lokasjon
 
 * Sørg for at lokasjon er satt i enhetens emulatorinstillinger i Android Studio

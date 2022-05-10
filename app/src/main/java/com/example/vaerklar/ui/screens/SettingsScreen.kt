@@ -54,17 +54,9 @@ fun notifications(notify: Boolean) {
     TODO("Toggles notifications onn and off")
 }
 
-fun performanceMode(performance: Boolean) {
-    TODO("Toggles performance mode, saving battery")
-}
-
 fun adjustWarmth(hotness: Float) {
     val hot: Int = hotness.roundToInt()
     TODO("Make this adjust the recommended clothes")
-}
-
-fun clearData() {
-    TODO("Clears all saved data the app has on you")
 }
 
 fun termsOfService() {
@@ -235,50 +227,6 @@ fun SettingsMenu() {
                         fontSize = 15.sp,
                         fontFamily = Rubik,
                     )
-                }
-            }
-
-
-            // Terms of service.
-            Card(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .absolutePadding(10.dp, 0.dp, 10.dp, 0.dp),
-                backgroundColor = DayTileAlt,
-                shape = RoundedCornerShape(15.dp),
-                elevation = 0.dp,
-            ) {
-
-                // Row for button to toggle theme.
-                Row(
-                    modifier = Modifier
-                        .absolutePadding(20.dp, 5.dp, 20.dp, 5.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                ) {
-                    Text(
-                        text = "Slett data",
-                        textAlign = TextAlign.Start,
-                        color = Color.White,
-                        fontSize = 15.sp,
-                        fontFamily = Rubik,
-                    )
-
-                    Button(
-                        onClick = { clearData() },
-                        shape = RoundedCornerShape(10.dp),
-                        colors = ButtonDefaults.buttonColors(
-                            backgroundColor = Color.White)
-                    ) {
-
-                        Text (
-                            text = "",
-                            textAlign = TextAlign.Center,
-                            color = DayTile,
-                            fontSize = 15.sp,
-                            fontFamily = Rubik,
-                        )
-                    }
                 }
             }
 

@@ -51,7 +51,7 @@ class DataSource {
     suspend fun getLocationMetaDataFromName(locationName: String): MeiliLocationData? {
         try {
             val response =
-                Fuel.get("http://46.212.148.174:7700/indexes/locations/search?q=$locationName&limit=10")
+                Fuel.get("http://46.212.148.174:7700/indexes/locations/search", listOf("q" to locationName, "limit" to 10))
                     .awaitString()
             return Json.decodeFromString<MeiliLocationData>(response)
         } catch (exception: Exception) {

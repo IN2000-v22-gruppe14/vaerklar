@@ -35,6 +35,11 @@ Dette er tildels fordi vi har skrevet appen dårlig, men også på grunn av at e
 ### Værdata for uken og dagen oppdateres ikke ved endring av lokasjon ved for eksempel søk
 
 Dette er en feil vi ikke vet helt hvorfor skjer, men har en teori på at det har noe med lazy loading å gjøre.
+
+### Blank skjerm etter søk
+
+Dette er noe som tilsynelatende bare skjer når man kjører på fysiske enheter. Vi aner ikke hvorfor dette skjer.
+
 ### Mangel på lokasjon
 
 * Sørg for at lokasjon er satt i enhetens emulatorinstillinger i Android Studio

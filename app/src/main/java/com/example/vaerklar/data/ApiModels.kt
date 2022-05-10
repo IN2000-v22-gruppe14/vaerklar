@@ -180,3 +180,23 @@ data class Geometry(
     val coordinates: List<Double>? = null,
     val nearest: Boolean? = null,
 )
+
+
+// MeiliSearch API (live search API)
+@Serializable
+data class MeiliLocationData(
+    val hits: List<MeiliLocationMetaData>,
+    val nbHits: Int,
+    val exhaustiveNbHits: Boolean,
+    val query: String,
+    val limit: Int,
+    val offset: Int,
+    val processingTimeMs: Int
+)
+@Serializable
+data class MeiliLocationMetaData(
+    val id: Int,
+    val name: String,
+    val feature: String,
+    val geometry: Geometry?
+)

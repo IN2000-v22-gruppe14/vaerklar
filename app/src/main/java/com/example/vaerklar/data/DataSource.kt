@@ -48,17 +48,14 @@ class DataSource {
         return null
     }
 
-    suspend fun getLocationMetaDataFromName(locationName: String): List<LocationMetaData?>? {
+    suspend fun getLocationMetaDataFromName(locationName: String): MeiliLocationData? {
         try {
-            val response = Fuel.get("$locationUrl?names=$locationName")
-                .authentication()
-                .basic(apiClient, apiSecret)
-                .awaitString()
-            println(response)
-            val responseObject = Json.decodeFromString<LocationData>(response)
-            return responseObject.data
-        } catch(exception: Exception) {
-            Log.e("DataSource", "Weather data request and deserialization failed!")
+            val response =
+                Fuel.get("http://46.212.148.174:7700/indexes/locations/search?q=$locationName&limit=10")
+                    .awaitString()
+            return Json.decodeFromString<MeiliLocationData>(response)
+        } catch (exception: Exception) {
+            Log.e("DataSource", "MeiliSearch request failed!")
             Log.e("DataSource", exception.toString())
         }
         return null

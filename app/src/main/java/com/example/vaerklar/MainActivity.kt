@@ -110,6 +110,7 @@ class MainActivity : ComponentActivity(), ActivityCompat.OnRequestPermissionsRes
                     splashScreenViewProvider.remove()
 
                     setContent {
+                        val context = LocalContext.current
                         Theme {
                             // The scaffold is responsible for revealing the drawer.
                             val scaffoldState = rememberScaffoldState()
@@ -138,6 +139,7 @@ class MainActivity : ComponentActivity(), ActivityCompat.OnRequestPermissionsRes
                                     Divider()
                                     IconButton(
                                         onClick = {
+                                            context.startActivity(Intent(context, SettingsActivity::class.java))
                                         }
                                     ){
                                         Text("     Innstillinger",

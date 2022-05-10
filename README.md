@@ -31,6 +31,10 @@ Sørg også for at du har satt en lokasjon for enhetens emulatorinstillinger i A
 ### Appen er ekstremt treg
 
 Dette er tildels fordi vi har skrevet appen dårlig, men også på grunn av at emulatorer er trege. I følge vår testing fungerer det ganske fint på fysiske enheter. Her er det ikke noe særlig man kan gjøre for å bedre som bruker.
+
+### Værdata for uken og dagen oppdateres ikke ved endring av lokasjon ved for eksempel søk
+
+Dette er en feil vi ikke vet helt hvorfor skjer, men har en teori på at det har noe med lazy loading å gjøre.
 ### Mangel på lokasjon
 
 * Sørg for at lokasjon er satt i enhetens emulatorinstillinger i Android Studio

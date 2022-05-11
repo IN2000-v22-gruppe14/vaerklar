@@ -11,6 +11,7 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Scaffold
 import androidx.compose.material.TextField
+import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.livedata.observeAsState
@@ -20,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import com.example.vaerklar.SearchActivityViewModel
@@ -58,6 +60,7 @@ fun SearchScreen() {
                         .focusRequester(focusRequester)
                         .fillMaxWidth(),
                     value = state.value,
+                    colors = TextFieldDefaults.textFieldColors(textColor = Color.White),
                     onValueChange = {
                         state.value = it
                         viewModel.fetchLocations(state.value)

@@ -7,6 +7,7 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Context.CLIPBOARD_SERVICE
+import android.content.Intent
 import android.os.Build
 import android.widget.Toast
 import androidx.compose.foundation.background
@@ -30,6 +31,8 @@ import androidx.compose.ui.window.PopupProperties
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.content.getSystemService
 import androidx.core.content.res.TypedArrayUtils.getText
+import com.example.vaerklar.SettingsActivity
+import com.example.vaerklar.TermsActivity
 import com.example.vaerklar.data.Notifications
 import com.example.vaerklar.data.TermsOfService
 import com.example.vaerklar.ui.theme.*
@@ -57,6 +60,7 @@ fun SettingsScreen() {
     }
 }
 
+//får ikke fikset nå så vet ikke om den bare skal fjernes
 fun toggleTheme(darkmode: Boolean) {
     TODO("Toggle between light and dark theme")
 }
@@ -300,7 +304,7 @@ fun SettingsMenu() {
                     )
 
                     Button(
-                        onClick = { openWindow.value != openWindow.value },
+                        onClick = { activity.startActivity(Intent(activity, TermsActivity::class.java)) },
                         shape = RoundedCornerShape(10.dp),
                         colors = ButtonDefaults.buttonColors(
                             backgroundColor = Color.White)

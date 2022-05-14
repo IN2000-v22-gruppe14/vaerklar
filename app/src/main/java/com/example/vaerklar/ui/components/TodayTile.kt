@@ -20,7 +20,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.vaerklar.R
 import com.example.vaerklar.data.WeatherData
 import com.example.vaerklar.data.iconTranslation
 import com.example.vaerklar.ui.screens.altColor

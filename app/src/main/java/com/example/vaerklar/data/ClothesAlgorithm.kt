@@ -1,5 +1,6 @@
 package com.example.vaerklar.data
 
+import com.example.vaerklar.ui.screens.getWarmth
 import kotlin.math.abs
 import kotlin.math.pow
 import kotlin.math.roundToLong
@@ -104,6 +105,15 @@ class ClothesAlgorithm {
 
 
         println("Real temperature: $realTemp")
+        val adjustor = getWarmth()
+        //println("Adjustor value: $adjustor")
+        val diff = sliderTranslation[adjustor]
+        if (realTemp != null) {
+            realTemp += (diff!!)
+        }
+        println("Real temperature after: $realTemp")
+
+
         val clothString = getOutfit(weatherData, realTemp?.toFloat())
         println("Klær: $clothString")
 

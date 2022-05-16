@@ -120,6 +120,20 @@ var dayTranslationWhole = hashMapOf<String?, String> (
     "SU" to "SØNDAG"
 )
 
+var sliderTranslation = hashMapOf<Int, Int> (
+    0 to 6,
+    1 to 4,
+    2 to 2,
+    3 to 0,
+    4 to -2,
+    5 to -4,
+    6 to -6
+)
+
+
+
+
+
 // Translates symbol strings from the API to icons provided in the application for display.
 var iconTranslation = hashMapOf(
 

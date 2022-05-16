@@ -63,6 +63,7 @@ class MainActivity : ComponentActivity(), ActivityCompat.OnRequestPermissionsRes
     private var lon: Double? = null
     private val showDialog = mutableStateOf(false)
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         println("lifecycle: create")
@@ -89,6 +90,8 @@ class MainActivity : ComponentActivity(), ActivityCompat.OnRequestPermissionsRes
     }
 
     override fun onStart() {
+
+
         // Runs when app is minimized and relaunches.
         // Is responsible for rendering UI as well as obtaining location permissions
 
@@ -374,3 +377,5 @@ class MainActivity : ComponentActivity(), ActivityCompat.OnRequestPermissionsRes
         showDialog.value = savedBoolean
     }
 }
+
+

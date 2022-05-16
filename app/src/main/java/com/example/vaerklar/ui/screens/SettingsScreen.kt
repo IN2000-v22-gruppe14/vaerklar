@@ -4,7 +4,8 @@ import android.app.Activity
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
-import android.content.Context.CLIPBOARD_SERVICE
+import android.content.SharedPreferences
+import android.preference.PreferenceManager
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -21,9 +22,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.content.ContextCompat.getSystemService
 import com.example.vaerklar.ui.theme.*
 import kotlin.math.roundToInt
+
+
+var tempSens = 0
+
 
 
 @Composable
@@ -54,9 +58,8 @@ fun notifications(notify: Boolean) {
     TODO("Toggles notifications onn and off")
 }
 
-fun adjustWarmth(hotness: Float) {
-    val hot: Int = hotness.roundToInt()
-    TODO("Make this adjust the recommended clothes")
+fun getWarmth(): Int{
+    return tempSens
 }
 
 fun termsOfService() {
@@ -188,14 +191,15 @@ fun SettingsMenu() {
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.spacedBy(5.dp)
                 ) {
-
-                    var sliderPosition by remember { mutableStateOf(0.5F)}
+                    var sharedPrefs : SharedPreferences = activity!!.getPreferences(Context.MODE_PRIVATE);
+                    var sliderVal = sharedPrefs.getFloat("sliderVal", 0.5F)
+                    var sliderPosition by remember { mutableStateOf(sliderVal)}
 
                     // Shows value in integer.
                     Text(
                         modifier = Modifier
                             .absolutePadding(0.dp, 5.dp, 0.dp, 0.dp),
-                        text = "${(sliderPosition * 5).roundToInt()}",
+                        text = "${(sliderPosition * 6).roundToInt() - 3}",
                         textAlign = TextAlign.Center,
                         color = Color.White,
                         fontSize = 15.sp,
@@ -214,8 +218,10 @@ fun SettingsMenu() {
                         value = sliderPosition,
                         onValueChange = {
                             sliderPosition = it
-                            adjustWarmth(it)
-                        }
+                            tempSens = (sliderPosition * 6).toInt()
+                            sharedPrefs.edit().putFloat("sliderVal", sliderPosition).apply()
+                        },
+                        steps = 5
                     )
 
                     Text (

@@ -244,7 +244,7 @@ class ClothesAlgorithm {
     }
 
     // Check whether or not it is consider sunny outside
-    private fun sunCheck(weatherData: WeatherData?): Boolean{
+    private fun sunCheck(weatherData: WeatherData?): Boolean {
         val symbol = weatherData?.properties?.timeseries?.get(timeSeriesIndex)?.data?.next_1_hours?.summary?.symbol_code
 
         return (symbol == "fair_day" || symbol == "clearsky_day")

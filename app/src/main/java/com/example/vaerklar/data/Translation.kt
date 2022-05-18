@@ -91,15 +91,18 @@ val weatherDescriptionTranslation: HashMap<String, String> = hashMapOf(
 )
 
 // Mapping between english and norwegian weekday abbreviations
-val weekDayTranslation = hashMapOf<String?, String> (
-    "MO" to "MA",
-    "TU" to "TI",
-    "WE" to "ON",
-    "TH" to "TO",
-    "FR" to "FR",
-    "SA" to "LØ",
-    "SU" to "SØ"
-)
+fun translateWeekdayAbbreviation(weekDayAbbreviation: String): String {
+    return when (weekDayAbbreviation) {
+        "MO" -> "MA"
+        "TU" -> "TI"
+        "WE" -> "ON"
+        "TH" -> "TO"
+        "FR" -> "FR"
+        "SA" -> "LØ"
+        "SU" -> "SØ"
+        else -> "..."
+    }
+}
 
 // Mapping between english weekday abbreviations to their norwegian full name equivalent
 val weekDayTranslationWhole = hashMapOf<String?, String> (

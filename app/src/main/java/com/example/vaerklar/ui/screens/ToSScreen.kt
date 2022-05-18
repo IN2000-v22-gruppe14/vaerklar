@@ -30,14 +30,13 @@ fun ToSScreen(){
             Button(
                 onClick = { context.startActivity(Intent(context, SettingsActivity::class.java)) },
                 modifier = Modifier.fillMaxWidth()
-            )
-            {Text("Tilbake",
-                modifier = Modifier.padding(20.dp) ,
-                color = Color(222, 254, 255),
-                fontFamily = Rubik
+            ) {
+                Text("Tilbake",
+                    modifier = Modifier.padding(20.dp) ,
+                    color = Color(222, 254, 255),
+                    fontFamily = Rubik
                 )
             }
-
             Text(TermsOfService().terms,
                 modifier = Modifier.fillMaxSize(),
                 fontSize = 20.sp,

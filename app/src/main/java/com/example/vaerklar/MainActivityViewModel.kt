@@ -10,7 +10,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class MainActivityViewModel : ViewModel() {
-    private val ds = DataSource()
+    private val dataSource = DataSource()
 
     private var weatherData: MutableLiveData<WeatherData?> = MutableLiveData()
     private var locationData: MutableLiveData<LocationData?> = MutableLiveData()
@@ -25,7 +25,7 @@ class MainActivityViewModel : ViewModel() {
 
     fun fetchWeatherData(latitude: Double, longitude: Double) {
         viewModelScope.launch(Dispatchers.IO) {
-            ds.getWeatherData(latitude, longitude).also {
+            dataSource.getWeatherData(latitude, longitude).also {
                 weatherData.postValue(it)
             }
         }
@@ -33,7 +33,7 @@ class MainActivityViewModel : ViewModel() {
 
     fun fetchLocationData(latitude: Double, longitude: Double) {
         viewModelScope.launch(Dispatchers.IO) {
-            ds.getLocationMetaData(latitude, longitude).also {
+            dataSource.getLocationMetaData(latitude, longitude).also {
                 locationData.postValue(it)
             }
         }

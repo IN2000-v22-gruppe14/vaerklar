@@ -9,7 +9,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class SearchActivityViewModel : ViewModel() {
-    private val ds = DataSource()
+    private val dataSource = DataSource()
     private var locationData: MutableLiveData<MeiliLocationData> = MutableLiveData()
 
     fun getLocations(): MutableLiveData<MeiliLocationData> {
@@ -18,7 +18,7 @@ class SearchActivityViewModel : ViewModel() {
 
     fun fetchLocations(locationName: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            ds.getLocationMetaDataFromName(locationName).also {
+            dataSource.getLocationMetaDataFromName(locationName).also {
                 locationData.postValue(it)
             }
         }

@@ -3,6 +3,8 @@ package com.example.vaerklar.data
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+// MET LocationForecast API models
+// A lot of values have nullable fallback value due to the API being absolute utter garbage
 @Serializable
 data class WeatherData(
     val geometry: PointGeometry,
@@ -149,6 +151,10 @@ data class ForecastSummary12Hours(
     val symbol_confidence: String? = null
 )
 
+
+// ----------------------------------------
+
+// Frost Location API models
 @Serializable
 data class LocationData(
     @SerialName("@context") val context: String? = null,
@@ -182,6 +188,8 @@ data class Geometry(
 )
 
 
+// ----------------------------------------
+
 // MeiliSearch API (live search API)
 @Serializable
 data class MeiliLocationData(
@@ -193,6 +201,7 @@ data class MeiliLocationData(
     val offset: Int,
     val processingTimeMs: Int
 )
+
 @Serializable
 data class MeiliLocationMetaData(
     val id: Int,

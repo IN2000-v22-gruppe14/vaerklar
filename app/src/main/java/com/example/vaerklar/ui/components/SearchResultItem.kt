@@ -22,7 +22,7 @@ import com.example.vaerklar.ui.theme.DayTile
 import com.example.vaerklar.ui.theme.Rubik
 
 
-@OptIn(ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterialApi::class)  // Because everything, and I mean EVERYTHING is deprecated in the Android ecosystem
 @Composable
 fun SearchResultItem(location: MeiliLocationMetaData) {
     val currentActivity = LocalContext.current as Activity

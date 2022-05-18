@@ -66,37 +66,31 @@ class MainActivity : ComponentActivity(), ActivityCompat.OnRequestPermissionsRes
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        println("lifecycle: create")
 
         // Hide title bar
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         requestWindowFeature(Window.FEATURE_ACTION_BAR)
 
-        loadData()
+        loadOnBoarding()
 
-        // Acquire location data.
+        // Make location data API request.
         viewModel.getLocationData().observe(this) {
             locationName = if (it != null) {
                 it.data?.get(0)?.name.toString()  // Nydelig. elsker kotlin
             } else {
-                "Blindern"
+                "Blindern"  // Just in case :)
             }
         }
 
-        // Acquire weather data.
         viewModel.getWeatherData().observe(this) {
             weatherData = it
         }
     }
 
     override fun onStart() {
-
-
         // Runs when app is minimized and relaunches.
         // Is responsible for rendering UI as well as obtaining location permissions
-
         super.onStart()
-        println("lifecycle: start")
 
         // Run splash screen
         // https://github.com/tgloureiro/animated_splashscreen_android/blob/step4_core_splash_jetpack/app/src/main/java/com/example/animatedsplashscreen/MainActivity.kt
@@ -111,7 +105,6 @@ class MainActivity : ComponentActivity(), ActivityCompat.OnRequestPermissionsRes
                 .setStartDelay(500.toLong())
                 .withEndAction {
                     splashScreenViewProvider.remove()
-
                     setContent {
                         val context = LocalContext.current
                         Theme {
@@ -123,9 +116,8 @@ class MainActivity : ComponentActivity(), ActivityCompat.OnRequestPermissionsRes
                                 drawerBackgroundColor = Color(222, 254, 255),
                                 drawerContent = {
                                     IconButton(
-                                        onClick = {
-                                        }
-                                    ){
+                                        onClick = {}
+                                    ) {
                                         Text("     Hjem",
                                             modifier = Modifier.padding(20.dp),
                                             color = Color(29, 58, 59),
@@ -140,11 +132,12 @@ class MainActivity : ComponentActivity(), ActivityCompat.OnRequestPermissionsRes
                                     }
 
                                     Divider()
+
                                     IconButton(
                                         onClick = {
                                             context.startActivity(Intent(context, SettingsActivity::class.java))
                                         }
-                                    ){
+                                    ) {
                                         Text("     Innstillinger",
                                             modifier = Modifier.padding(20.dp),
                                             color = Color(29, 58, 59),
@@ -159,22 +152,17 @@ class MainActivity : ComponentActivity(), ActivityCompat.OnRequestPermissionsRes
                                     }
 
                                     Divider()
-                                    // Drawer items
                                 }
                             ) {
-
                                 // Column responsible for the vertical stacking of all elements on the page.
                                 Column {
                                     Box {
                                         OnBoardUi()
-                                        if(showDialog.value == true){
-                                            saveData()
+                                        if (showDialog.value) {
+                                            saveOnboardingState()
                                             MainScreen(weatherData, locationName)
                                             NavigationBar(scaffoldState,scope )
                                         }
-                                            //MainScreen(weatherData, locationName)
-                                            //NavigationBar(scaffoldState,scope )
-
                                     }
                                 }
                             }
@@ -184,34 +172,29 @@ class MainActivity : ComponentActivity(), ActivityCompat.OnRequestPermissionsRes
                 .start()
         }
 
+        // Check if location has been passed from search. If so, set values
         val extras = intent.extras
         if (extras != null) {
             lat = extras.get("latitude") as Double?
             lon = extras.get("longitude") as Double?
-        } else {
-            println("Ingen data passed fra search")
         }
 
-        // If gore men la gå
+        // If gore but fuck it
         if (lat != null && lon != null) {
-            println("LOKASJON BLIR HENTET FRA SØK")
+            // Why do I have to do this? I don't fucking know
             viewModel.fetchLocationData(lat!!, lon!!)
             viewModel.fetchWeatherData(lat!!, lon!!)
-            return
+            return  // Return early to prevent checking permissions. Theoretically making it possible to use the app without permissions
         }
 
-        println("LOKASJON BLIR HENTET FRA DEVICE")
+        // Ask For location permissions
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION), 0)
         } else {
             fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
             fusedLocationClient.getCurrentLocation(PRIORITY_HIGH_ACCURACY, CancellationTokenSource().token)
                 .addOnSuccessListener { location: Location? ->
-                    println("(MainActivity): Enhetens lokasjon er funnet.")
                     if (location != null) {
-                        println("(MainActivity): Enhetens lokasjon er ikke null.")
-                        println("Enhetens gitte breddegrad/latitude er " + location.latitude)
-                        println("Enhetens gitte lengdegrad/longitude er " + location.longitude)
                         viewModel.fetchLocationData(location.latitude, location.longitude)
                         viewModel.fetchWeatherData(location.latitude, location.longitude)
                     }
@@ -219,7 +202,7 @@ class MainActivity : ComponentActivity(), ActivityCompat.OnRequestPermissionsRes
         }
     }
 
-    @SuppressLint("MissingPermission")
+    @SuppressLint("MissingPermission")  // Deprecated but it works :)
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -230,12 +213,7 @@ class MainActivity : ComponentActivity(), ActivityCompat.OnRequestPermissionsRes
             fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
             fusedLocationClient.getCurrentLocation(PRIORITY_HIGH_ACCURACY, CancellationTokenSource().token)
                 .addOnSuccessListener { location: Location? ->
-                    println("ONREQUESTPERMISSIONSRESULT (MainActivity): Enhetens lokasjon er funnet.")
-
                     if (location != null) {
-                        println("ONREQUESTPERMISSIONSRESULT (MainActivity): Enhetens lokasjon er ikke null.")
-                        println("Enhetens gitte breddegrad/latitude er " + location.latitude)
-                        println("Enhetens gitte lengdegrad/longitude er " + location.longitude)
                         viewModel.fetchLocationData(location.latitude, location.longitude)
                         viewModel.fetchWeatherData(location.latitude, location.longitude)
                     }
@@ -244,15 +222,11 @@ class MainActivity : ComponentActivity(), ActivityCompat.OnRequestPermissionsRes
             val toast = Toast.makeText(this, "Vennligst gi lokasjonstillatelse. Appen vil ellers ikke kjøre.", LENGTH_LONG)
             toast.show()
         }
-
-        // HAMBURGER GREIER VVVV
-        //setContentView(R.layout.nav_activity_main)
     }
 
     @Composable
     // Navigation bar. Since it must be available on all screens, it is present in the MainActivity.
     fun NavigationBar(state: ScaffoldState, scope : CoroutineScope) {
-        //scope = rememberCoroutineScope()
         val context = LocalContext.current
 
         TopAppBar(
@@ -275,10 +249,9 @@ class MainActivity : ComponentActivity(), ActivityCompat.OnRequestPermissionsRes
                         }
                     }
                 ) {
-
                     Icon(
                         Icons.Default.Menu,
-                        "Hamburger",
+                        "Meny",
                         tint = Color.White
                     )
                 }
@@ -291,7 +264,7 @@ class MainActivity : ComponentActivity(), ActivityCompat.OnRequestPermissionsRes
 
                     Icon(
                         Icons.Default.Search,
-                        "Hamburger",
+                        "Søk",
                         tint = Color.White
                     )
                 }
@@ -302,8 +275,6 @@ class MainActivity : ComponentActivity(), ActivityCompat.OnRequestPermissionsRes
                 .fillMaxWidth()
                 .absolutePadding(0.dp, 10.dp, 0.dp, 0.dp)
         )
-
-        // TODO: Add functional onClick modifiers.
     }
 
 
@@ -312,7 +283,7 @@ class MainActivity : ComponentActivity(), ActivityCompat.OnRequestPermissionsRes
     fun OnBoardUi(){
         val pagerstate = rememberPagerState(pageCount = 4)
         
-        Column(){
+        Column {
             Text(
                 text = "Skip",
                 color = Color.White,
@@ -320,17 +291,13 @@ class MainActivity : ComponentActivity(), ActivityCompat.OnRequestPermissionsRes
                     .fillMaxWidth()
                     .absolutePadding(10.dp, 10.dp, 0.dp, 0.dp)
                     .clickable {showDialog.value = true})
-
             HorizontalPager(
                 state = pagerstate,
                 modifier = Modifier
                     .fillMaxWidth()
                     .weight(1f)) {
-
-                    page ->
-                OnBoardPages(page = onboardPages[page])
+                    page -> OnBoardPages(page = onboardPages[page])
             }
-
             HorizontalPagerIndicator(
                 pagerState = pagerstate,
                 modifier = Modifier
@@ -339,7 +306,6 @@ class MainActivity : ComponentActivity(), ActivityCompat.OnRequestPermissionsRes
                 activeColor = Color.White,
                 inactiveColor = Color.Gray
             )
-            
             AnimatedVisibility(visible = pagerstate.currentPage == 3) {
                 OutlinedButton(
                     shape = RoundedCornerShape(15.dp),
@@ -354,23 +320,21 @@ class MainActivity : ComponentActivity(), ActivityCompat.OnRequestPermissionsRes
                     Text(
                         text = "Kom i gang!"
                     )
-                    }
-
+                }
             }
             
         }
     }
 
-    private fun saveData(){
+    private fun saveOnboardingState() {
         val sharedPreferences = getSharedPreferences("sharedPrefs", Context.MODE_PRIVATE)
         val changer = sharedPreferences.edit()
         changer.apply{
             putBoolean("BOOLEAN_KEY", showDialog.value)
         }.apply()
-
     }
 
-    private fun loadData(){
+    private fun loadOnBoarding() {
         val sharedPreferences = getSharedPreferences("sharedPrefs", Context.MODE_PRIVATE)
         val savedBoolean = sharedPreferences.getBoolean("BOOLEAN_KEY", false)
 

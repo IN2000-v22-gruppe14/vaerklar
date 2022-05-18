@@ -175,7 +175,6 @@ fun WeekTile(weatherData: WeatherData?) {
         // If the found hour is 12:00:00 (which is applicable for all future dates), create a day object.
         if (hour == "12") {
             index++
-            println("index for dag: $index")
             val dayDate = weatherData.properties.timeseries[counter].time.substring(0, 10)
             val airTemp = weatherData.properties.timeseries[counter].data.instant.details?.air_temperature?.toInt().toString()
             val windSpeed = weatherData.properties.timeseries[counter].data.instant.details?.wind_speed

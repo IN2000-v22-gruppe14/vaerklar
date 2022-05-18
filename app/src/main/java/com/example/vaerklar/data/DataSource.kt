@@ -76,7 +76,6 @@ fun getTimeSeriesIndex(weatherData: WeatherData?): Int {
     val nowString = nowTime.toString()
     val nowHour = nowString.substring(11,13)
     var nowHourInt = nowHour.toInt()
-    println("nowhourint: $nowHourInt, firsthour: $firstHour")
 
     if(nowHourInt < firstHour){
         val oldHour = nowHourInt

@@ -1,11 +1,7 @@
 package com.example.vaerklar.ui.screens
 
 import android.app.Activity
-import android.content.ClipData
-import android.content.ClipboardManager
-import android.content.Context
-import android.content.SharedPreferences
-import android.preference.PreferenceManager
+import android.content.*
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -22,6 +18,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.vaerklar.TermsActivity
+import com.example.vaerklar.data.TermsOfService
 import com.example.vaerklar.ui.theme.*
 import kotlin.math.roundToInt
 
@@ -50,20 +48,8 @@ fun SettingsScreen() {
     }
 }
 
-fun toggleTheme(darkmode: Boolean) {
-    TODO("Toggle between light and dark theme")
-}
-
-fun notifications(notify: Boolean) {
-    TODO("Toggles notifications onn and off")
-}
-
 fun getWarmth(): Int{
     return tempSens
-}
-
-fun termsOfService() {
-    TODO("Shows a page with terms of Service")
 }
 
 fun invite(activity: Activity) {
@@ -82,12 +68,39 @@ fun helpAndSupport() {
 @Composable
 fun SettingsMenu() {
     val activity = LocalContext.current as Activity
+    val openWindow = remember { mutableStateOf(false)}
     //Base card to hold everything together
     Scaffold(
         modifier = Modifier
             .fillMaxSize(),
         backgroundColor = DayTile,
     ) {
+
+        if(openWindow.value) {
+            AlertDialog(
+                modifier = Modifier.fillMaxSize(),
+                onDismissRequest = { openWindow.value = false },
+                title = {
+                    Text(text = "Bruksvilkår")
+                },
+                text = {
+                    Text(TermsOfService().getText())
+                },
+                buttons = {
+                    Row(
+                        modifier = Modifier.padding(all = 8.dp),
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        Button(
+                            modifier = Modifier.fillMaxWidth(),
+                            onClick = { openWindow.value = false }
+                        ) {
+                            Text("Dismiss")
+                        }
+                    }
+                }
+            )
+        }
 
         //put all settings in a column to sort them downwards
         Column(
@@ -104,79 +117,6 @@ fun SettingsMenu() {
                 fontFamily = Rubik,
                 fontWeight = FontWeight.Bold
             )
-
-            // Card containing information on dark mode.
-            Card(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .absolutePadding(10.dp, 0.dp, 10.dp, 0.dp),
-                backgroundColor = DayTileAlt,
-                shape = RoundedCornerShape(15.dp),
-                elevation = 0.dp
-            ) {
-
-                // Row for button to toggle theme.
-                Row(
-                    modifier = Modifier
-                        .absolutePadding(20.dp, 0.dp, 20.dp, 0.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                ) {
-
-                    val themeState = remember { mutableStateOf(false) }
-
-                    Text(
-                        text = "Mørkemodus",
-                        color = Color.White,
-                        fontSize = 15.sp,
-                        fontFamily = Rubik,
-                    )
-
-                    Switch(
-                        checked = themeState.value,
-                        onCheckedChange = { themeState.value = it; toggleTheme(it) },
-                        colors = SwitchDefaults.colors(Color.Green)
-                    )
-                }
-            }
-
-            // Card containing information on notifications.
-            Card(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .absolutePadding(10.dp, 0.dp, 10.dp, 0.dp),
-                backgroundColor = DayTileAlt,
-                shape = RoundedCornerShape(15.dp),
-                elevation = 0.dp
-            ) {
-
-                // Row for button to toggle theme.
-                Row(
-                    modifier = Modifier
-                        .absolutePadding(20.dp, 0.dp, 20.dp, 0.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                ) {
-
-                    val notifyState = remember {
-                        mutableStateOf(false)
-                    }
-
-                    Text(
-                        text = "Varsler",
-                        textAlign = TextAlign.Start,
-                        color = Color.White,
-                        fontSize = 15.sp,
-                        fontFamily = Rubik,
-                    )
-
-                    Switch(
-                        checked = notifyState.value,
-                        onCheckedChange = { notifyState.value = it; notifications(it) },
-                        colors = SwitchDefaults.colors(Color.Green)
-                    )
-                }
-            }
 
             Card(
                 modifier = Modifier
@@ -267,7 +207,7 @@ fun SettingsMenu() {
                     )
 
                     Button(
-                        onClick = { termsOfService() },
+                        onClick = { activity.startActivity(Intent(activity, TermsActivity::class.java)) },
                         shape = RoundedCornerShape(10.dp),
                         colors = ButtonDefaults.buttonColors(
                             backgroundColor = Color.White)
@@ -315,54 +255,6 @@ fun SettingsMenu() {
 
                     Button(
                         onClick = { invite(activity) },
-                        shape = RoundedCornerShape(10.dp),
-                        colors = ButtonDefaults.buttonColors(
-                            backgroundColor = Color.White)
-                    ) {
-
-                        Text (
-                            text = "",
-                            textAlign = TextAlign.Center,
-                            color = DayTile,
-                            fontSize = 15.sp,
-                            fontFamily = Rubik,
-                        )
-                    }
-                }
-            }
-
-            // Help and support.
-            Card(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .absolutePadding(10.dp, 0.dp, 10.dp, 0.dp),
-                backgroundColor = DayTileAlt,
-                shape = RoundedCornerShape(15.dp),
-                elevation = 0.dp,
-            ) {
-
-                // Row for button to toggle theme.
-                Row(
-                    modifier = Modifier
-                        .absolutePadding(20.dp, 5.dp, 20.dp, 5.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                ) {
-
-                    val notifyState = remember {
-                        mutableStateOf(false)
-                    }
-
-                    Text(
-                        text = "Støtte",
-                        textAlign = TextAlign.Start,
-                        color = Color.White,
-                        fontSize = 15.sp,
-                        fontFamily = Rubik,
-                    )
-
-                    Button(
-                        onClick = { termsOfService() },
                         shape = RoundedCornerShape(10.dp),
                         colors = ButtonDefaults.buttonColors(
                             backgroundColor = Color.White)

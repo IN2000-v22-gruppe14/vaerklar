@@ -105,15 +105,18 @@ fun translateWeekdayAbbreviation(weekDayAbbreviation: String): String {
 }
 
 // Mapping between english weekday abbreviations to their norwegian full name equivalent
-val weekDayTranslationWhole = hashMapOf<String?, String> (
-    "MO" to "MANDAG",
-    "TU" to "TIRSDAG",
-    "WE" to "ONSDAG",
-    "TH" to "TORSDAG",
-    "FR" to "FREDAG",
-    "SA" to "LØRDAG",
-    "SU" to "SØNDAG"
-)
+fun translateWeekDayWhole(weekDayAbbreviation: String): String {
+    return when (weekDayAbbreviation) {
+        "MO" -> "MANDAG"
+        "TU" -> "TIRSDAG"
+        "WE" -> "ONSDAG"
+        "TH" -> "TORSDAG"
+        "FR" -> "FREDAG"
+        "SA" -> "LØRDAG"
+        "SU" -> "SØNDAG"
+        else -> "..."
+    }
+}
 
 // Translates symbol strings from the MET LocationForecast API to icons provided in the application for display.
 val iconTranslation = hashMapOf(

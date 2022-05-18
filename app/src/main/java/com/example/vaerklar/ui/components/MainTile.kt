@@ -16,9 +16,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.vaerklar.R
-import com.example.vaerklar.data.Translation
 import com.example.vaerklar.data.WeatherData
 import com.example.vaerklar.data.iconTranslation
+import com.example.vaerklar.data.weatherDescriptionTranslation
 import com.example.vaerklar.ui.screens.baseColor
 import com.example.vaerklar.ui.theme.Rubik
 import kotlin.math.roundToInt
@@ -36,7 +36,7 @@ fun MainTile(weatherData: WeatherData?, timeSeriesIndex: Int) {
     val precipitationText = precipitation?.toString() ?: "Fant ikke nedbør"
 
     val weather = weatherData?.properties?.timeseries?.get(timeSeriesIndex)?.data?.next_1_hours?.summary?.symbol_code
-    val translatedWeather = weather?.let { Translation.getTranslation(it) } ?: "Fant ikke vær"
+    val translatedWeather = weather?.let { weatherDescriptionTranslation[it] } ?: "Fant ikke vær"
 
 
     // Wind data.

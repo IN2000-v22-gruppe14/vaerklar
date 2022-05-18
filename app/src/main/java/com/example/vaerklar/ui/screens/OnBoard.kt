@@ -1,12 +1,10 @@
 package com.example.vaerklar.ui.screens
 
-import android.media.Image
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.absolutePadding
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -22,7 +20,6 @@ import androidx.compose.ui.unit.sp
 import com.example.vaerklar.data.Page
 
 
-
 @Composable
 fun OnBoardPages(page : Page){
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -32,7 +29,6 @@ fun OnBoardPages(page : Page){
             color = Color.White,
             fontWeight = FontWeight.Bold
         )
-
 
         Spacer(modifier = Modifier.height(8.dp))
 
@@ -59,4 +55,3 @@ fun OnBoardPages(page : Page){
 
     }
 }
-

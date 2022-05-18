@@ -24,9 +24,7 @@ import com.example.vaerklar.ui.theme.*
 import kotlin.math.roundToInt
 
 
-var tempSens = 0
-
-
+private var tempSens = 0
 
 @Composable
 fun SettingsScreen() {
@@ -48,27 +46,23 @@ fun SettingsScreen() {
     }
 }
 
-fun getWarmth(): Int{
+fun getWarmth(): Int {
     return tempSens
 }
 
 fun invite(activity: Activity) {
     val context = activity.applicationContext
     val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-    val clip = ClipData.newPlainText("Simple text", "https://github.com/IN2000-v22-gruppe14/vaerklar")
+    val clip = ClipData.newPlainText("Github repo link", "https://github.com/IN2000-v22-gruppe14/vaerklar")
     clipboard.setPrimaryClip(clip)
-    Toast.makeText(context, "copied to clipboard", Toast.LENGTH_LONG).show()
-}
-
-fun helpAndSupport() {
-    TODO("Sends the user to a help page")
+    Toast.makeText(context, "Kopierte til utklippstavla!", Toast.LENGTH_LONG).show()
 }
 
 @Preview
 @Composable
 fun SettingsMenu() {
     val activity = LocalContext.current as Activity
-    val openWindow = remember { mutableStateOf(false)}
+    val openWindow = remember { mutableStateOf(false) }
     //Base card to hold everything together
     Scaffold(
         modifier = Modifier
@@ -76,7 +70,7 @@ fun SettingsMenu() {
         backgroundColor = DayTile,
     ) {
 
-        if(openWindow.value) {
+        if (openWindow.value) {
             AlertDialog(
                 modifier = Modifier.fillMaxSize(),
                 onDismissRequest = { openWindow.value = false },
@@ -95,19 +89,17 @@ fun SettingsMenu() {
                             modifier = Modifier.fillMaxWidth(),
                             onClick = { openWindow.value = false }
                         ) {
-                            Text("Dismiss")
+                            Text("Lukk")
                         }
                     }
                 }
             )
         }
 
-        //put all settings in a column to sort them downwards
+        // Put all settings in a column to sort them downwards
         Column(
             verticalArrangement = Arrangement.spacedBy(5.dp)
-            //horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-
             Text(
                 modifier = Modifier
                     .absolutePadding(10.dp, 20.dp, 5.dp, 10.dp),
@@ -117,7 +109,6 @@ fun SettingsMenu() {
                 fontFamily = Rubik,
                 fontWeight = FontWeight.Bold
             )
-
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -131,9 +122,9 @@ fun SettingsMenu() {
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.spacedBy(5.dp)
                 ) {
-                    var sharedPrefs : SharedPreferences = activity!!.getPreferences(Context.MODE_PRIVATE);
-                    var sliderVal = sharedPrefs.getFloat("sliderVal", 0.5F)
-                    var sliderPosition by remember { mutableStateOf(sliderVal)}
+                    val sharedPrefs : SharedPreferences = activity.getPreferences(Context.MODE_PRIVATE);
+                    val sliderVal = sharedPrefs.getFloat("sliderVal", 0.5F)
+                    var sliderPosition by remember { mutableStateOf(sliderVal) }
 
                     // Shows value in integer.
                     Text(
@@ -146,7 +137,6 @@ fun SettingsMenu() {
                         fontFamily = Rubik,
                         fontWeight = FontWeight.Bold,
                     )
-
                     // Slider to adjust hotness.
                     Slider(
                         colors = SliderDefaults.colors(
@@ -163,7 +153,6 @@ fun SettingsMenu() {
                         },
                         steps = 5
                     )
-
                     Text (
                         modifier = Modifier
                             .absolutePadding(0.dp, 0.dp, 0.dp, 5.dp),
@@ -185,19 +174,12 @@ fun SettingsMenu() {
                 shape = RoundedCornerShape(15.dp),
                 elevation = 0.dp,
             ) {
-
-                // Row for button to toggle theme.
                 Row(
                     modifier = Modifier
                         .absolutePadding(20.dp, 5.dp, 20.dp, 5.dp),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceBetween,
                 ) {
-
-                    val notifyState = remember {
-                        mutableStateOf(false)
-                    }
-
                     Text(
                         text = "Bruksvilkår",
                         textAlign = TextAlign.Start,
@@ -205,14 +187,12 @@ fun SettingsMenu() {
                         fontSize = 15.sp,
                         fontFamily = Rubik,
                     )
-
                     Button(
                         onClick = { activity.startActivity(Intent(activity, TermsActivity::class.java)) },
                         shape = RoundedCornerShape(10.dp),
                         colors = ButtonDefaults.buttonColors(
                             backgroundColor = Color.White)
                     ) {
-
                         Text (
                             text = "",
                             textAlign = TextAlign.Center,
@@ -233,18 +213,12 @@ fun SettingsMenu() {
                 shape = RoundedCornerShape(15.dp),
                 elevation = 0.dp,
             ) {
-
                 Row(
                     modifier = Modifier
                         .absolutePadding(20.dp, 5.dp, 20.dp, 5.dp),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceBetween,
                 ) {
-
-                    val notifyState = remember {
-                        mutableStateOf(false)
-                    }
-
                     Text(
                         text = "Inviter",
                         textAlign = TextAlign.Start,
@@ -252,14 +226,12 @@ fun SettingsMenu() {
                         fontSize = 15.sp,
                         fontFamily = Rubik,
                     )
-
                     Button(
                         onClick = { invite(activity) },
                         shape = RoundedCornerShape(10.dp),
                         colors = ButtonDefaults.buttonColors(
                             backgroundColor = Color.White)
                     ) {
-
                         Text (
                             text = "",
                             textAlign = TextAlign.Center,

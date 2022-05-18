@@ -2,12 +2,10 @@ package com.example.vaerklar.data
 
 import com.example.vaerklar.R
 
-/***
- *Oversettelse av de forskjellige vær man kan hente ut av APIet vi har brukt for å hente ut vær.
- * Oversikt over de forskjellige typene vær kan man finne her:
- * https://in2000-apiproxy.ifi.uio.no/weatherapi/weathericon/2.0/documentation
- ***/
 
+//  Tranlates the MET LocationForecast API's weather descriptions to human-reabable, norwegian ones.
+//  You can find the API's list of descriptions here:
+//  https://in2000-apiproxy.ifi.uio.no/weatherapi/weathericon/2.0/documentation
 class Translation {
     companion object Translation {
         private var WeatherMap: HashMap<String, String> = hashMapOf(
@@ -93,13 +91,14 @@ class Translation {
             "snowshowersandthunder_night" to "Tidvis snø og lyn",
             "snowshowersandthunder_dusk" to "Tidvis snø og lyn"
         )
+
         fun getTranslation(weather:String) : String? {
             return WeatherMap[weather]
         }
     }
 }
 
-// Translates the provided day to Norwegian.
+// Mapping between english and norwegian weekday abbreviations
 var dayTranslation = hashMapOf<String?, String> (
     "MO" to "MA",
     "TU" to "TI",
@@ -131,12 +130,8 @@ var sliderTranslation = hashMapOf<Int, Int> (
 )
 
 
-
-
-
-// Translates symbol strings from the API to icons provided in the application for display.
+// Translates symbol strings from the MET LocationForecast API to icons provided in the application for display.
 var iconTranslation = hashMapOf(
-
     // CLEAR
     "clearsky_day" to R.drawable.clear_day,
     "clearsky_night" to R.drawable.clear_night,
@@ -210,6 +205,6 @@ var iconTranslation = hashMapOf(
     "" to R.drawable.heavy_snow_thunder_day,
     "" to R.drawable.heavy_snow_thunder_night,
 
-    // NULL-SAFE
+    // Fallback value
     null to R.drawable.partly_cloudy_day
 )

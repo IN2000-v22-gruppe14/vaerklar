@@ -3,7 +3,7 @@ package com.example.vaerklar.data
 import androidx.annotation.DrawableRes
 import com.example.vaerklar.R
 
-data class Page(val title : String, val description : String, @DrawableRes val image : Int)
+data class Page(val title: String, val description: String, @DrawableRes val image: Int)
 
 val onboardPages = listOf(
     Page("Anbefalt for deg",

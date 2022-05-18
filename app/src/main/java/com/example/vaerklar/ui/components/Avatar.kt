@@ -23,11 +23,13 @@ import androidx.compose.ui.unit.sp
 import com.example.vaerklar.R
 import com.example.vaerklar.data.ClothesAlgorithm
 import com.example.vaerklar.data.WeatherData
+import com.example.vaerklar.data.clothingItemNameToDrawable
 import com.example.vaerklar.ui.theme.Rubik
 import java.util.*
 
 
-// The avatar, alongside location.
+// The avatar + locationtext
+// Should've been two separate components but we're lazy <3
 class Avatar {
 
     @Composable
@@ -37,24 +39,22 @@ class Avatar {
         initiallyOpened: Boolean = false,
         content: @Composable () -> Unit
     ) {
-
         var isOpen by remember {
             mutableStateOf(initiallyOpened)
         }
-
         val alpha = animateFloatAsState(
             targetValue = if (isOpen) 1f else 0f,
             animationSpec = tween(
                 durationMillis = 300
             )
         )
-
         val rotateX = animateFloatAsState(
             targetValue = if (isOpen) 0f else -90f,
             animationSpec = tween(
                 durationMillis = 300
             )
         )
+
         Column(
             modifier = modifier
                 .fillMaxWidth()
@@ -71,7 +71,7 @@ class Avatar {
                 )
                 Icon(
                     painter = painterResource(R.drawable.dropdown),
-                    contentDescription = "Open or close the drop down",
+                    contentDescription = "Åpne eller lukk dropdown",
                     tint = Color.White,
                     modifier = Modifier
                         .clickable {
@@ -98,58 +98,9 @@ class Avatar {
 
     @Composable
     fun avatarMain(data: WeatherData?, locationName: String, index : Int, flag: Int, date: String): MutableList<String>{
-        val converterClothing = hashMapOf(
-            // CLOTHES
-            "bukse" to R.drawable.bukse,
-            "lue" to R.drawable.hatt,
-            "genser" to R.drawable.genser,
-            "genser2" to R.drawable.genser2,
-            "sneakers" to R.drawable.sneaks,
-            "bobblejakke" to R.drawable.bubble,
-            "bobblejakke2" to R.drawable.bubble2,
-            "chinos" to R.drawable.chinos,
-            "sandaler" to R.drawable.sko,
-            "sandaler2" to R.drawable.sko2,
-            "regnbukse" to R.drawable.regnbukse,
-            "" to R.drawable.chinos,
-            "flagg" to R.drawable.flagg,
-            "vinterjakke" to R.drawable.frakk,
-            "vinterjakke2" to R.drawable.frakk2,
-            "jakke" to R.drawable.vind,
-            "jakke2" to R.drawable.vind2,
-            "gummistøvler" to R.drawable.gummist_ler,
-            "joggebukse" to R.drawable.jogge,
-            "kjole" to R.drawable.kjole,
-            "langermet2" to R.drawable.langermet2,
-            "langermet" to R.drawable.langermet,
-            "øl" to R.drawable.ol,
-            "pannebånd" to R.drawable.panne,
-            "regnjakke" to R.drawable.regn,
-            "regnjakke2" to R.drawable.regn2,
-            "skjort" to R.drawable.skjort,
-            "sløyfe" to R.drawable.sl_yfe,
-            "solbriller" to R.drawable.solbriller,
-            "solhatt" to R.drawable.solhatt,
-            "tskjorte" to R.drawable.tskjorte,
-            "gummistøvler" to R.drawable.stovel,
-            "ullgenser2" to R.drawable.ull2,
-            "vindjakke" to R.drawable.vind,
-            "votter & skjerf" to R.drawable.skjerf_og_vott,
-            "happy" to R.drawable.glad,
-            "paraply" to R.drawable.paraply,
-            "shorts" to R.drawable.shorts,
-            "exited" to R.drawable.spenstig,
-            "sleepy" to R.drawable.trott,
-            "ullgenser" to R.drawable.ull,
-            "vindjakke2" to R.drawable.vind2,
-            "vintersko" to R.drawable.vintersko,
-        )
-
         val sizeDP = 250.dp
         val clothesAlgorithm = ClothesAlgorithm()
         val clothingString = clothesAlgorithm.getWeatherScore(data, index)
-        //val clothingString = clothesAlgorithm.getOutfit(data, clothesAlgorithm.getRealTemp().toFloat())
-
 
         // Row for arranging text and avatar.
         Column(
@@ -157,7 +108,6 @@ class Avatar {
                 .height(450.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-
             // City.
             Text(
                 text = locationName,
@@ -168,7 +118,6 @@ class Avatar {
                 modifier = Modifier
                     .absolutePadding(5.dp, 45.dp, 0.dp, 0.dp)
             )
-
             // Used to show date of day clicked in popup
             Text(
                 text = date,
@@ -177,7 +126,6 @@ class Avatar {
                 fontWeight = FontWeight.Normal,
                 fontSize = 25.sp,
             )
-
             Box(Modifier.fillMaxSize()) {
                 Box(
                     Modifier
@@ -189,9 +137,9 @@ class Avatar {
                         .background(Color.Transparent)
                 )
                 val sole : List<String> = listOf("sko")
-                for (ord in sole){
-                    if (ord in clothingString){
-                        converterClothing[ord+"2"]?.let { painterResource(it) }?.let {
+                for (clothingItem in sole) {
+                    if (clothingItem in clothingString){
+                        clothingItemNameToDrawable[clothingItem + "2"]?.let { painterResource(it) }?.let {
                             Image(
                                 painter = it,
                                 contentDescription = "Icon",
@@ -202,7 +150,7 @@ class Avatar {
                         }
                     }
                 }
-                // kunn skobunn
+                // Shoes
                 Image(
                     painter = painterResource(R.drawable.kropp),
                     contentDescription = "Icon",
@@ -211,11 +159,11 @@ class Avatar {
                         .align(Alignment.Center)
                 )
                 val shoes : List<String> = listOf("sko", "sneakers")
-                var shoesTrue = 0
-                for (ord in shoes ){
-                    if (ord in clothingString && shoesTrue == 0){
-                        shoesTrue = 1
-                        converterClothing[ord]?.let { painterResource(it) }?.let {
+                var isShoes = false
+                for (ord in shoes ) {
+                    if (ord in clothingString && !isShoes){
+                        isShoes = true
+                        clothingItemNameToDrawable[ord]?.let { painterResource(it) }?.let {
                             Image(
                                 painter = it,
                                 contentDescription = "Icon",
@@ -226,21 +174,18 @@ class Avatar {
                         }
                     }
                 }
-
+                // Pants
                 Box(
                     Modifier
                         .align(Alignment.TopCenter)
                         .fillMaxHeight()
-                        .width(
-                            50.dp
-                        )
+                        .width(50.dp)
                         .background(Color.Transparent)
                 )
-                val pants : List<String> = listOf("bukse","skj_rt","regnbukse", "shorts")
-
-                for (ord in pants){
-                    if (ord in clothingString){
-                        converterClothing[ord]?.let { painterResource(it) }?.let {
+                val pants : List<String> = listOf("bukse", "skj_rt", "regnbukse", "shorts")
+                for (clothingItem in pants) {
+                    if (clothingItem in clothingString){
+                        clothingItemNameToDrawable[clothingItem]?.let { painterResource(it) }?.let {
                             Image(
                                 painter = it,
                                 contentDescription = "Icon",
@@ -251,15 +196,7 @@ class Avatar {
                         }
                     }
                 }
-                /*
-
-                Image(
-                    painter = painterResource(R.drawable.bubble),
-                    contentDescription = "Icon",
-                    modifier = Modifier
-                        .width(sizeDP)
-                        .align(Alignment.Center)
-                )*/
+                // Hat
                 Box(
                     Modifier
                         .align(Alignment.TopCenter)
@@ -276,10 +213,10 @@ class Avatar {
                         .width(sizeDP)
                         .align(Alignment.Center)
                 )
-                val hatt : List<String> = listOf("lue", "solhatt", "pannebånd")
-                for (ord in hatt){
-                    if (ord in clothingString){
-                        converterClothing[ord]?.let { painterResource(it) }?.let {
+                val hat : List<String> = listOf("lue", "solhatt", "pannebånd")
+                for (clothingItem in hat) {
+                    if (clothingItem in clothingString){
+                        clothingItemNameToDrawable[clothingItem]?.let { painterResource(it) }?.let {
                             Image(
                                 painter = it,
                                 contentDescription = "Icon",
@@ -300,12 +237,12 @@ class Avatar {
                         )
                         .background(Color.Transparent)
                 )
-                val top : List<String> = listOf("bobblejakke","vinterjakke","regnjakke","jakke", "vinterjakke", "tskjorte", "langermet", "ullgenser","kjole","genser" )
-                var plagg = 0
+                val top : List<String> = listOf("bobblejakke", "vinterjakke", "regnjakke", "jakke", "vinterjakke", "tskjorte", "langermet", "ullgenser", "kjole", "genser")
+                var hasTop = false
                 for (ord in top){
-                    if (ord in clothingString  && plagg == 0){
-                        plagg = plagg + 1
-                        converterClothing[ord]?.let { painterResource(it) }?.let {
+                    if (ord in clothingString && !hasTop){
+                        hasTop = true
+                        clothingItemNameToDrawable[ord]?.let { painterResource(it) }?.let {
                             Image(
                                 painter = it,
                                 contentDescription = "Icon",
@@ -316,7 +253,7 @@ class Avatar {
                         }
                     }
                 }
-
+                // Scarf/Mittens
                 Box(
                     Modifier
                         .align(Alignment.TopCenter)
@@ -340,10 +277,10 @@ class Avatar {
                         .width(sizeDP)
                         .align(Alignment.Center)
                 )
-                val scarf : List<String> = listOf("votter & skjerf")
-                for (ord in scarf){
-                    if (ord in clothingString){
-                        converterClothing[ord]?.let { painterResource(it) }?.let {
+                val scarf: List<String> = listOf("votter & skjerf")
+                for (clothingItem in scarf) {
+                    if (clothingItem in clothingString){
+                        clothingItemNameToDrawable[clothingItem]?.let { painterResource(it) }?.let {
                             Image(
                                 painter = it,
                                 contentDescription = "Icon",
@@ -354,6 +291,7 @@ class Avatar {
                         }
                     }
                 }
+                // Special shoes. Weather specific
                 Box(
                     Modifier
                         .align(Alignment.TopCenter)
@@ -363,12 +301,11 @@ class Avatar {
                         )
                         .background(Color.Transparent)
                 )
-
-                val specialShoe : List<String> = listOf("gummistøvler", "vintersko")
+                val specialShoe: List<String> = listOf("gummistøvler", "vintersko")
                 for (ord in specialShoe){
-                    if (ord in clothingString && shoesTrue == 0){
-                        shoesTrue = 1
-                        converterClothing[ord]?.let { painterResource(it) }?.let {
+                    if (ord in clothingString && !isShoes){
+                        isShoes = true
+                        clothingItemNameToDrawable[ord]?.let { painterResource(it) }?.let {
                             Image(
                                 painter = it,
                                 contentDescription = "Icon",
@@ -379,7 +316,7 @@ class Avatar {
                         }
                     }
                 }
-
+                // Sunglasses
                 Box(
                     Modifier
                         .align(Alignment.TopCenter)
@@ -389,10 +326,10 @@ class Avatar {
                         )
                         .background(Color.Transparent)
                 )
-                val sunglasses : List<String> = listOf("solbriller")
-                for (ord in sunglasses){
-                    if (ord in clothingString){
-                        converterClothing[ord]?.let { painterResource(it) }?.let {
+                val sunglasses: List<String> = listOf("solbriller")
+                for (clothingItem in sunglasses){
+                    if (clothingItem in clothingString){
+                        clothingItemNameToDrawable[clothingItem]?.let { painterResource(it) }?.let {
                             Image(
                                 painter = it,
                                 contentDescription = "Icon",
@@ -403,7 +340,7 @@ class Avatar {
                         }
                     }
                 }
-
+                // Misc items
                 Box(
                     Modifier
                         .align(Alignment.TopCenter)
@@ -413,12 +350,12 @@ class Avatar {
                         )
                         .background(Color.Transparent)
                 )
-                var handThingTrue = 0
-                val handThing : List<String> = listOf("flagg","ol", "paraply")
-                for (ord in handThing){
-                    if (ord in clothingString && handThingTrue == 0){
-                        handThingTrue = 1
-                        converterClothing[ord]?.let { painterResource(it) }?.let {
+                val handItems : List<String> = listOf("flagg","ol", "paraply")
+                var isHolding = false
+                for (ord in handItems){
+                    if (ord in clothingString && !isHolding){
+                        isHolding = true
+                        clothingItemNameToDrawable[ord]?.let { painterResource(it) }?.let {
                             Image(
                                 painter = it,
                                 contentDescription = "Icon",
@@ -429,7 +366,6 @@ class Avatar {
                         }
                     }
                 }
-
                 Image(
                     painter = painterResource(R.drawable.arm),
                     contentDescription = "Icon",
@@ -437,8 +373,7 @@ class Avatar {
                         .width(sizeDP)
                         .align(Alignment.Center)
                 )
-
-
+                //  Coat arm?
                 Box(
                     Modifier
                         .align(Alignment.TopCenter)
@@ -448,11 +383,11 @@ class Avatar {
                         )
                         .background(Color.Transparent)
                 )
-                var plagg2 = 0
+                var hasArm = false
                 for (ord in top){
-                    if (ord in clothingString && plagg2 == 0){
-                        plagg2 = plagg2 + 1
-                        converterClothing[ord+"2"]?.let { painterResource(it) }?.let {
+                    if (ord in clothingString && !hasArm){
+                        hasArm = true
+                        clothingItemNameToDrawable[ord + "2"]?.let { painterResource(it) }?.let {
                             Image(
                                 painter = it,
                                 contentDescription = "Icon",
@@ -474,21 +409,20 @@ class Avatar {
                         .background(Color.Transparent)
                 )
 
-                if(flag == 1){
+                // Dropdown text description of outfit recommendation
+                if (flag == 1) {
                     Box(
                         modifier = Modifier
                             .align(Alignment.CenterEnd))
                     {
                         DropDown(
-
                             text = "",
                             modifier = Modifier.absolutePadding(255.dp, 50.dp, 0.dp, 0.dp)
                         ) {
-
-                            var theString = ""
-                            for(i in clothingString){
-                                if(i != ""){
-                                    theString += i.replaceFirstChar {
+                            var outfitTextRepresentation = ""
+                            for (item in clothingString) {
+                                if (item != "") {
+                                    outfitTextRepresentation += item.replaceFirstChar {
                                         if (it.isLowerCase()) it.titlecase(
                                             Locale.getDefault()
                                         ) else it.toString()
@@ -497,7 +431,7 @@ class Avatar {
                             }
                             Text(
                                 color = Color.White,
-                                text = theString,
+                                text = outfitTextRepresentation,
                                 fontSize = 20.sp,
                                 modifier = Modifier
                                     .offset(0.dp, 20.dp)
@@ -509,9 +443,7 @@ class Avatar {
                         }
                     }
                 }
-
             }
-
         }
         return clothingString
     }

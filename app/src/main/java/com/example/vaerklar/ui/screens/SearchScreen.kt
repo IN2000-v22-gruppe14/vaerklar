@@ -32,7 +32,7 @@ import com.example.vaerklar.ui.theme.DayTileAlt
 
 @Composable
 fun SearchScreen() {
-    val state = mutableStateOf("")
+    val searchFieldState = mutableStateOf("")
     val viewModel = SearchActivityViewModel()
 
     val locations = viewModel.getLocations().observeAsState()
@@ -59,11 +59,11 @@ fun SearchScreen() {
                     modifier = Modifier
                         .focusRequester(focusRequester)
                         .fillMaxWidth(),
-                    value = state.value,
+                    value = searchFieldState.value,
                     colors = TextFieldDefaults.textFieldColors(textColor = Color.White),
                     onValueChange = {
-                        state.value = it
-                        viewModel.fetchLocations(state.value)
+                        searchFieldState.value = it
+                        viewModel.fetchLocations(searchFieldState.value)
                     },
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Text,

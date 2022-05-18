@@ -29,8 +29,7 @@ import kotlin.math.roundToInt
 fun MainTile(weatherData: WeatherData?, timeSeriesIndex: Int) {
 
     val airTemp = weatherData?.properties?.timeseries?.get(timeSeriesIndex)?.data?.instant?.details?.air_temperature?.toInt()
-    var airTempText = airTemp.toString()
-    if (airTempText == "null") airTempText = "Fant ikke temp"
+    val airTempText = if (airTemp != null) "$airTemp°" else "Fant ikke temp"
 
     val precipitation = weatherData?.properties?.timeseries?.get(timeSeriesIndex)?.data?.next_1_hours?.details?.precipitation_amount
     val precipitationText = precipitation?.toString() ?: "Fant ikke nedbør"
@@ -38,19 +37,14 @@ fun MainTile(weatherData: WeatherData?, timeSeriesIndex: Int) {
     val weather = weatherData?.properties?.timeseries?.get(timeSeriesIndex)?.data?.next_1_hours?.summary?.symbol_code
     val translatedWeather = weather?.let { weatherDescriptionTranslation[it] } ?: "Fant ikke vær"
 
-
     // Wind data.
     val wind = weatherData?.properties?.timeseries?.get(timeSeriesIndex)?.data?.instant?.details?.wind_speed
     val windGust = weatherData?.properties?.timeseries?.get(timeSeriesIndex)?.data?.instant?.details?.wind_speed_of_gust
 
-    var windText =  if(wind != null) wind.roundToInt().toString()
-                    else "0"
-
-    windText += if(windGust != null)" - " + windGust.roundToInt().toString()
-                else "0"
+    var windText = wind?.roundToInt()?.toString() ?: "0"
+    windText += if (windGust != null) " - " + windGust.roundToInt().toString() else "0"
 
 
-    // The base of the card with colors.
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -60,8 +54,6 @@ fun MainTile(weatherData: WeatherData?, timeSeriesIndex: Int) {
         shape = RoundedCornerShape(15.dp),
         elevation = 0.dp
     ) {
-
-        // Row element that allows us to place items horizontally.
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center,
@@ -69,7 +61,6 @@ fun MainTile(weatherData: WeatherData?, timeSeriesIndex: Int) {
                 .fillMaxWidth()
                 .height(195.dp)
         ) {
-
             // Weather icon.
             Image(
                 painter = painterResource(iconTranslation.getValue(weather)),
@@ -77,12 +68,9 @@ fun MainTile(weatherData: WeatherData?, timeSeriesIndex: Int) {
                 modifier = Modifier
                     .padding(20.dp)
             )
-
-            // Column element for placing text on top of each other.
             Column(
                 modifier = Modifier.width(100.dp)
             ) {
-
                 // Weather description.
                 Text (
                     text = translatedWeather,
@@ -91,24 +79,20 @@ fun MainTile(weatherData: WeatherData?, timeSeriesIndex: Int) {
                     fontWeight = FontWeight.Normal,
                     fontSize = 20.sp
                 )
-
                 // Temperature in Celsius.
                 Text (
-                    text = "$airTempText°",
+                    text = airTempText,
                     color = Color.White,
                     fontFamily = Rubik,
                     fontSize = 25.sp,
                     fontWeight = FontWeight.Bold,
                 )
             }
-
-            // A second column responsible for additional information.
             Column(
                 horizontalAlignment = Alignment.End,
                 verticalArrangement = Arrangement.spacedBy(10.dp),
                 modifier = Modifier.padding(20.dp)
             ) {
-
                 Row {
                     // Precipitation measured in millimeters (mm).
                     Icon(
@@ -119,7 +103,6 @@ fun MainTile(weatherData: WeatherData?, timeSeriesIndex: Int) {
                             .absolutePadding(0.dp, 0.dp, 5.dp, 0.dp),
                         tint = Color.White
                     )
-
                     Text(
                         text = precipitationText,
                         textAlign = TextAlign.Right,
@@ -130,7 +113,6 @@ fun MainTile(weatherData: WeatherData?, timeSeriesIndex: Int) {
                         modifier = Modifier
                             .align(Alignment.CenterVertically)
                     )
-
                     Text(
                         text = " mm",
                         textAlign = TextAlign.Right,
@@ -141,7 +123,6 @@ fun MainTile(weatherData: WeatherData?, timeSeriesIndex: Int) {
                             .align(Alignment.CenterVertically)
                     )
                 }
-
                 Row {
                     // Wind measured in meters per second (m/s).
                     Icon(
@@ -153,7 +134,6 @@ fun MainTile(weatherData: WeatherData?, timeSeriesIndex: Int) {
                             .align(Alignment.CenterVertically),
                         tint = Color.White
                     )
-
                     Text(
                         text = windText,
                         textAlign = TextAlign.Right,
@@ -164,7 +144,6 @@ fun MainTile(weatherData: WeatherData?, timeSeriesIndex: Int) {
                         modifier = Modifier
                             .align(Alignment.CenterVertically)
                     )
-
                     Text(
                         text = " m/s",
                         textAlign = TextAlign.Right,

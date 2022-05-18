@@ -26,7 +26,7 @@ import androidx.compose.ui.unit.sp
 import com.example.vaerklar.data.WeatherData
 import com.example.vaerklar.data.iconTranslation
 import com.example.vaerklar.data.translateWeekdayAbbreviation
-import com.example.vaerklar.data.weekDayTranslationWhole
+import com.example.vaerklar.data.translateWeekDayWhole
 import com.example.vaerklar.ui.screens.altColor
 import com.example.vaerklar.ui.screens.baseColor
 import com.example.vaerklar.ui.theme.DayTile
@@ -183,7 +183,7 @@ fun WeekTile(weatherData: WeatherData?) {
 
             val dayIntermediary = LocalDate.parse(dayDate).dayOfWeek // acquire name of day in English
             val dayName = translateWeekdayAbbreviation(dayIntermediary.name.substring(0,2)) // acquire two first letters of the name of the day
-            val dayNameWhole  = weekDayTranslationWhole[dayIntermediary.name.substring(0,2)] //aquire the whole name
+            val dayNameWhole  = translateWeekDayWhole(dayIntermediary.name.substring(0,2)) //aquire the whole name
 
             val day = Day(dayName, dayNameWhole,  dayDate,"$airTemp°", windSpeed, precipitation, icon, counter, index) // create day object
             if(dayList.size < 6){

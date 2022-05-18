@@ -13,14 +13,26 @@ import org.junit.Test
  */
 class TranslationTest {
     @Test
-    fun canTranslateWeekDay() {
+    fun abbreviationToAbbreviation() {
         val translation = translateWeekdayAbbreviation("MO")
         assertEquals("MA", translation)
     }
 
     @Test
-    fun canTranslateNull() {
+    fun abbreviationToAbbreviationGarbled() {
         val translation = translateWeekdayAbbreviation("yeet")
+        assertEquals("...", translation)
+    }
+
+    @Test
+    fun abbreviationToFull() {
+        val translation = translateWeekDayWhole("FR")
+        assertEquals("FREDAG", translation)
+    }
+
+    @Test
+    fun abbreviationToFullGarbled() {
+        val translation = translateWeekDayWhole("yeet")
         assertEquals("...", translation)
     }
 }

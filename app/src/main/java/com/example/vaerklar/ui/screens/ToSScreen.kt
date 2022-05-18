@@ -39,7 +39,7 @@ fun ToSScreen(){
                 )
             }
 
-            Text(TermsOfService().getText(),
+            Text(TermsOfService().terms,
                 modifier = Modifier.fillMaxSize(),
                 fontSize = 20.sp,
                 color = Color(29, 58, 59),

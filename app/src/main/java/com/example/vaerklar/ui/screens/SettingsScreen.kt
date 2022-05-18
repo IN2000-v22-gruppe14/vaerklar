@@ -84,7 +84,7 @@ fun SettingsMenu() {
                     Text(text = "Bruksvilkår")
                 },
                 text = {
-                    Text(TermsOfService().getText())
+                    Text(TermsOfService().terms)
                 },
                 buttons = {
                     Row(

@@ -7,7 +7,10 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.AlertDialog
+import androidx.compose.material.Card
+import androidx.compose.material.Icon
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.runtime.Composable
@@ -26,7 +29,6 @@ import com.example.vaerklar.ui.screens.altColor
 import com.example.vaerklar.ui.screens.baseColor
 import com.example.vaerklar.ui.theme.DayTile
 import com.example.vaerklar.ui.theme.Rubik
-import java.util.*
 
 private var globalTileCounter = 0
 private val showDialog = mutableStateOf(false)
@@ -36,11 +38,9 @@ val hourList = mutableListOf<Hour>()
 @Composable
 private fun PopUpScreen(weatherData: WeatherData?) {
     AlertDialog(
-
         backgroundColor = baseColor,
         shape = RoundedCornerShape(15.dp),
         modifier = Modifier.height(620.dp),
-
         title = {
             Column(
                 modifier = Modifier
@@ -53,62 +53,53 @@ private fun PopUpScreen(weatherData: WeatherData?) {
                         .fillMaxSize()
                 ) {
                     val avatar = Avatar()
-                    var theTime = ""
-                    if(hourList[globalHourNumber].time != null){
-                        theTime = hourList[globalHourNumber].time.toString() + ":00"
-                    }
-                    val piss = avatar.avatarMain(weatherData, theTime, hourList[globalHourNumber].timeIndex, 0, "")
-                    var theString = ""
-                    for(i in piss){
-                        if(i != ""){
-                            theString += i.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() } + "\n"
+                    val clock = if (hourList[globalHourNumber].time != null) "${hourList[globalHourNumber].time}:00" else "..."
+                    val popUp = avatar.avatarMain(weatherData, clock, hourList[globalHourNumber].timeIndex, 0, "")
+
+                    var outFitTextRepresentation = ""
+                    for (clothingItem in popUp) {
+                        if (clothingItem != "") {
+                            outFitTextRepresentation += "${clothingItem.capitalize()}\n"
                         }
                     }
 
                     Box(
-                        Modifier
-                        .fillMaxSize(),
-                        contentAlignment = Alignment.BottomCenter){
-                            Text(
-                                text = theString,
-                                fontSize = 20.sp,
-                                color = Color.White,
-                                fontWeight = FontWeight.Bold,
-                                modifier = Modifier
-                                    .absolutePadding(40.dp, 50.dp, 50.dp, 0.dp)
-                            )
-                        }
+                        Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.BottomCenter) {
+                        Text(
+                            text = outFitTextRepresentation,
+                            fontSize = 20.sp,
+                            color = Color.White,
+                            fontWeight = FontWeight.Bold,
+                            modifier = Modifier
+                                .absolutePadding(40.dp, 50.dp, 50.dp, 0.dp)
+                        )
                     }
                 }
-
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize(),
-                    contentAlignment = Alignment.TopEnd
-                ){
-                    Text(
-                        text = " "
-                    )
-
-                    Icon(
-                        imageVector = Icons.Default.Close,
-                        "Exit",
-                        modifier = Modifier
-                            .size(35.dp)
-                            .absolutePadding(0.dp, 0.dp, 5.dp, 0.dp)
-                            .clickable { showDialog.value = false }
-                            .offset(0.dp, 10.dp),
-                        tint = Color.White,
-                    )
-                }
-            },
-            onDismissRequest = {
-
-            },
-
-            buttons = {
-
             }
+            Box(
+                modifier = Modifier
+                    .fillMaxSize(),
+                contentAlignment = Alignment.TopEnd
+            ){
+                Text(
+                    text = " "
+                )
+                Icon(
+                    imageVector = Icons.Default.Close,
+                    "Lukk",
+                    modifier = Modifier
+                        .size(35.dp)
+                        .absolutePadding(0.dp, 0.dp, 5.dp, 0.dp)
+                        .clickable { showDialog.value = false }
+                        .offset(0.dp, 10.dp),
+                    tint = Color.White,
+                )
+            }
+        },
+        // We have to keep this in for some reason
+        onDismissRequest = {},
+        buttons = {}
     )
 }
 
@@ -124,11 +115,13 @@ fun TodayTileItem(hour: Hour, backgroundColor: Color) {
             .absolutePadding(7.dp, 0.dp, 7.dp, 0.dp)
             .fillMaxHeight()
             .fillMaxWidth()
-            .clickable(onClick = { showDialog.value = true
-                                    globalHourNumber = hour.hourNumber
-                })
-            ) {
-
+            .clickable(
+                onClick = {
+                    showDialog.value = true
+                    globalHourNumber = hour.hourNumber
+                }
+            )
+    ) {
         Text(
             text = hour.airTemp.toString(),
             color = Color.White,
@@ -138,16 +131,14 @@ fun TodayTileItem(hour: Hour, backgroundColor: Color) {
             modifier = Modifier
                 .absolutePadding(5.dp, 0.dp, 0.dp, 0.dp)
         )
-
         Image(
             painter = painterResource(iconTranslation.getValue(hour.icon)),
             contentDescription = "Icon",
             modifier = Modifier
                 .width(51.dp)
         )
-
-        Row() {
-            // Time
+        Row {
+            // Clock
             Text(
                 text = hour.time.toString(),
                 color = Color.White.copy(alpha = 0.5f),
@@ -155,8 +146,7 @@ fun TodayTileItem(hour: Hour, backgroundColor: Color) {
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Normal
             )
-
-            // 00
+            // Show minutes as 00 to make presentation more intuitive
             Text(
                 text = ":00",
                 color = Color.White.copy(alpha = 0.5f),
@@ -193,7 +183,7 @@ fun TodayTile(weatherData: WeatherData?, timeSeriesIndex: Int) {
         }
     }
 
-    val day = remember {hourList}
+    val day = remember { hourList }
 
     Card(
         modifier = Modifier
@@ -203,7 +193,6 @@ fun TodayTile(weatherData: WeatherData?, timeSeriesIndex: Int) {
         shape = RoundedCornerShape(15.dp),
         elevation = 0.dp
     ) {
-
         LazyRow(
             verticalAlignment = Alignment.CenterVertically,
             contentPadding = PaddingValues(),
@@ -212,16 +201,12 @@ fun TodayTile(weatherData: WeatherData?, timeSeriesIndex: Int) {
         ) {
             items(
                 items = day,
-
                 itemContent = {
                     if (globalTileCounter % 2 == 0) {
                         TodayTileItem(hour = it, altColor)
-                    }
-
-                    else {
+                    } else {
                         TodayTileItem(hour = it, baseColor)
                     }
-
                     globalTileCounter++
                 }
             )

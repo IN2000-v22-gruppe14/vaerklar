@@ -112,16 +112,6 @@ val weekDayTranslationWhole = hashMapOf<String?, String> (
     "SU" to "SØNDAG"
 )
 
-val sliderTranslation = hashMapOf(
-    0 to 6,
-    1 to 4,
-    2 to 2,
-    3 to 0,
-    4 to -2,
-    5 to -4,
-    6 to -6
-)
-
 // Translates symbol strings from the MET LocationForecast API to icons provided in the application for display.
 val iconTranslation = hashMapOf(
     // CLEAR

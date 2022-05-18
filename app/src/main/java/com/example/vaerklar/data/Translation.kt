@@ -91,7 +91,7 @@ val weatherDescriptionTranslation: HashMap<String, String> = hashMapOf(
 )
 
 // Mapping between english and norwegian weekday abbreviations
-var weekDayTranslation = hashMapOf<String?, String> (
+val weekDayTranslation = hashMapOf<String?, String> (
     "MO" to "MA",
     "TU" to "TI",
     "WE" to "ON",
@@ -102,7 +102,7 @@ var weekDayTranslation = hashMapOf<String?, String> (
 )
 
 // Mapping between english weekday abbreviations to their norwegian full name equivalent
-var weekDayTranslationWhole = hashMapOf<String?, String> (
+val weekDayTranslationWhole = hashMapOf<String?, String> (
     "MO" to "MANDAG",
     "TU" to "TIRSDAG",
     "WE" to "ONSDAG",
@@ -112,7 +112,7 @@ var weekDayTranslationWhole = hashMapOf<String?, String> (
     "SU" to "SØNDAG"
 )
 
-var sliderTranslation = hashMapOf(
+val sliderTranslation = hashMapOf(
     0 to 6,
     1 to 4,
     2 to 2,
@@ -123,7 +123,7 @@ var sliderTranslation = hashMapOf(
 )
 
 // Translates symbol strings from the MET LocationForecast API to icons provided in the application for display.
-var iconTranslation = hashMapOf(
+val iconTranslation = hashMapOf(
     // CLEAR
     "clearsky_day" to R.drawable.clear_day,
     "clearsky_night" to R.drawable.clear_night,

@@ -20,10 +20,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.vaerklar.data.WeatherData
-import com.example.vaerklar.data.dayTranslation
-import com.example.vaerklar.data.dayTranslationWhole
-import com.example.vaerklar.data.iconTranslation
+import com.example.vaerklar.data.*
 import com.example.vaerklar.ui.screens.altColor
 import com.example.vaerklar.ui.screens.baseColor
 import com.example.vaerklar.ui.theme.DayTile
@@ -193,8 +190,8 @@ fun WeekTile(weatherData: WeatherData?) {
             val icon = weatherData.properties.timeseries[counter].data.next_6_hours?.summary?.symbol_code
 
             val dayIntermediary = LocalDate.parse(dayDate).dayOfWeek // acquire name of day in English
-            val dayName = dayTranslation[dayIntermediary.name.substring(0,2)] // acquire two first letters of the name of the day
-            val dayNameWhole  = dayTranslationWhole[dayIntermediary.name.substring(0,2)] //aquire the whole name
+            val dayName = weekDayTranslation[dayIntermediary.name.substring(0,2)] // acquire two first letters of the name of the day
+            val dayNameWhole  = weekDayTranslationWhole[dayIntermediary.name.substring(0,2)] //aquire the whole name
 
             val day = Day(dayName, dayNameWhole,  dayDate,"$airTemp°", windSpeed, precipitation, icon, counter, index) // create day object
             if(dayList.size < 6){

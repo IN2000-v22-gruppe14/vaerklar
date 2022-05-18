@@ -99,7 +99,7 @@ class Translation {
 }
 
 // Mapping between english and norwegian weekday abbreviations
-var dayTranslation = hashMapOf<String?, String> (
+var weekDayTranslation = hashMapOf<String?, String> (
     "MO" to "MA",
     "TU" to "TI",
     "WE" to "ON",
@@ -109,7 +109,7 @@ var dayTranslation = hashMapOf<String?, String> (
     "SU" to "SØ"
 )
 
-var dayTranslationWhole = hashMapOf<String?, String> (
+var weekDayTranslationWhole = hashMapOf<String?, String> (
     "MO" to "MANDAG",
     "TU" to "TIRSDAG",
     "WE" to "ONSDAG",

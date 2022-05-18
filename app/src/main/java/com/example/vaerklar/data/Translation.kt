@@ -101,6 +101,7 @@ var weekDayTranslation = hashMapOf<String?, String> (
     "SU" to "SØ"
 )
 
+// Mapping between english weekday abbreviations to their norwegian full name equivalent
 var weekDayTranslationWhole = hashMapOf<String?, String> (
     "MO" to "MANDAG",
     "TU" to "TIRSDAG",

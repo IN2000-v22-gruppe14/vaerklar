@@ -1,10 +1,5 @@
 package com.example.vaerklar.ui.screens
 
-import android.app.Activity
-import android.app.AlarmManager
-import android.app.TaskStackBuilder
-import android.content.Context
-import android.content.Intent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -15,15 +10,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
-import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
-import androidx.core.content.ContextCompat.getSystemService
-import com.example.vaerklar.MainActivity
-import com.example.vaerklar.data.Notifications
 import com.example.vaerklar.data.WeatherData
 import com.example.vaerklar.data.getTimeSeriesIndex
-import com.example.vaerklar.databinding.ActivityMainBinding
 import com.example.vaerklar.ui.components.Avatar
 import com.example.vaerklar.ui.components.MainTile
 import com.example.vaerklar.ui.components.TodayTile
@@ -63,8 +51,6 @@ fun MainScreen(weatherData: WeatherData?, locationName: String) {
             }
         }
     }
-    val context = LocalContext.current
-    Notifications(context).setNotification()
 }
 
 // Determines the gradient of the background of the screen, based on time (2) and weather (3).

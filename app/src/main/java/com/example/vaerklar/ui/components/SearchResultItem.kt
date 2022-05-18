@@ -32,14 +32,11 @@ fun SearchResultItem(location: MeiliLocationMetaData) {
             .fillMaxWidth(),
         backgroundColor = DayTile,
         onClick = {
-            println(location.geometry?.coordinates?.get(0))
-            println(location.geometry?.coordinates?.get(1))
             val intent = Intent(currentActivity, MainActivity::class.java)
             intent.putExtra("longitude", location.geometry?.coordinates?.get(0))
             intent.putExtra("latitude", location.geometry?.coordinates?.get(1))
             // currentActivity.finish()
             startActivity(currentActivity, intent, null)
-
         }
     ) {
         Column {

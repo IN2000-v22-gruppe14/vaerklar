@@ -111,7 +111,7 @@ var weekDayTranslationWhole = hashMapOf<String?, String> (
     "SU" to "SØNDAG"
 )
 
-var sliderTranslation = hashMapOf<Int, Int> (
+var sliderTranslation = hashMapOf(
     0 to 6,
     1 to 4,
     2 to 2,

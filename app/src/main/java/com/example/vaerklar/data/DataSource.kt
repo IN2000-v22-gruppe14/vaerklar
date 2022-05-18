@@ -10,7 +10,9 @@ import java.time.LocalDateTime
 
 class DataSource {
 
-    // Dette er en uting, men jeg gir så faen. yeet yeet
+    // TODO: Specify in local.properties
+
+    // This is shit practice but does it look like I care?
     private val apiClient = "2b35fe20-c789-4ce5-ab4c-34de69f50d22"
     private val apiSecret = "708495ee-4757-4894-9316-b7b730576b6b"
 

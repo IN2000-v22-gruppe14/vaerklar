@@ -16,6 +16,7 @@ class DataSource {
 
     private val apiBase = "https://in2000-apiproxy.ifi.uio.no"
     private val frostApiBase = "https://frost.met.no"
+    private val meiliBase = "https://meili.lblend.moe"
 
     private val weatherCompleteUrl = "$apiBase/weatherapi/locationforecast/2.0/complete"
     private val locationUrl = "$frostApiBase/locations/v0.jsonld"
@@ -47,9 +48,8 @@ class DataSource {
 
     suspend fun getLocationMetaDataFromName(locationName: String): MeiliLocationData? {
         try {
-            // Hardkodet API URL. Bør være i local.properties
             val response =
-                Fuel.get("https://meili.lblend.moe/indexes/locations/search", listOf("q" to locationName, "limit" to 10))
+                Fuel.get("$meiliBase/indexes/locations/search", listOf("q" to locationName, "limit" to 10))
                     .awaitString()
             return Json.decodeFromString<MeiliLocationData>(response)
         } catch (exception: Exception) {

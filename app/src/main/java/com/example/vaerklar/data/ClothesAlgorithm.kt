@@ -9,7 +9,9 @@ import kotlin.math.sqrt
 
 class ClothesAlgorithm {
     private var timeSeriesIndex = 0
+    private var realtemperature = 0.0
 
+    // TODO: make use of enums?
     private var head = hashMapOf(
         listOf(-100,0) to "lue",
         listOf(1,10) to "pannebånd",
@@ -20,7 +22,7 @@ class ClothesAlgorithm {
     private var body = hashMapOf(
         listOf(-100,-1) to "ullgenser",
         listOf(0,15) to "genser",
-      //  listOf(20,50) to "topp",
+        // listOf(20,50) to "topp",
         listOf(16,50) to "tskjorte"
     )
 
@@ -30,7 +32,7 @@ class ClothesAlgorithm {
         listOf(11,100) to ""
     )
 
-    private var underdel = hashMapOf(
+    private var lowerBody = hashMapOf(
         listOf(-100,-11) to "utebukse",
         listOf(-10,22) to "bukse",
         listOf(23,50) to "shorts"
@@ -50,197 +52,201 @@ class ClothesAlgorithm {
 
     private var rainClothing = hashMapOf(
         0 to "regnhatt",
-        1 to "_DETTE SKAL IKKE SKJE_",
+        1 to "_DETTE SKAL IKKE SKJE_",  // because we're too lazy to do this properly
         2 to "regnjakke",
         3 to "regnbukse",
         4 to "gummistøvler"
     )
 
-    private var clothingReg = listOf(
+    private var pieceIndexToPieceMap = listOf(
         head,
         body,
         jacket,
-        underdel,
+        lowerBody,
         shoe
     )
 
-    private var realtemperature = 0.0
+    // Returns the amount of degrees (fahrenheit) to adjust tempereature by
+    // when taking the user's set temperature sensitivity into account
+    private fun getTemperatureSensitivityDiff(adjuster: Int): Int {
+        return when (adjuster) {
+            0 -> 6
+            1 -> 4
+            2 -> 2
+            3 -> 0
+            4 -> -2
+            5 -> -4
+            6 -> -6
+            else -> 0
+        }
+    }
 
-
-    fun getWeatherScore(weatherData: WeatherData?, index : Int) : MutableList<String>{
-
+    fun getWeatherScore(weatherData: WeatherData?, index: Int): MutableList<String> {
         timeSeriesIndex = index
-        //getTimeSeriesIndex(weatherData)
-        val airTemp = weatherData?.properties?.timeseries?.get(timeSeriesIndex)?.data?.instant?.details?.air_temperature
-        val windSpeed = weatherData?.properties?.timeseries?.get(timeSeriesIndex)?.data?.instant?.details?.wind_speed
-        val humidity = weatherData?.properties?.timeseries?.get(timeSeriesIndex)?.data?.instant?.details?.relative_humidity
 
-        val fhTemp = ((airTemp?.times(9))?.div(5))?.plus(32)
-        var realTemp = fhTemp
+        val airTemp =
+            weatherData?.properties?.timeseries?.get(timeSeriesIndex)?.data?.instant?.details?.air_temperature
+        val fahrenheitTemp: Double? = if (airTemp != null) ((airTemp * 9) / 5) + 32 else null
+        val windSpeed =
+            weatherData?.properties?.timeseries?.get(timeSeriesIndex)?.data?.instant?.details?.wind_speed
+        val humidity =
+            weatherData?.properties?.timeseries?.get(timeSeriesIndex)?.data?.instant?.details?.relative_humidity
 
+        var realTemp = fahrenheitTemp ?: -273.15  // Set a ridiculous fallback value. Not optimal but eh
 
-        if (airTemp != null && windSpeed != null && humidity != null && fhTemp != null) {
-            if (fhTemp <= 50 && windSpeed >= 3.00){
-                realTemp = 35.74 + (0.6215*fhTemp) - 35.75*(windSpeed.pow(0.16)) + ((0.4275*fhTemp)*(windSpeed.pow(0.16)))
+        // Yoinked from
+        // https://www.wpc.ncep.noaa.gov/html/heatindex_equation.shtml
+        // https://hjelp.yr.no/hc/no/articles/360001695513-Effektiv-temperatur-og-f%C3%B8les-som-
+        if (windSpeed != null && humidity != null && fahrenheitTemp != null) {
+            if (fahrenheitTemp <= 50 && windSpeed >= 3.00) {
+                realTemp =
+                    35.74 + (0.6215 * fahrenheitTemp) - 35.75 * (windSpeed.pow(0.16)) + ((0.4275 * fahrenheitTemp) * (windSpeed.pow(
+                        0.16
+                    )))
             }
 
-            if(realTemp == fhTemp && fhTemp >= 80){
-                realTemp = 0.5 * (fhTemp + 61.0 + ((fhTemp-68.0)*1.2) + (humidity*0.094))
-                if (realTemp >= 80){
-                    realTemp = -42.379 + 2.04901523*fhTemp + 10.14333127*humidity - .22475541*fhTemp*humidity - .00683783*fhTemp*fhTemp - .05481717*humidity*fhTemp + .00122874*fhTemp*fhTemp*humidity + .00085282*fhTemp*humidity*humidity - .00000199*fhTemp*fhTemp*humidity*humidity
+            if (fahrenheitTemp == realTemp && fahrenheitTemp >= 80) {
+                realTemp =
+                    0.5 * (fahrenheitTemp + 61.0 + ((fahrenheitTemp - 68.0) * 1.2) + (humidity * 0.094))
+                if (realTemp >= 80) {
+                    realTemp =
+                        -42.379 + 2.04901523 * fahrenheitTemp + 10.14333127 * humidity - .22475541 * fahrenheitTemp * humidity - .00683783 * fahrenheitTemp * fahrenheitTemp - .05481717 * humidity * fahrenheitTemp + .00122874 * fahrenheitTemp * fahrenheitTemp * humidity + .00085282 * fahrenheitTemp * humidity * humidity - .00000199 * fahrenheitTemp * fahrenheitTemp * humidity * humidity
 
-                    if (humidity < 13 && fhTemp >= 80 && fhTemp <= 112){
-                        realTemp -= ((13 - humidity) / 4) * sqrt((17 - abs(fhTemp - 95)) / 17)
-                        if (humidity > 85 && fhTemp >= 80 && fhTemp <= 87){
-                            realTemp += ((humidity - 85) / 10) * ((87 - fhTemp) / 5)
+                    if (humidity < 13 && fahrenheitTemp >= 80 && fahrenheitTemp <= 112) {
+                        realTemp -= ((13 - humidity) / 4) * sqrt((17 - abs(fahrenheitTemp - 95)) / 17)
+                        if (humidity > 85 && fahrenheitTemp >= 80 && fahrenheitTemp <= 87) {
+                            realTemp += ((humidity - 85) / 10) * ((87 - fahrenheitTemp) / 5)
                         }
                     }
                 }
             }
-            if (realTemp != null) {
-                realTemp = (realTemp-32)*0.5556
-                realtemperature = realTemp
-            }
+
+            realTemp = (realTemp - 32) * 0.5556
+            realtemperature = realTemp
         }
 
+        // Adjust temperature based on the user's set temperature sensitivty level
+        val tempSensitivitySetting = getWarmth()
+        val diff = getTemperatureSensitivityDiff(tempSensitivitySetting)
+        realTemp += (diff)
 
-        println("Real temperature: $realTemp")
-        val adjustor = getWarmth()
-        //println("Adjustor value: $adjustor")
-        val diff = sliderTranslation[adjustor]
-        if (realTemp != null) {
-            realTemp += (diff!!)
-        }
-        println("Real temperature after: $realTemp")
-
-
-        val clothString = getOutfit(weatherData, realTemp?.toFloat())
-        println("Klær: $clothString")
-
-        return clothString
+        return getOutfit(weatherData, realTemp.toFloat())
     }
 
-
-    fun getRealTemp() : Double {
-        return realtemperature
-    }
-
-    private fun getOutfit(weatherData: WeatherData?, realTemp : Float?): MutableList<String>{
-        val realTempRound = (realTemp?.roundToLong())?.toFloat()
+    private fun getOutfit(weatherData: WeatherData?, realTemp: Float?): MutableList<String> {
+        val realTempRound = (realTemp?.roundToLong()?.toFloat())
         val outfitList = mutableListOf<String>()
-        var plaggNummer = 0
-        val rain = rainCheck(weatherData)
+        val rain = rainAmount(weatherData)
 
-        while (plaggNummer < 5) {
-            outfitList.add(getPiece(plaggNummer,rain, realTempRound))
-            plaggNummer++
+        for (i in 0..4) {
+            outfitList.add(getPiece(i, rain, realTempRound))
         }
         outfitList.add(getSpecial(realTempRound, weatherData))
 
         return outfitList
     }
 
-    private fun getPiece(number : Int, rain: Int, realTemp : Float?) : String {
+    // Returns a string representation of the recommended piece of clothing based on temperature and rain
+    private fun getPiece(pieceType: Int, rain: Int, realTemp: Float?): String {
         /*
-        0 to hodeplagg
-        1 to genser, tskjorte etc
-        2 to jakke
-        3 to bukse
-        4 to sko*/
-
-        //sjekker om nummer = jakke og om regn er riktig, isåfall regnjakke
-        return if (number != 1 && rain == 10) {
-            //regner masse, fullt utstyr på
-            rainClothing.getValue(number)
-        }else if (number != 1 && number != 0 && number != 3 && rain == 5){
-            //regner endel, hent alt unntatt regnbukse og hatt
-            rainClothing.getValue(number)
-        }else if (number == 2 && rain == 3){
-            //lett regn, bare regnjakke
-            rainClothing.getValue(number)
-        }else{
-            //når man ikke trenger et spesielt plagg pga regn
-            getNormalClothing(number, realTemp)
+            0 to headwear
+            1 to sweater, t-shirt etc
+            2 to jacket
+            3 to pants
+            4 to shoes
+        */
+        return if (pieceType != 1 && rain == 10) {  // If not a upper-body piece and lots of rain
+            rainClothing.getValue(pieceType)
+        } else if ((pieceType == 2 || pieceType == 4) && rain == 5) {  // If requesting pants or shoes and there's some rain
+            rainClothing.getValue(pieceType)
+        } else if (pieceType == 2 && rain == 3) {  // Light rain. Raincoat
+            rainClothing.getValue(pieceType)
+        } else {  // No weather-specific outfit needed
+            getNormalClothing(pieceType, realTemp)
         }
     }
 
-    private fun getNormalClothing(number : Int, realTemp: Float?) : String{
-        val pieceMap = clothingReg[number]
-        for(tempRange:List<Int> in pieceMap.keys){
+    // Returns a string representation of non weather specific clothing items based on temperature
+    private fun getNormalClothing(pieceType: Int, realTemp: Float?): String {
+        /*
+            0 to headwear
+            1 to sweater, t-shirt etc
+            2 to jacket
+            3 to pants
+            4 to shoes
+        */
+
+        // I don't know what the FUCK is going on here, so I can't really refactor this
+        val pieceMap = pieceIndexToPieceMap[pieceType]
+        for (tempRange: List<Int> in pieceMap.keys) {
             if (realTemp != null) {
-                if(realTemp >= tempRange[0] && realTemp <= tempRange[1]){
-                    val list = listOf(tempRange[0], tempRange[1])
-                    return pieceMap.getValue(list)
+                if (realTemp >= tempRange[0] && realTemp <= tempRange[1]) {
+                    val temperatureRange = listOf(tempRange[0], tempRange[1])
+                    return pieceMap.getValue(temperatureRange)
                 }
             }
         }
+
         return "Noe galt har skjedd"
     }
 
-    private fun getSpecial(realTemp : Float?, weatherData: WeatherData?) : String{
-        val rain = rainCheck(weatherData)
-        val windSpeed1time = weatherData?.properties?.timeseries?.get(timeSeriesIndex)?.data?.instant?.details?.wind_speed
-        val windSpeed3time = weatherData?.properties?.timeseries?.get(timeSeriesIndex+2)?.data?.instant?.details?.wind_speed
-        val windSpeed5time = weatherData?.properties?.timeseries?.get(timeSeriesIndex+4)?.data?.instant?.details?.wind_speed
-        var avgWind = 0.0
+    // Returns a string representation of weather/date/condition specific clothing
+    private fun getSpecial(realTemp: Float?, weatherData: WeatherData?): String {
+        val rainAmount = rainAmount(weatherData)
+        val windSpeed1Hour = weatherData?.properties?.timeseries?.get(timeSeriesIndex)?.data?.instant?.details?.wind_speed
+        val windSpeed3Hour = weatherData?.properties?.timeseries?.get(timeSeriesIndex+2)?.data?.instant?.details?.wind_speed
+        val windSpeed5Hour = weatherData?.properties?.timeseries?.get(timeSeriesIndex+4)?.data?.instant?.details?.wind_speed
+        val avgWind = if (windSpeed1Hour != null && windSpeed3Hour != null && windSpeed5Hour != null) (windSpeed1Hour + windSpeed3Hour + windSpeed5Hour) / 3 else 0.0
 
-        if (windSpeed1time != null && windSpeed3time != null && windSpeed5time != null){
-            val totWind = windSpeed1time + windSpeed3time + windSpeed5time
-            avgWind = totWind/3
+        if (rainAmount > 3 && avgWind < 13) {
+            return special.getValue(2)  // Return umbrella if more than light rain and wind speeds are low
         }
-
-        //henter specials
-        if (rain > 3 && avgWind < 13){
-            // hent paraply hvis det regner mer en light men ikke hvis det blåser jævlig
-            return special.getValue(2)
+        if (sunCheck(weatherData)) {
+            return special.getValue(0)  // Return sunglasses if sunny
         }
-        if (sunCheck(weatherData)){
-            //hent solbriller
-            return special.getValue(0)
-        }
-
         if (realTemp != null) {
             if (realTemp < -5){
-                //hent votter og skjerf (de må sammen pga tegning)
-                return special.getValue(1)
+                return special.getValue(1)  // Return mittens and scarf if cold
             }
         }
+
+        // Date specific items (not implemented)
+        /*
         val time = weatherData?.properties?.timeseries?.get(timeSeriesIndex)?.time
         val day = time?.substring(8,10)
         val month = time?.substring(5,7)
         if (day == "17" && month == "05") {
             //hent 17. mai flagg
         }
-        // eller kanskje til og med steder eks hemsedal (Snowboard briller)
-        return ""
+        */
+
+        // Place specific items (not implemented)
+
+        return ""  // No special clothing. Empty strings work as null in this case beause... I don't know
     }
 
-    private fun rainCheck (weatherData: WeatherData?) : Int{
-        //endrer denne fra å bruke symbol (det er alt for mange ulike, eks: lightsleetshowers_day) til å bruke precipitation og temp
+    // Returns the amount of rain on a scale from 0-10
+    private fun rainAmount(weatherData: WeatherData?): Int {
         val minTemp = weatherData?.properties?.timeseries?.get(timeSeriesIndex)?.data?.next_6_hours?.details?.air_temperature_min
-        val avgPrecip = weatherData?.properties?.timeseries?.get(timeSeriesIndex)?.data?.next_6_hours?.details?.precipitation_amount
+        val avgPrecipation = weatherData?.properties?.timeseries?.get(timeSeriesIndex)?.data?.next_6_hours?.details?.precipitation_amount
 
-        if (avgPrecip != null && minTemp != null) {
-            if(avgPrecip > 0.5 && avgPrecip < 1 && minTemp > 0){
-                //lightrain
-                return 3
-            }else if(avgPrecip >= 1 && avgPrecip < 5 && minTemp > 0){
-                //rain
-                return 5
-            }else if(avgPrecip >= 5 && minTemp > 0){
-                //heavy rain
-                return 10
+        if (avgPrecipation != null && minTemp != null) {
+            if (avgPrecipation > 0.5 && avgPrecipation < 1 && minTemp > 0) {
+                return 3  // light rain
+            } else if (avgPrecipation >= 1 && avgPrecipation < 5 && minTemp > 0) {
+                return 5  // rain
+            } else if (avgPrecipation >= 5 && minTemp > 0){
+                return 10  // heavy rain
             }
         }
+
         return 0
     }
 
-
-    private fun sunCheck (weatherData: WeatherData?) : Boolean{
+    // Check whether or not it is consider sunny outside
+    private fun sunCheck(weatherData: WeatherData?): Boolean{
         val symbol = weatherData?.properties?.timeseries?.get(timeSeriesIndex)?.data?.next_1_hours?.summary?.symbol_code
-        if (symbol == "fair_day" || symbol == "clearsky_day") {
-            return true
-        }
-        return false
+
+        return (symbol == "fair_day" || symbol == "clearsky_day")
     }
 }

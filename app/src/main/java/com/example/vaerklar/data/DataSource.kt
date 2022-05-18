@@ -23,7 +23,6 @@ class DataSource {
     suspend fun getWeatherData(latitude: Double, longitude: Double): WeatherData? {
         try {
             val response = Fuel.get("$weatherCompleteUrl?lat=$latitude&lon=$longitude").awaitString()
-            println(response)
             return Json.decodeFromString<WeatherData>(response)
         } catch(exception: Exception) {
             Log.e("DataSource", "Weather data request and deserialization failed!")
@@ -34,12 +33,10 @@ class DataSource {
 
     suspend fun getLocationMetaData(latitude: Double, longitude: Double): LocationData? {
         try {
-            //apikallet her er på formatet long, lat. for ryddighetens skyld har jeg reversert det i kallet men funksjonen tar imot på "riktig" format
             val response = Fuel.get("$locationUrl?geometry=nearest(POINT($longitude $latitude))")
                 .authentication()
                 .basic(apiClient, apiSecret)
                 .awaitString()
-            println(response)
             return Json.decodeFromString<LocationData>(response)
         } catch(exception: Exception) {
             Log.e("DataSource", "Weather data request and deserialization failed!")

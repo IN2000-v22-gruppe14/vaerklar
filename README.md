@@ -38,7 +38,7 @@ Dette er en feil vi ikke har klart å løse og er dessverre noe av det som ødel
 
 ### Blank skjerm etter søk
 
-Dette er noe som tilsynelatende bare skjer når man kjører på fysiske enheter. Vi aner ikke hvorfor dette skjer.
+Dette er noe som tilsynelatende bare skjer når man kjører på *noen* fysiske enheter. Om det oppstår problemer anbefaler vi å prøve emulator eller omvendt om man allerede bruker det fra før.
 
 ### Mangel på lokasjon
 

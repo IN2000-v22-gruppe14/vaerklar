@@ -42,12 +42,15 @@ Dette er noe som tilsynelatende bare skjer når man kjører på *noen* fysiske e
 
 ### Mangel på lokasjon
 
-* Sørg for at lokasjon er satt i enhetens emulatorinstillinger i Android Studio
-* Åpne google maps i bakgrunnen
+Dette skjer trolig fordi splash screen venter bare på respons fra APIet som gir oss værdata. Siden lokasjonsnavnet hentes separat hender det at det ikke blir hentet i tide. Rerendering skjer ikke ved henting av data og brukeren vil dermed ikke se noe når/hvis APIet svarer.
+
+Det finnes dog noen løsninger man kan prøve seg på:
+  - Sørg for at lokasjon er satt i enhetens emulatorinstillinger i Android Studio
+  - Åpne google maps i bakgrunnen før åpning av appen
 
 ### Appen min går ikke videre fra splash screen. Den viser bare logoen
 
-* Sørg for at du har gitt appen lokasjonstillatelse
+Sørg for at du har gitt appen lokasjonstillatelse
 
 
 ## Bilder

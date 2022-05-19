@@ -72,4 +72,18 @@ Som alle med mer enn ett minutt med erfaring som tech vet så fungerer prinsippe
 
 ## Bilder
 
-kommer snart™️
+<img src="https://user-images.githubusercontent.com/24893890/169403188-58673c3b-23b8-4c63-b227-023c940191ee.png" width=256>
+
+<img src="https://user-images.githubusercontent.com/24893890/169403415-496d5ce8-406c-453c-8e50-3135fe7f2292.png" width=256>
+
+<img src="https://user-images.githubusercontent.com/24893890/169403499-8025402c-2179-44b3-b98e-c6a9dd8c1193.png" width=256>
+
+<img src="https://user-images.githubusercontent.com/24893890/169403673-9b3a61d1-597d-4e21-a2ea-ffed3155e490.png" width=256>
+
+<img src="https://user-images.githubusercontent.com/24893890/169403717-01cda031-9bca-4578-a027-2990fd9dffc5.png" width=256>
+
+<img src="https://user-images.githubusercontent.com/24893890/169403762-8d6a2384-b46a-4b0f-8524-d3aed151a8f0.png" width=256>
+
+<img src="https://user-images.githubusercontent.com/24893890/169403822-8919967e-11ab-4012-ab9f-98256f605a89.png" width=256>
+
+<img src="https://user-images.githubusercontent.com/24893890/169403888-9b6e0e2e-db3c-480d-93b2-0ec210eb80bc.png" width=256>

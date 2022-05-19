@@ -72,7 +72,7 @@ class MainActivity : ComponentActivity(), ActivityCompat.OnRequestPermissionsRes
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         requestWindowFeature(Window.FEATURE_ACTION_BAR)
 
-        loadData()
+        //loadData()
 
         // Acquire location data.
         viewModel.getLocationData().observe(this) {

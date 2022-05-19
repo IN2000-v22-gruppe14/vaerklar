@@ -13,17 +13,17 @@ val onboardPages = listOf(
 
     Page("Været nå",
     "Her kan du se temperaturen, været, nedbørsmengde og vindstyrke akkurat nå. \n\n ",
-    R.drawable.bilde3
+    R.drawable.bilde2
     ),
 
     Page("Dagens vær",
     "Her kan du se værmeldingen for dagen og trykke på tidspunktene for å få anbefalte klesplagg. \n\n",
-    R.drawable.bilde4
+    R.drawable.bilde3
     ),
 
     Page("Ukens vær",
     "Her kan du se værmeldingen for uka og trykke på dagene for å få anbefalt klesplagg. \n\n",
-    R.drawable.bilde5
+    R.drawable.bilde4
     )
 
 )

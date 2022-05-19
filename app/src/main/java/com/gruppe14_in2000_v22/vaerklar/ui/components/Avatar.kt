@@ -139,7 +139,7 @@ class Avatar {
                 val sole: List<String> = listOf("sko")
                 for (clothingItem in sole) {
                     if (clothingItem in clothingString) {
-                        clothingItemNameToDrawable[clothingItem + "2"]?.let { painterResource(it) }?.let {
+                        clothingItemNameToDrawable[clothingItem + "Bunn"]?.let { painterResource(it) }?.let {
                             Image(
                                 painter = it,
                                 contentDescription = "Icon",
@@ -387,7 +387,7 @@ class Avatar {
                 for (ord in top) {
                     if (ord in clothingString && !hasArm) {
                         hasArm = true
-                        clothingItemNameToDrawable[ord + "2"]?.let { painterResource(it) }?.let {
+                        clothingItemNameToDrawable[ord + "Arm"]?.let { painterResource(it) }?.let {
                             Image(
                                 painter = it,
                                 contentDescription = "Icon",

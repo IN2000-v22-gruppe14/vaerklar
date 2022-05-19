@@ -60,7 +60,11 @@ fun SearchScreen() {
                         .focusRequester(focusRequester)
                         .fillMaxWidth(),
                     value = searchFieldState.value,
-                    colors = TextFieldDefaults.textFieldColors(textColor = Color.White),
+                    colors = TextFieldDefaults.textFieldColors(
+                        textColor = Color.White,
+                        cursorColor = Color.White,
+                        focusedIndicatorColor = Color.White
+                    ),
                     onValueChange = {
                         searchFieldState.value = it
                         viewModel.fetchLocations(searchFieldState.value)

@@ -341,5 +341,3 @@ class MainActivity : ComponentActivity(), ActivityCompat.OnRequestPermissionsRes
         showDialog.value = savedBoolean
     }
 }
-
-

@@ -20,7 +20,7 @@ import com.example.vaerklar.ui.theme.Rubik
 
 
 @Composable
-fun ToSScreen(){
+fun ToSScreen() {
     val context = LocalContext.current
     Scaffold {
         Column(

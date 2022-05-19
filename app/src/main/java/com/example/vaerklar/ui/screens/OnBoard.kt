@@ -21,7 +21,7 @@ import com.example.vaerklar.data.Page
 
 
 @Composable
-fun OnBoardPages(page : Page){
+fun OnBoardPages(page : Page) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Text(
             text = page.title,

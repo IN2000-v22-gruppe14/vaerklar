@@ -205,7 +205,7 @@ class ClothesAlgorithm {
             return special.getValue(0)  // Return sunglasses if sunny
         }
         if (realTemp != null) {
-            if (realTemp < -5){
+            if (realTemp < -5) {
                 return special.getValue(1)  // Return mittens and scarf if cold
             }
         }
@@ -235,7 +235,7 @@ class ClothesAlgorithm {
                 return 3  // light rain
             } else if (avgPrecipation >= 1 && avgPrecipation < 5 && minTemp > 0) {
                 return 5  // rain
-            } else if (avgPrecipation >= 5 && minTemp > 0){
+            } else if (avgPrecipation >= 5 && minTemp > 0) {
                 return 10  // heavy rain
             }
         }

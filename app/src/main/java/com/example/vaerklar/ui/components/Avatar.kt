@@ -97,7 +97,7 @@ class Avatar {
     }
 
     @Composable
-    fun avatarMain(data: WeatherData?, locationName: String, index : Int, flag: Int, date: String): MutableList<String>{
+    fun avatarMain(data: WeatherData?, locationName: String, index: Int, flag: Int, date: String): MutableList<String>{
         val sizeDP = 250.dp
         val clothesAlgorithm = ClothesAlgorithm()
         val clothingString = clothesAlgorithm.getWeatherScore(data, index)
@@ -136,9 +136,9 @@ class Avatar {
                         )
                         .background(Color.Transparent)
                 )
-                val sole : List<String> = listOf("sko")
+                val sole: List<String> = listOf("sko")
                 for (clothingItem in sole) {
-                    if (clothingItem in clothingString){
+                    if (clothingItem in clothingString) {
                         clothingItemNameToDrawable[clothingItem + "2"]?.let { painterResource(it) }?.let {
                             Image(
                                 painter = it,
@@ -158,10 +158,10 @@ class Avatar {
                         .width(sizeDP)
                         .align(Alignment.Center)
                 )
-                val shoes : List<String> = listOf("sko", "sneakers")
+                val shoes: List<String> = listOf("sko", "sneakers")
                 var isShoes = false
                 for (ord in shoes ) {
-                    if (ord in clothingString && !isShoes){
+                    if (ord in clothingString && !isShoes) {
                         isShoes = true
                         clothingItemNameToDrawable[ord]?.let { painterResource(it) }?.let {
                             Image(
@@ -182,9 +182,9 @@ class Avatar {
                         .width(50.dp)
                         .background(Color.Transparent)
                 )
-                val pants : List<String> = listOf("bukse", "skj_rt", "regnbukse", "shorts")
+                val pants: List<String> = listOf("bukse", "skj_rt", "regnbukse", "shorts")
                 for (clothingItem in pants) {
-                    if (clothingItem in clothingString){
+                    if (clothingItem in clothingString) {
                         clothingItemNameToDrawable[clothingItem]?.let { painterResource(it) }?.let {
                             Image(
                                 painter = it,
@@ -213,9 +213,9 @@ class Avatar {
                         .width(sizeDP)
                         .align(Alignment.Center)
                 )
-                val hat : List<String> = listOf("lue", "solhatt", "pannebånd")
+                val hat: List<String> = listOf("lue", "solhatt", "pannebånd")
                 for (clothingItem in hat) {
-                    if (clothingItem in clothingString){
+                    if (clothingItem in clothingString) {
                         clothingItemNameToDrawable[clothingItem]?.let { painterResource(it) }?.let {
                             Image(
                                 painter = it,
@@ -237,10 +237,10 @@ class Avatar {
                         )
                         .background(Color.Transparent)
                 )
-                val top : List<String> = listOf("bobblejakke", "vinterjakke", "regnjakke", "jakke", "vinterjakke", "tskjorte", "langermet", "ullgenser", "kjole", "genser")
+                val top: List<String> = listOf("bobblejakke", "vinterjakke", "regnjakke", "jakke", "vinterjakke", "tskjorte", "langermet", "ullgenser", "kjole", "genser")
                 var hasTop = false
-                for (ord in top){
-                    if (ord in clothingString && !hasTop){
+                for (ord in top) {
+                    if (ord in clothingString && !hasTop) {
                         hasTop = true
                         clothingItemNameToDrawable[ord]?.let { painterResource(it) }?.let {
                             Image(
@@ -279,7 +279,7 @@ class Avatar {
                 )
                 val scarf: List<String> = listOf("votter & skjerf")
                 for (clothingItem in scarf) {
-                    if (clothingItem in clothingString){
+                    if (clothingItem in clothingString) {
                         clothingItemNameToDrawable[clothingItem]?.let { painterResource(it) }?.let {
                             Image(
                                 painter = it,
@@ -302,8 +302,8 @@ class Avatar {
                         .background(Color.Transparent)
                 )
                 val specialShoe: List<String> = listOf("gummistøvler", "vintersko")
-                for (ord in specialShoe){
-                    if (ord in clothingString && !isShoes){
+                for (ord in specialShoe) {
+                    if (ord in clothingString && !isShoes) {
                         isShoes = true
                         clothingItemNameToDrawable[ord]?.let { painterResource(it) }?.let {
                             Image(
@@ -327,8 +327,8 @@ class Avatar {
                         .background(Color.Transparent)
                 )
                 val sunglasses: List<String> = listOf("solbriller")
-                for (clothingItem in sunglasses){
-                    if (clothingItem in clothingString){
+                for (clothingItem in sunglasses) {
+                    if (clothingItem in clothingString) {
                         clothingItemNameToDrawable[clothingItem]?.let { painterResource(it) }?.let {
                             Image(
                                 painter = it,
@@ -350,10 +350,10 @@ class Avatar {
                         )
                         .background(Color.Transparent)
                 )
-                val handItems : List<String> = listOf("flagg","ol", "paraply")
+                val handItems: List<String> = listOf("flagg","ol", "paraply")
                 var isHolding = false
-                for (ord in handItems){
-                    if (ord in clothingString && !isHolding){
+                for (ord in handItems) {
+                    if (ord in clothingString && !isHolding) {
                         isHolding = true
                         clothingItemNameToDrawable[ord]?.let { painterResource(it) }?.let {
                             Image(
@@ -384,8 +384,8 @@ class Avatar {
                         .background(Color.Transparent)
                 )
                 var hasArm = false
-                for (ord in top){
-                    if (ord in clothingString && !hasArm){
+                for (ord in top) {
+                    if (ord in clothingString && !hasArm) {
                         hasArm = true
                         clothingItemNameToDrawable[ord + "2"]?.let { painterResource(it) }?.let {
                             Image(

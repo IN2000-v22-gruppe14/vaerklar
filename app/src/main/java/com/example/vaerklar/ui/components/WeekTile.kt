@@ -40,7 +40,7 @@ private var globalDayNumber = 0
 val dayList = mutableListOf<Day>()
 
 @Composable
-private fun PopUpScreen(weatherData: WeatherData?){
+private fun PopUpScreen(weatherData: WeatherData?) {
     AlertDialog(
         backgroundColor = baseColor,
         shape = RoundedCornerShape(15.dp),
@@ -186,7 +186,7 @@ fun WeekTile(weatherData: WeatherData?) {
             val dayNameWhole  = translateWeekDayWhole(dayIntermediary.name.substring(0,2)) //aquire the whole name
 
             val day = Day(dayName, dayNameWhole,  dayDate,"$airTemp°", windSpeed, precipitation, icon, counter, index) // create day object
-            if(dayList.size < 6){
+            if (dayList.size < 6) {
                 dayList.add(day) // add day object to list of days
             }
             dayDiff = Period.between(currentDate, LocalDate.parse(dayDate)).days // calculate new difference of days between today and the provided day
@@ -240,6 +240,6 @@ class Day (
     val windSpeed: Double?,
     val precipitation: Double?,
     val icon: String?,
-    val timeIndex : Int,
-    val dayNumber : Int
+    val timeIndex: Int,
+    val dayNumber: Int
 )

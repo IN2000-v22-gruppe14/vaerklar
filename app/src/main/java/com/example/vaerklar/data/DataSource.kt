@@ -68,7 +68,7 @@ fun getTimeSeriesIndex(weatherData: WeatherData?): Int {
 
     val uhourInt = updateHour?.toInt()
     var firstHour = 0
-    if(uhourInt != 23){
+    if (uhourInt != 23) {
         firstHour = uhourInt?.plus(1)!!
     }
 
@@ -77,7 +77,7 @@ fun getTimeSeriesIndex(weatherData: WeatherData?): Int {
     val nowHour = nowString.substring(11,13)
     var nowHourInt = nowHour.toInt()
 
-    if(nowHourInt < firstHour){
+    if (nowHourInt < firstHour) {
         val oldHour = nowHourInt
         nowHourInt = (24 + oldHour)
     }

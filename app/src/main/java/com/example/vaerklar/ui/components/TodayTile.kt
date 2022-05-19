@@ -47,7 +47,7 @@ private fun PopUpScreen(weatherData: WeatherData?) {
                     .fillMaxSize()
                     .size(200.dp, 100.dp)
                     .background(baseColor)
-            ){
+            ) {
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
@@ -81,7 +81,7 @@ private fun PopUpScreen(weatherData: WeatherData?) {
                 modifier = Modifier
                     .fillMaxSize(),
                 contentAlignment = Alignment.TopEnd
-            ){
+            ) {
                 Text(
                     text = " "
                 )
@@ -178,7 +178,7 @@ fun TodayTile(weatherData: WeatherData?, timeSeriesIndex: Int) {
         val time = timeString?.substring(11,13)
 
         val hour = Hour(time, "$airTemp°", windSpeed, precipitation, icon, i, count)
-        if(hourList.size < 6){
+        if (hourList.size < 6) {
             hourList.add(hour)
         }
     }

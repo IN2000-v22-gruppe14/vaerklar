@@ -58,10 +58,10 @@ fun determineGradient(weatherData: WeatherData?, timeSeriesIndex: Int): List<Col
     var timeIcon: String?
     var timeInt: Int?
 
-    if(timeSeriesIndex > 0){
+    if (timeSeriesIndex > 0) {
         timeIcon = weatherData?.properties?.timeseries?.get(timeSeriesIndex - 1)?.data?.next_1_hours?.summary?.symbol_code
         timeInt = weatherData?.properties?.timeseries?.get(timeSeriesIndex - 1)?.time?.substring(11,13)?.toInt()
-    }else{
+    } else {
         timeIcon = weatherData?.properties?.timeseries?.get(timeSeriesIndex)?.data?.next_1_hours?.summary?.symbol_code
         timeInt = weatherData?.properties?.timeseries?.get(timeSeriesIndex)?.time?.substring(11,13)?.toInt()
     }
@@ -101,9 +101,9 @@ var altColor = DayTileAlt // NULL-SAFE
 
 fun determineBase(weatherData: WeatherData?, timeSeriesIndex: Int) {
     var timeInt: Int
-    if(timeSeriesIndex > 0){
+    if (timeSeriesIndex > 0) {
         timeInt = weatherData?.properties?.timeseries?.get(timeSeriesIndex - 1)?.time?.substring(11,13)?.toInt()!!
-    }else{
+    } else {
         timeInt = weatherData?.properties?.timeseries?.get(timeSeriesIndex)?.time?.substring(11,13)?.toInt()!!
     }
 
@@ -111,9 +111,7 @@ fun determineBase(weatherData: WeatherData?, timeSeriesIndex: Int) {
         if (timeInt < 21) {
             baseColor = DayTile
             altColor = DayTileAlt
-        }
-
-        else {
+        } else {
             baseColor = NightTile
             altColor = NightTileAlt
         }

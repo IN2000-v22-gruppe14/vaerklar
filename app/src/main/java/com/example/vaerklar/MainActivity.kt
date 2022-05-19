@@ -226,7 +226,7 @@ class MainActivity : ComponentActivity(), ActivityCompat.OnRequestPermissionsRes
 
     @Composable
     // Navigation bar. Since it must be available on all screens, it is present in the MainActivity.
-    fun NavigationBar(state: ScaffoldState, scope : CoroutineScope) {
+    fun NavigationBar(state: ScaffoldState, scope: CoroutineScope) {
         val context = LocalContext.current
 
         TopAppBar(
@@ -280,7 +280,7 @@ class MainActivity : ComponentActivity(), ActivityCompat.OnRequestPermissionsRes
 
     @OptIn(ExperimentalPagerApi::class)
     @Composable
-    fun OnBoardUi(){
+    fun OnBoardUi() {
         val pagerstate = rememberPagerState(pageCount = 4)
         
         Column {

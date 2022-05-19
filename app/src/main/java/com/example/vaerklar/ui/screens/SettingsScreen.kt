@@ -15,7 +15,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.vaerklar.TermsActivity
@@ -58,7 +57,6 @@ fun invite(activity: Activity) {
     Toast.makeText(context, "Kopierte til utklippstavla!", Toast.LENGTH_LONG).show()
 }
 
-@Preview
 @Composable
 fun SettingsMenu() {
     val activity = LocalContext.current as Activity
@@ -122,7 +120,7 @@ fun SettingsMenu() {
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.spacedBy(5.dp)
                 ) {
-                    val sharedPrefs : SharedPreferences = activity.getPreferences(Context.MODE_PRIVATE)
+                    val sharedPrefs: SharedPreferences = activity.getPreferences(Context.MODE_PRIVATE)
                     val sliderVal = sharedPrefs.getFloat("sliderVal", 0.5F)
                     var sliderPosition by remember { mutableStateOf(sliderVal) }
 

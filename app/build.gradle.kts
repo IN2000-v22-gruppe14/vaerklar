@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    compileSdk = 32
+    compileSdk = 32  // should be 26? no? everything breaks so I guess we're stuck on this one then
 
     buildFeatures {
         viewBinding = true
@@ -17,7 +17,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.example.vaerklar"
+        applicationId = "com.gruppe14_in2000_v22.vaerklar"
         minSdk = 26
         targetSdk = 32
         versionCode = 1
@@ -41,13 +41,14 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+    namespace = "com.gruppe14_in2000_v22.vaerklar"
 }
 
 dependencies {
 
     implementation("androidx.core:core-ktx:1.7.0")
     implementation("androidx.appcompat:appcompat:1.4.1")
-    implementation("com.google.android.material:material:1.5.0")
+    implementation("com.google.android.material:material:1.6.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.3")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
     implementation("com.github.kittinunf.fuel:fuel:2.3.1")
@@ -55,6 +56,7 @@ dependencies {
     implementation("androidx.activity:activity-ktx:1.4.0")
     implementation("androidx.fragment:fragment-ktx:1.4.1")
     implementation("androidx.activity:activity-compose:1.4.0")
+    implementation("androidx.compose.runtime:runtime-livedata:1.1.1")
     implementation("com.google.android.gms:play-services-location:19.0.1")
     implementation("androidx.navigation:navigation-fragment-ktx:2.4.2")
     implementation("androidx.navigation:navigation-ui-ktx:2.4.2")
@@ -78,12 +80,18 @@ dependencies {
     implementation("androidx.compose.ui:ui-tooling-preview:1.1.1")
     implementation ("androidx.compose.material:material:1.1.1")
     implementation("androidx.navigation:navigation-compose:2.4.2")
-    //
+    // Splash screen
+    implementation("androidx.core:core-splashscreen:1.0.0-rc01")
 
 
     // Saved state module for ViewModel
     implementation("androidx.lifecycle:lifecycle-viewmodel-savedstate:2.4.1")
 
-    implementation("androidx.activity:activity-ktx:1.6.0-alpha01")
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4:${rootProject.extra["compose_version"]}")
+    implementation("androidx.activity:activity-ktx:1.6.0-alpha04")
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.1.1")
+
+    implementation("com.google.accompanist:accompanist-pager:0.15.0")
+    implementation ("com.google.accompanist:accompanist-pager:0.15.0")
+    implementation("com.google.accompanist:accompanist-pager-indicators:0.15.0")
+
 }

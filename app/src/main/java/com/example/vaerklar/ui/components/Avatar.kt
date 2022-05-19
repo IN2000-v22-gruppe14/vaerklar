@@ -152,7 +152,7 @@ class Avatar {
                 }
                 // Shoes
                 Image(
-                    painter = painterResource(R.drawable.kropp),
+                    painter = painterResource(R.drawable.body),
                     contentDescription = "Icon",
                     modifier = Modifier
                         .width(sizeDP)
@@ -207,7 +207,7 @@ class Avatar {
                         .background(Color.Transparent)
                 )
                 Image(
-                    painter = painterResource(R.drawable.h_r),
+                    painter = painterResource(R.drawable.hair),
                     contentDescription = "Icon",
                     modifier = Modifier
                         .width(sizeDP)
@@ -264,14 +264,14 @@ class Avatar {
                         .background(Color.Transparent)
                 )
                 Image(
-                    painter = painterResource(R.drawable.aniskt),
+                    painter = painterResource(R.drawable.face),
                     contentDescription = "Icon",
                     modifier = Modifier
                         .width(sizeDP)
                         .align(Alignment.Center)
                 )
                 Image(
-                    painter = painterResource(R.drawable.oyne),
+                    painter = painterResource(R.drawable.eyes),
                     contentDescription = "Icon",
                     modifier = Modifier
                         .width(sizeDP)

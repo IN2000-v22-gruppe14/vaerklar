@@ -7,6 +7,9 @@ import com.github.kittinunf.fuel.coroutines.awaitString
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
+import java.util.*
 
 class DataSource {
 
@@ -62,24 +65,40 @@ class DataSource {
     }
 }
 
+// This function gets the current starting index for fetching future weather data from the API
+// NOTE: does not take time zones into account, meaning the app will display garbled data when
+// viewing weather data for a location in a different time zone than your phone's
+//
+// A wise programmer once said: "don't touch datetime stuff", so we won't
+// We haven't got the time for this shit anyway so deal with it!
 fun getTimeSeriesIndex(weatherData: WeatherData?): Int {
     val updatedAt = weatherData?.properties?.meta?.updated_at
-    val updateHour = updatedAt?.substring(11,13)
+    val updateHour = LocalDateTime.parse(updatedAt, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")).hour
 
-    val uhourInt = updateHour?.toInt()
-    var firstHour = 0
-    if (uhourInt != 23) {
-        firstHour = uhourInt?.plus(1)!!
-    }
+    val firstHour = if (updateHour != 23) updateHour + 1 else 0
 
-    val nowTime = LocalDateTime.now()
-    val nowString = nowTime.toString()
-    val nowHour = nowString.substring(11,13)
-    var nowHourInt = nowHour.toInt()
+    val now = LocalDateTime.now()
+    val nowHour = if (now.hour < firstHour) now.hour + 24 else now.hour
 
-    if (nowHourInt < firstHour) {
-        val oldHour = nowHourInt
-        nowHourInt = (24 + oldHour)
-    }
-    return nowHourInt - firstHour + 1
+    return nowHour - firstHour + 1
 }
+
+
+// Draft for dealing with timezones, if we ever feel like attempting to fix the problem referenced above
+/*
+fun getTimeSeriesIndex(weatherData: WeatherData?): Int {
+    val updatedAt = weatherData?.properties?.meta?.updated_at
+
+    // Konverterer ISO string til dateteimeobjekt
+    // Konverterer denne så til tidssone for Oslo
+    println(TimeZone.getDefault().id)
+    val updatedAtDateTime = LocalDateTime.parse(updatedAt, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'"))
+        .atZone(ZoneId.of("UTC"))
+        .withZoneSameInstant(ZoneId.of(TimeZone.getDefault().id))
+
+    val updateHour = updatedAtDateTime.hour
+    val firstHour = if (updateHour != 23) updateHour + 1 else 0
+
+    return updateHour - firstHour + 1
+}
+ */

@@ -38,15 +38,16 @@ Dette er også et problem vi ikke har klart å løse og har heller ikke funnet �
 
 ### Blank skjerm etter søk
 
-Dette er noe som tilsynelatende bare skjer når man kjører på *noen* fysiske enheter. Om det oppstår problemer anbefaler vi å prøve emulator eller omvendt om man allerede bruker det fra før.
+Dette er noe som tilsynelatende bare skjer når man kjører på _noen_ fysiske enheter. Om det oppstår problemer anbefaler vi å prøve emulator eller omvendt om man allerede bruker det fra før.
 
 ### Mangel på lokasjon
 
 Dette skjer trolig fordi splash screen venter bare på respons fra APIet som gir oss værdata. Siden lokasjonsnavnet hentes separat hender det at det ikke blir hentet i tide. Rerendering skjer ikke ved henting av data og brukeren vil dermed ikke se noe når/hvis APIet svarer.
 
 Det finnes dog noen løsninger man kan prøve seg på:
-  - Sørg for at lokasjon er satt i enhetens emulatorinstillinger i Android Studio
-  - Åpne google maps i bakgrunnen før åpning av appen
+
+- Sørg for at lokasjon er satt i enhetens emulatorinstillinger i Android Studio
+- Åpne google maps i bakgrunnen før åpning av appen
 
 ### Appen min går ikke videre fra splash screen. Den viser bare logoen
 

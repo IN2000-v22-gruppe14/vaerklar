@@ -52,6 +52,12 @@ Det finnes dog noen løsninger man kan prøve seg på:
 
 Sørg for at du har gitt appen lokasjonstillatelse
 
+### "Hjem"-knappen i sidemenyen gjør ikke noe
+
+Nei, det gjør den ikke :)
+
+Den har ingen hensikt egentlig.
+
 
 ## Bilder
 

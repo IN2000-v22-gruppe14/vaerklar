@@ -32,6 +32,10 @@ Dette er tildels fordi vi har skrevet appen dårlig, men også på grunn av at e
 
 Dette er en feil vi ikke har klart å løse og er dessverre noe av det som ødelegger brukeropplevelsen av appen mest
 
+### Trykk på today/weektiles mer enn én gang etter søk kræsjer appen
+
+Dette er også et problem vi ikke har klart å løse og har heller ikke funnet årsaken til. Vår hypotese er at det er relatert til problemet ovenfor.
+
 ### Blank skjerm etter søk
 
 Dette er noe som tilsynelatende bare skjer når man kjører på *noen* fysiske enheter. Om det oppstår problemer anbefaler vi å prøve emulator eller omvendt om man allerede bruker det fra før.

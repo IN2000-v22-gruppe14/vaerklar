@@ -58,6 +58,10 @@ Nei, det gjør den ikke :)
 
 Den har ingen hensikt egentlig.
 
+### Instillngs/søkesiden har ingen tilbakeknapp! Hva gjør jeg?
+
+Det er sant, og er dårlig av oss å ikke implementere med tanke på UX. Redningen din er derimot Android sin innebygde tilbakeknapp!
+
 
 ## Bilder
 

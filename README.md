@@ -21,7 +21,7 @@ Vi har valgt å kompilere koden til en APK-fil som kan lastes ned [her](https://
 
 ### Valgmulighet 2 - Emulér appen med Android Studio
 
-Om du velger å bruke en virtuell enhet må du sørge for at du bruker API-nivå 26 eller høyere.
+Om du velger å bruke en virtuell enhet må du sørge for at du bruker API-nivå 26 eller høyere. Utifra vår testing fungerer Pixel 5 bra som enhet
 
 Sørg også for at du har satt en lokasjon for enhetens emulatorinstillinger i Android Studio.
 

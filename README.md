@@ -34,7 +34,7 @@ Dette er tildels fordi vi har skrevet appen dårlig, men også på grunn av at e
 
 ### Værdata for uken og dagen oppdateres ikke ved endring av lokasjon ved for eksempel søk
 
-Dette er en feil vi ikke vet helt hvorfor skjer, men har en teori på at det har noe med lazy loading å gjøre.
+Dette er en feil vi ikke har klart å løse og er dessverre noe av det som ødelegger brukeropplevelsen av appen mest
 
 ### Blank skjerm etter søk
 

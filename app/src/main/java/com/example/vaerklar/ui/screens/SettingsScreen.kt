@@ -122,7 +122,7 @@ fun SettingsMenu() {
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.spacedBy(5.dp)
                 ) {
-                    val sharedPrefs : SharedPreferences = activity.getPreferences(Context.MODE_PRIVATE);
+                    val sharedPrefs : SharedPreferences = activity.getPreferences(Context.MODE_PRIVATE)
                     val sliderVal = sharedPrefs.getFloat("sliderVal", 0.5F)
                     var sliderPosition by remember { mutableStateOf(sliderVal) }
 

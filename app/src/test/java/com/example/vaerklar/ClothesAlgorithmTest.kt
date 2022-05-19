@@ -1,7 +1,6 @@
 package com.example.vaerklar
 
 import com.example.vaerklar.data.ClothesAlgorithm
-import com.example.vaerklar.data.LocationData
 import com.example.vaerklar.data.WeatherData
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json

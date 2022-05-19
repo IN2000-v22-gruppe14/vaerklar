@@ -17,7 +17,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.example.vaerklar"
+        applicationId = "com.gruppe14_in2000_v22.vaerklar"
         minSdk = 26
         targetSdk = 32
         versionCode = 1
@@ -41,7 +41,7 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
-    namespace = "com.example.vaerklar"
+    namespace = "com.gruppe14_in2000_v22.vaerklar"
 }
 
 dependencies {

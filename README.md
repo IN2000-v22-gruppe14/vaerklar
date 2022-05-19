@@ -62,6 +62,12 @@ Den har ingen hensikt egentlig.
 
 Det er sant, og er dårlig av oss å ikke implementere med tanke på UX. Redningen din er derimot Android sin innebygde tilbakeknapp!
 
+### Annet
+
+Som alle med mer enn ett minutt med erfaring som tech vet så fungerer prinsippet om å skru av og på ting godt for å løse problemer. Vi vil strekke dette prinsippet til følgende:
+
+- Invalidate cache i android studio
+- Lag en ny emulatorenhet
 
 ## Bilder
 

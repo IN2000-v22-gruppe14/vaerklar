@@ -72,6 +72,8 @@ Som alle med mer enn ett minutt med erfaring som tech vet så fungerer prinsippe
 
 ## Bilder
 
+Man kan også se en videodemo av appen [her](https://www.youtube.com/watch?v=OVF0suAyR18)
+
 <img src="https://user-images.githubusercontent.com/24893890/169403188-58673c3b-23b8-4c63-b227-023c940191ee.png" width=256>
 
 <img src="https://user-images.githubusercontent.com/24893890/169403415-496d5ce8-406c-453c-8e50-3135fe7f2292.png" width=256>

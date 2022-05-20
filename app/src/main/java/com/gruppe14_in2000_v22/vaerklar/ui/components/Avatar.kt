@@ -136,7 +136,7 @@ class Avatar {
                         )
                         .background(Color.Transparent)
                 )
-                val sole: List<String> = listOf("sko")
+                val sole: List<String> = listOf("sandaler")
                 for (clothingItem in sole) {
                     if (clothingItem in clothingString) {
                         clothingItemNameToDrawable[clothingItem + "Bunn"]?.let { painterResource(it) }?.let {
@@ -158,7 +158,7 @@ class Avatar {
                         .width(sizeDP)
                         .align(Alignment.Center)
                 )
-                val shoes: List<String> = listOf("sko", "sneakers")
+                val shoes: List<String> = listOf("sandaler", "sneakers")
                 var isShoes = false
                 for (ord in shoes ) {
                     if (ord in clothingString && !isShoes) {
